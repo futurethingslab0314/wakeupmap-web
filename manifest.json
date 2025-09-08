@@ -1,0 +1,39 @@
+{
+  "name": "Wake Up Map: Where Time Begins",
+  "short_name": "WakeUpMap",
+  "description": "按下按鈕，看看今天的你是在地球上的哪個角落甦醒並開始這一天",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e8f4f8",
+  "theme_color": "#4d714f",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "zh-TW",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "entertainment", "lifestyle"]
+} 

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>甦醒地圖 Wake Up World Travel</title>
+    
+    <!-- 網頁圖標設定 -->
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4d714f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Wake Up World Travel">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+</head>
+<body>
+    <div class="container">
+        <h1>甦醒地圖 Wake Up Map</h1>
+
+        <div class="user-info-section">
+            <div class="input-group-vertical">
+                <div class="input-field">
+                    <label for="userName">顯示名稱：</label>
+                    <input type="text" id="userName" placeholder="請輸入你的顯示名稱">
+                </div>
+                <div class="input-field">
+                    <label for="groupName">組別名稱：</label>
+                    <input type="text" id="groupName" placeholder="請輸入你的組別名稱（選填）">
+                </div>
+                <!-- 心情選擇已移除，改用按下按鈕的時間分鐘數決定緯度偏好 -->
+                
+                <p class="action-description">按下按鈕，看看今天的你是在地球上的哪個角落甦醒並開始這一天？</p>
+                
+                <div class="button-row">
+                    <button id="setUserNameButton" class="half-width-button">載入資料</button>
+                    <button id="findCityButton" class="half-width-button" disabled>開始這一天</button>
+                </div>
+            </div>
+            <div class="current-user-info">
+                <span>目前使用者：</span>
+                <span id="currentUserId">未設定</span>
+                <span id="currentUserDisplayName" style="display: none;"></span>
+                <span id="currentGroupName" style="margin-left: 10px; color: #666;"></span>
+            </div>
+        </div>
+
+        <div class="tab-container">
+            <button id="tabButton-ClockTab" class="tab-button active" data-tab="ClockTab">今日甦醒</button>
+            <button id="tabButton-HistoryTab" class="tab-button" data-tab="HistoryTab">甦醒軌跡</button>
+            <button id="tabButton-GlobalTodayMapTab" class="tab-button" data-tab="GlobalTodayMapTab">眾人地圖</button>
+        </div>
+
+        <div id="ClockTab" class="tab-content active">
+            
+            <div id="result">
+                <p id="resultText"></p>
+                <div id="flagContainer"> 
+                    <img id="countryFlag" src="" alt="國家國旗" style="display:none;"/>
+                </div>
+                <div id="mapContainer"> </div>
+                <!-- 早餐按鈕容器 - 會動態插入在這裡 -->
+                <div id="breakfastButtonContainer" style="display: none; margin-top: 20px; text-align: center;">
+                    <button id="generateBreakfastBtn" class="breakfast-button">
+                        🍽️ 我想吃早餐
+                    </button>
+                    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">
+                        <em>點擊為你準備今日當地早餐</em>
+                    </p>
+                </div>
+                <small id="debugInfo"></small>
+            </div>
+        </div>
+
+        <div id="HistoryTab" class="tab-content">
+            <p>記錄關於你每日於地球上的哪一個角落起床。</p>
+            <button id="refreshHistoryButton">刷新記錄</button>
+            <ul id="historyList"></ul>
+            <div id="historyMapContainer"> <p>地圖軌跡功能已移除。</p>
+            </div>
+            <small id="historyDebugInfo"></small>
+        </div>
+
+        <div id="historyLogModal" class="modal" style="display:none;"> <div class="modal-dialog">                                   <div class="modal-content-wrapper">                        <div class="modal-header">
+            <h2 id="modalTitle">甦醒日誌詳情</h2>               <span id="historyLogModalClose" class="modal-close-button">&times;</span> </div>
+            <div id="historyLogModalContent" class="modal-body">
+                </div>
+            <div class="modal-footer">
+                <button id="closeModalFooterButton" class="modal-button-secondary">關閉</button> </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div id="GlobalTodayMapTab" class="tab-content">
+            <p>看看今天大家都在地球的哪些角落開啟新的一天！</p>
+            <div class="filter-container">
+                <div class="date-picker-container">
+                    <label for="globalDate">選擇日期:</label>
+                    <input type="date" id="globalDate">
+                </div>
+                <div class="group-filter-container">
+                    <label for="groupFilter">選擇組別:</label>
+                    <select id="groupFilter">
+                        <option value="all">所有人</option>
+                    </select>
+                </div>
+                <button id="refreshGlobalMapButton">查詢地圖</button>
+            </div>
+            <div id="globalTodayMapContainer">
+            </div>
+            <small id="globalTodayDebugInfo"></small>
+        </div>
+    </div>
+
+    <!-- 1. 首先載入 Firebase 配置 -->
+    <script src="/api/config"></script>
+
+    <!-- 2. 載入 Firebase SDK 並初始化 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, orderBy, serverTimestamp, doc, setDoc, getDoc, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"; 
+
+        // 等待配置載入完成
+        function waitForConfig() {
+            return new Promise((resolve, reject) => {
+                if (window.firebaseConfig) {
+                    resolve(window.firebaseConfig);
+                    return;
+                }
+
+                const maxAttempts = 10;
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    if (window.firebaseConfig) {
+                        clearInterval(interval);
+                        resolve(window.firebaseConfig);
+                        return;
+                    }
+                    attempts++;
+                    if (attempts >= maxAttempts) {
+                        clearInterval(interval);
+                        reject(new Error('Firebase 配置載入超時'));
+                    }
+                }, 500);
+            });
+        }
+
+        // 初始化 Firebase
+        waitForConfig().then(firebaseConfig => {
+        window.firebaseSDK = {
+            initializeApp,
+            getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken,
+            getFirestore, collection, addDoc, query, where, getDocs, orderBy, serverTimestamp, doc, setDoc, getDoc, limit, updateDoc,
+            setLogLevel
+        };
+            
+            // 觸發自定義事件，通知 script.js Firebase 已準備就緒
+            const event = new CustomEvent('firebaseReady', { detail: firebaseConfig });
+            window.dispatchEvent(event);
+        }).catch(error => {
+            console.error('Firebase 初始化失敗:', error);
+            alert('Firebase 初始化失敗，請重新載入頁面。');
+        });
+    </script>
+
+    <!-- 3. 載入 Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <!-- 4. 最後載入主應用程式腳本 -->
+    <script src="script.js"></script>
+
+    <!-- 模態框樣式 -->
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            opacity: 1;
+        }
+        .modal-dialog {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            margin: 30px auto;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal.show .modal-dialog {
+            transform: translateY(0);
+        }
+        .modal-content-wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .modal-header {
+            padding: 20px;
+            background: #4d714f;
+            color: white;
+            position: relative;
+        }
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .modal-close-button {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        .modal-close-button:hover {
+            opacity: 1;
+        }
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            text-align: right;
+        }
+        .modal-button-secondary {
+            padding: 8px 20px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .modal-button-secondary:hover {
+            background: #5a6268;
+        }
+        .log-detail {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #4d714f;
+        }
+        .log-detail h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        .log-detail p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        .story-content {
+            line-height: 1.6;
+            color: #555;
+            font-style: italic;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+        @media (max-width: 768px) {
+            .modal-dialog {
+                width: 95%;
+                margin: 15px auto;
+            }
+            .modal-header {
+                padding: 15px;
+            }
+            .modal-body {
+                padding: 15px;
+            }
+            .modal-footer {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</body>
+</html>
