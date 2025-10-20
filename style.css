@@ -38,6 +38,31 @@ html { font-size: var(--font-size); }
     border-radius: var(--radius-md);
 }
 
+/* 卡片元件樣式（對齊 new interface 視覺） */
+.card {
+    background-color: var(--color-background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.06);
+    padding: 20px;
+}
+
+.card + .card {
+    margin-top: 20px;
+}
+
+/* 卡片容器堆疊（在容器內讓卡片有間距與一致寬度） */
+.card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .card { padding: 24px; }
+    .card-stack { gap: 20px; }
+}
+
 /* 基本頁面和容器樣式 */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 與您 HTML 中 style 標籤一致的字體 */

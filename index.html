@@ -24,10 +24,10 @@
      crossorigin=""/>
 </head>
 <body>
-    <div class="container" role="main">
-        <h1 style="letter-spacing:0.3px">甦醒地圖 Wake Up Map</h1>
+    <div class="container card-stack" role="main">
+        <h1 class="card" style="letter-spacing:0.3px; margin:0">甦醒地圖 Wake Up Map</h1>
 
-        <div class="user-info-section">
+        <div class="user-info-section card">
             <div class="input-group-vertical">
                 <div class="input-field">
                     <label for="userName">顯示名稱：</label>
@@ -54,13 +54,13 @@
             </div>
         </div>
 
-        <div class="tab-container" role="tablist" aria-label="主要分頁">
+        <div class="tab-container card" role="tablist" aria-label="主要分頁">
             <button id="tabButton-ClockTab" class="tab-button active" data-tab="ClockTab" role="tab" aria-controls="ClockTab" aria-selected="true">今日甦醒</button>
             <button id="tabButton-HistoryTab" class="tab-button" data-tab="HistoryTab" role="tab" aria-controls="HistoryTab" aria-selected="false">甦醒軌跡</button>
             <button id="tabButton-GlobalTodayMapTab" class="tab-button" data-tab="GlobalTodayMapTab" role="tab" aria-controls="GlobalTodayMapTab" aria-selected="false">眾人地圖</button>
         </div>
 
-        <div id="ClockTab" class="tab-content active" role="tabpanel" aria-labelledby="tabButton-ClockTab">
+        <div id="ClockTab" class="tab-content active card" role="tabpanel" aria-labelledby="tabButton-ClockTab">
             
             <div id="result">
                 <p id="resultText"></p>
@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <div id="HistoryTab" class="tab-content" role="tabpanel" aria-labelledby="tabButton-HistoryTab">
+        <div id="HistoryTab" class="tab-content card" role="tabpanel" aria-labelledby="tabButton-HistoryTab">
             <p>記錄關於你每日於地球上的哪一個角落起床。</p>
             <button id="refreshHistoryButton">刷新記錄</button>
             <ul id="historyList"></ul>
@@ -101,7 +101,7 @@
         </div>
 
         
-        <div id="GlobalTodayMapTab" class="tab-content" role="tabpanel" aria-labelledby="tabButton-GlobalTodayMapTab">
+        <div id="GlobalTodayMapTab" class="tab-content card" role="tabpanel" aria-labelledby="tabButton-GlobalTodayMapTab">
             <p>看看今天大家都在地球的哪些角落開啟新的一天！</p>
             <div class="filter-container">
                 <div class="date-picker-container">
