@@ -1,4 +1,42 @@
 /* style.css */
+/* 基於 new interface 的設計變數與基礎樣式強化（不影響原功能） */
+:root {
+    --font-size: 16px;
+    --radius: 10px;
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    --border: rgba(0, 0, 0, 0.1);
+    --ring: rgba(3, 2, 19, 0.35);
+    --input-background: #f3f3f5;
+    --color-background: #ffffff;
+    --color-foreground: #232323;
+    --color-muted: #717182;
+    --color-accent: #e9ebef;
+}
+
+html { font-size: var(--font-size); }
+
+/* 焦點可見樣式（提高可近性） */
+:where(button, [type="button"], [type="submit"], [type="reset"], input, select, textarea) {
+    outline: none;
+}
+
+:where(button, [type="button"], [type="submit"], [type="reset"], input, select, textarea):focus-visible {
+    box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* 提升邊框與圓角一致性 */
+.container,
+.tab-content,
+#result,
+#historyList,
+#mapContainer,
+#historyMapContainer,
+#globalTodayMapContainer {
+    border-color: var(--border);
+    border-radius: var(--radius-md);
+}
 
 /* 基本頁面和容器樣式 */
 body {
