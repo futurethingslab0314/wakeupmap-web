@@ -676,17 +676,18 @@ input:focus, select:focus {
 }
 
 .modal-content-wrapper {
-    background: white;
-    border-radius: 0;
+    background: white !important;
+    border-radius: 0 !important;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     overflow: hidden;
 }
 
 .modal-header {
     padding: 20px;
-    background: #000000;
+    background: #000000 !important;
     color: white;
     position: relative;
+    border-radius: 0 !important;
 }
 
 .modal-header h2 {
@@ -725,10 +726,10 @@ input:focus, select:focus {
 
 .modal-button-secondary {
     padding: 15px 20px;
-    background: #000000;
+    background: #000000 !important;
     color: white;
     border: none;
-    border-radius: 0;
+    border-radius: 0 !important;
     cursor: pointer;
     transition: background-color 0.2s;
     width: 100%;
@@ -744,8 +745,8 @@ input:focus, select:focus {
     margin-bottom: 20px;
     padding: 15px;
     background-color: #f9f9f9;
-    border-radius: 0;
-    border-left: 4px solid #000000;
+    border-radius: 0 !important;
+    border-left: 4px solid #000000 !important;
 }
 
 .log-detail h3 {

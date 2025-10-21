@@ -2443,7 +2443,7 @@ window.addEventListener('firebaseReady', async (event) => {
                     <div class="log-detail" style="text-align: left;">
                         <h3>今日早餐</h3>
                         <div id="historyImageContainer-${recordId}" style="text-align: center; margin: 10px 0;">
-                            <img src="${latestRecord.imageUrl}" alt="早餐圖片" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" 
+                            <img src="${latestRecord.imageUrl}" alt="早餐圖片" style="max-width: 100%; height: auto; border-radius: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" 
                                  onerror="handleHistoryImageError(this, '${recordId}', '${currentDataIdentifier}', '${cityDisplayName}')">
                         </div>
                     </div>
@@ -2462,7 +2462,7 @@ window.addEventListener('firebaseReady', async (event) => {
                     contentHTML += `
                         <div class="log-detail" style="text-align: left;">
                             <h3>早餐圖片</h3>
-                            <div style="text-align: center; margin: 10px 0; padding: 15px; background: #fff3cd; border-radius: 8px; color: #856404;">
+                            <div style="text-align: center; margin: 10px 0; padding: 15px; background: #fff3cd; border-radius: 0; color: #856404;">
                                 <p>⚠️ 無法連接到資料庫讀取早餐圖片</p>
                                 <small>如果您剛生成了早餐圖片，可能需要等待資料同步完成</small>
                             </div>
@@ -2943,7 +2943,7 @@ window.handleImageLoadError = async function(imgElement, recordId, userIdentifie
             // 更新圖片
             container.innerHTML = `
                 <div class="postcard-image-container">
-                    <img src="${result.newImageUrl}" alt="${cityName}的早餐" style="max-width: 100%; border-radius: 8px;">
+                    <img src="${result.newImageUrl}" alt="${cityName}的早餐" style="max-width: 100%; border-radius: 0;">
                     <p style="font-size: 0.9em; color: #555;"><em>${cityName}的早餐</em></p>
                 </div>
             `;
@@ -3023,7 +3023,7 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
             
             // 更新圖片
             container.innerHTML = `
-                <img src="${result.newImageUrl}" alt="早餐圖片" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <img src="${result.newImageUrl}" alt="早餐圖片" style="max-width: 100%; height: auto; border-radius: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
             `;
         } else {
             throw new Error('API返回格式錯誤');
@@ -3173,7 +3173,7 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         const displayName = recordData.isUniverseTheme ? '星際早餐' : `${cityDisplayName}的早餐`;
         breakfastContainer.innerHTML = `
             <div class="postcard-image-container">
-                <img src="${imageData.imageUrl}" alt="${displayName}" style="max-width: 100%; border-radius: 8px;">
+                <img src="${imageData.imageUrl}" alt="${displayName}" style="max-width: 100%; border-radius: 0;">
                 <p style="font-size: 0.9em; color: #555;"><em>今日的${displayName}</em></p>
             </div>
         `;
