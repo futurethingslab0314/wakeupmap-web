@@ -173,9 +173,33 @@ body {
     padding-right: 0.5rem;
 }
 
-.px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
+/* 分頁按鈕樣式 */
+.tab-button.active {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.tab-button:hover:not(.active) {
+    background-color: #f3f4f6 !important;
+    color: #000000 !important;
+}
+
+/* 確保分頁按鈕的 active 狀態正確顯示 */
+[id^="tabButton-"].active {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+[id^="tabButton-"]:not(.active) {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+[id^="tabButton-"]:not(.active):hover {
+    background-color: #f3f4f6 !important;
+    color: #000000 !important;
 }
 
 .py-3 {
@@ -432,6 +456,25 @@ body {
     display: grid !important;
     grid-template-columns: 1fr !important;
     grid-auto-rows: 180px !important;
+}
+
+/* 修復「開始這一天」按鈕在手機上的置中問題 */
+#findCityButton {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    height: 100% !important;
+    min-height: 180px !important;
+}
+
+#findCityButton .text-center {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
 }
 
 @media (min-width: 768px) {
@@ -830,6 +873,26 @@ input:focus, select:focus {
     border-radius: 4px;
 }
 
+/* 早餐載入通知樣式 */
+#breakfastLoadingContainer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-size: 12pt;
+    color: #333;
+}
+
+#breakfastLoadingContainer div {
+    font-size: 12pt;
+    color: #333;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
 /* 響應式設計 */
 @media (max-width: 768px) {
     .modal-dialog {
@@ -856,86 +919,35 @@ input:focus, select:focus {
     .gap-2 {
         gap: 0.5rem;
     }
-}
-
-/* 特殊樣式 */
-.leading-relaxed {
-    line-height: 1.625;
-}
-
-.opacity-80 {
-    opacity: 0.8;
-}
-
-.max-w-xs {
-    max-width: 20rem;
-}
-
-/* 早餐圖片容器 */
-.postcard-image-container {
-    text-align: center;
-    padding: 10px;
-}
-
-.postcard-image-container img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* 載入狀態 */
-#breakfastLoadingContainer {
-    text-align: center;
-    margin-top: 20px;
-    padding: 20px;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-radius: 12px;
-    border: 1px solid #dee2e6;
-}
-
-/* 錯誤狀態 */
-#breakfastErrorContainer {
-    text-align: center;
-    margin-top: 20px;
-    padding: 20px;
-    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
-    border-radius: 12px;
-    border: 1px solid #f1aeb5;
-}
-
-/* 歷史記錄連結 */
-#historyList a.log-link {
-    color: #a69108;
-    text-decoration: none;
-    margin-left: 10px;
-    font-weight: bold;
-    white-space: nowrap;
-    cursor: pointer;
-    padding: 3px 6px;
-    border-radius: 4px;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-#historyList a.log-link:hover {
-    background-color: #e9ecef;
-    color: #0056b3;
-    text-decoration: underline;
-}
-
-/* 宇宙訊息樣式 */
-#mapContainer.universe-message {
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    height: 280px;
-    box-sizing: border-box;
-}
-
-#mapContainer.universe-message p {
-    margin: 0;
+    
+    .half-width-button {
+        width: 100%;
+    }
+    
+    .action-description {
+        padding: 12px;
+        font-size: 0.95em;
+    }
+    
+    /* 手機版「開始這一天」按鈕置中修復 */
+    #findCityButton {
+        min-height: 200px !important;
+        padding: 1rem !important;
+    }
+    
+    #findCityButton h2 {
+        font-size: 16px !important;
+        margin-bottom: 8px !important;
+    }
+    
+    #findCityButton p {
+        font-size: 12px !important;
+    }
+    
+    /* 手機版分頁按鈕樣式 */
+    [id^="tabButton-"] {
+        padding: 12px 8px !important;
+        font-size: 14px !important;
+        min-height: 48px !important;
+    }
 }

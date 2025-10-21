@@ -3092,15 +3092,8 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
     // 創建載入狀態顯示
     const loadingContainer = document.createElement('div');
     loadingContainer.id = 'breakfastLoadingContainer';
-    loadingContainer.style.cssText = `
-        text-align: center; 
-        margin-top: 20px; 
-        padding: 0; 
-        background: transparent;
-        border: none;
-    `;
     loadingContainer.innerHTML = `
-        <div style="font-size: 12pt; color: #333;">正在準備${cityDisplayName}的地方早餐...</div>
+        <div>正在準備${cityDisplayName}的地方早餐...</div>
     `;
     
     // 將載入容器插入到早餐卡片內
