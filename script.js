@@ -744,7 +744,7 @@ window.addEventListener('firebaseReady', async (event) => {
 
                 //debugInfoSmall.innerHTML = `(記錄於: ${recordedAtDate})<br>(目標城市緯度: ${latitudeStr}°, 經度: ${longitudeStr}°)<br>(目標 UTC 偏移: ${targetUTCOffsetStr}, 城市實際 UTC 偏移: ${cityActualUTCOffset !== null ? cityActualUTCOffset.toFixed(2) : 'N/A'}, 時區: ${lastRecord.timezone || '未知'})`;
             } else {
-                resultTextDiv.innerHTML = `<p>歡迎，${rawUserDisplayName}！此名稱尚無歷史記錄。</p><p>按下「我在哪裡甦醒？」按鈕，開始您的主觀時間之旅吧！</p>`;
+                resultTextDiv.innerHTML = `<p>歡迎，${rawUserDisplayName}！此名稱尚無歷史記錄。</p><p>按下「開始這一天」，尋找你今日甦醒位置！</p>`;
                 console.log("[displayLastRecordForCurrentUser] 此識別碼尚無歷史記錄。");
             }
         } catch (e) {
