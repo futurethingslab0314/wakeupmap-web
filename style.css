@@ -1,5 +1,6 @@
-/* style.css */
-/* 基於 new interface 的設計變數與基礎樣式強化（不影響原功能） */
+/* style.css - New Interface 風格 */
+
+/* 基於 new interface 的設計變數與基礎樣式強化 */
 :root {
     --font-size: 16px;
     --radius: 10px;
@@ -15,7 +16,23 @@
     --color-accent: #e9ebef;
 }
 
-html { font-size: var(--font-size); }
+html { 
+    font-size: var(--font-size); 
+}
+
+/* 重置與基礎樣式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    color: var(--color-foreground);
+    background-color: #f5f5f5;
+}
 
 /* 焦點可見樣式（提高可近性） */
 :where(button, [type="button"], [type="submit"], [type="reset"], input, select, textarea) {
@@ -26,319 +43,635 @@ html { font-size: var(--font-size); }
     box-shadow: 0 0 0 3px var(--ring);
 }
 
-/* 提升邊框與圓角一致性 */
-.container,
-.tab-content,
-#result,
-#historyList,
-#mapContainer,
-#historyMapContainer,
-#globalTodayMapContainer {
-    border-color: var(--border);
-    border-radius: var(--radius-md);
-}
-
-/* 卡片元件樣式（對齊 new interface 視覺） */
-.card {
-    background-color: var(--color-background);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.06);
-    padding: 20px;
-}
-
-.card + .card {
-    margin-top: 20px;
-}
-
-/* 卡片容器堆疊（在容器內讓卡片有間距與一致寬度） */
-.card-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-@media (min-width: 768px) {
-    .card { padding: 24px; }
-    .card-stack { gap: 20px; }
-}
-
-/* 基本頁面和容器樣式 */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 與您 HTML 中 style 標籤一致的字體 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* 主要容器樣式 */
+.min-h-screen {
     min-height: 100vh;
-    margin: 0;
-    background-color: #f0f2f5; /* 與您 HTML 中 style 標籤一致的背景色 */
-    padding: 20px;
-    box-sizing: border-box;
-    color: #333;
 }
 
-.container {
-    background-color: #ffffff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    width: 100%;
-    max-width: 650px; /* 您可以根據需要調整最大寬度 */
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px; /* 新增底部間距 */
+.max-w-7xl {
+    max-width: 80rem;
 }
 
-h1 {
-    color: #7a776d; /* 從 HTML style 引用 */
-    margin-bottom: 20px; /* 稍微增加間距 */
-    font-size: 2em; /* 調整標題大小 */
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
 }
 
-h2 { /* 為 h2 (例如分頁標題) 添加一些樣式 */
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.5em;
+.border-8 {
+    border-width: 8px;
 }
 
-p { /* 通用段落樣式 */
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 15px;
+.border-4 {
+    border-width: 4px;
 }
 
-small { /* 通用 small 標籤樣式 */
-    font-size: 0.85em;
-    color: #777;
+.border-2 {
+    border-width: 2px;
 }
 
-/* 問候語樣式 */
-.greeting-text {
-    margin: 20px 0;
-    padding: 20px;
-    background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
-    border-radius: 12px;
-    color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    text-align: center;
-    min-height: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.border-black {
+    border-color: #000;
 }
 
-.greeting-main {
-    font-size: 1.8em;
-    font-weight: bold;
-    margin-bottom: 8px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+.bg-white {
+    background-color: #fff;
 }
 
-.greeting-info {
-    font-size: 0.9em;
-    opacity: 0.9;
-    font-weight: 300;
+.bg-black {
+    background-color: #000;
 }
 
-.greeting-info small {
-    font-size: 0.8em;
-    opacity: 0.8;
-    display: block;
-    margin-top: 4px;
+.text-black {
+    color: #000;
 }
 
-/* 使用者資訊區塊 */
-.user-info-section {
-    background-color: #f9f9f9;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    border: 1px solid #e0e0e0;
+.text-white {
+    color: #fff;
 }
 
-.input-group {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+/* 標題樣式 */
+.text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
 }
 
-.input-group label {
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 4px;
-    text-align: left;
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
 }
 
-.input-group input[type="text"] {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.text-\[10px\] {
+    font-size: 10px;
+}
+
+.text-\[12px\] {
+    font-size: 12px;
+}
+
+.text-\[15px\] {
+    font-size: 15px;
+}
+
+.text-\[16px\] {
     font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
 }
 
-.input-group button {
-    padding: 10px 20px;
-    background-color: #a6a08f;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.2s;
-    width: 100%;
-    min-height: 44px;
+.text-\[32px\] {
+    font-size: 32px;
 }
 
-.input-group button:hover {
-    background-color: #827d6f;
+.font-bold {
+    font-weight: 700;
 }
 
-.input-group button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+.tracking-tight {
+    letter-spacing: -0.025em;
 }
 
-.current-user-info {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #ddd;
-    color: #666;
-    text-align: center;
+.tracking-wide {
+    letter-spacing: 0.025em;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+/* 間距 */
+.p-4 {
+    padding: 1rem;
+}
+
+.p-6 {
+    padding: 1.5rem;
+}
+
+.p-8 {
+    padding: 2rem;
+}
+
+.p-3 {
+    padding: 0.75rem;
+}
+
+.px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.ml-2 {
+    margin-left: 0.5rem;
+}
+
+/* 邊框 */
+.border-b-4 {
+    border-bottom-width: 4px;
+}
+
+.border-b-2 {
+    border-bottom-width: 2px;
+}
+
+.border-r-2 {
+    border-right-width: 2px;
+}
+
+.border-t-2 {
+    border-top-width: 2px;
+}
+
+.border-l-2 {
+    border-left-width: 2px;
+}
+
+.border-l-4 {
+    border-left-width: 4px;
+}
+
+/* 圓角 */
+.rounded-none {
+    border-radius: 0;
+}
+
+/* 顯示 */
+.flex {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: 100%;
-    font-size: 0.9em;
-    min-height: unset;
 }
 
-.current-user-info span {
-    text-align: center;
-    display: inline-block;
+.flex-col {
+    flex-direction: column;
 }
 
-#currentUserDisplayName {
-    display: none !important;
+.flex-wrap {
+    flex-wrap: wrap;
 }
 
-/* 分頁容器和按鈕 */
-.tab-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #e0e0e0;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+.flex-1 {
+    flex: 1 1 0%;
 }
 
-.tab-container::-webkit-scrollbar {
-    display: none;
-}
-
-.tab-button {
-    padding: 12px 22px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    font-size: 1em;
-    margin: 0 5px;
-    border-bottom: 3px solid transparent;
-    transition: border-color 0.3s, color 0.3s;
-    color: #555;
-    font-weight: 500;
-    white-space: nowrap;
+.flex-shrink-0 {
     flex-shrink: 0;
 }
 
-.tab-button.active {
-    border-bottom-color: #e8af10;
-    font-weight: bold;
-    color: #d6a70b;
+.items-center {
+    align-items: center;
 }
 
-.tab-button:hover:not(.active) {
-    color: #b08b10;
+.items-end {
+    align-items: flex-end;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.min-h-\[132px\] {
+    min-height: 132px;
+}
+
+.min-h-\[180px\] {
+    min-height: 180px;
+}
+
+.min-h-\[300px\] {
+    min-height: 300px;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.h-8 {
+    height: 2rem;
+}
+
+.h-10 {
+    height: 2.5rem;
+}
+
+/* 間距 */
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.5rem;
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1rem;
+}
+
+/* 背景色 */
+.bg-orange-400 {
+    background-color: #fb923c;
+}
+
+.bg-gray-100 {
+    background-color: #f3f4f6;
+}
+
+.bg-gray-800 {
+    background-color: #1f2937;
+}
+
+/* 懸停效果 */
+.hover\:bg-gray-100:hover {
+    background-color: #f3f4f6;
+}
+
+.hover\:bg-gray-800:hover {
+    background-color: #1f2937;
+}
+
+/* 過渡效果 */
+.transition-colors {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+/* 網格系統 */
+.grid {
+    display: grid;
+}
+
+/* 網格系統 */
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.col-span-1 { grid-column: span 1; }
+.col-span-3 { grid-column: span 3; }
+.col-span-4 { grid-column: span 4; }
+
+/* 響應式網格 */
+@media (min-width: 768px) {
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .md\:col-span-1 { grid-column: span 1; }
+    .md\:col-span-3 { grid-column: span 3; }
+}
+
+@media (min-width: 1024px) {
+    .lg\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .lg\:col-span-1 { grid-column: span 1; }
+    .lg\:col-span-2 { grid-column: span 2; }
+}
+
+/* 響應式設計 */
+@media (min-width: 768px) {
+    .md\:p-8 {
+        padding: 2rem;
+    }
+    
+    .md\:flex-row {
+        flex-direction: row;
+    }
+    
+    .md\:items-center {
+        align-items: center;
+    }
+    
+    .md\:justify-between {
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 1024px) {
+    .lg\:flex-row {
+        flex-direction: row;
+    }
+    
+    .lg\:items-center {
+        align-items: center;
+    }
+    
+    .lg\:justify-between {
+        justify-content: space-between;
+    }
 }
 
 /* 分頁內容 */
 .tab-content {
     display: none;
-    animation: fadeIn 0.5s;
-    text-align: center;
 }
 
 .tab-content.active {
     display: block;
 }
 
-/* 結果顯示區塊 */
+/* 三欄佈局 - 響應式設計 */
+#ClockTab .grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-auto-rows: 180px !important;
+}
+
+@media (min-width: 768px) {
+    #ClockTab .grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+#ClockTab .col-span-1 {
+    grid-column: span 1 !important;
+}
+
+#ClockTab .col-span-3 {
+    grid-column: span 1 !important;
+}
+
+@media (min-width: 768px) {
+    #ClockTab .col-span-3 {
+        grid-column: span 3 !important;
+    }
+}
+
+/* 增加卡片高度讓早餐圖片能正方形呈現 */
+#ClockTab .grid {
+    grid-auto-rows: 300px !important; /* 增加高度讓內容能正中間顯示 */
+}
+
+/* 早餐卡片圖片滿版設計 */
+#breakfastCard {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+#breakfastCard img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* 確保 result 內容在欄位高度正中間 */
+#locationCard {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+}
+
 #result {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #fdfdfd;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    text-align: left;
-    width: 100%;
-    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    height: 100% !important;
+    width: 100% !important;
 }
 
-#resultText {
-    min-height: 60px;
-    margin-bottom: 15px;
-    font-size: 1.1em;
-    text-align: center;
-    line-height: 1.7;
+/* 強制 ClockTab 子元素正確顯示 */
+#ClockTab .grid > * {
+    display: block !important;
+    box-sizing: border-box !important;
 }
 
-#flagContainer {
-    text-align: center;
-    min-height: 40px;
-    margin-bottom: 15px;
+/* 歷史記錄分頁卡片式佈局 */
+#HistoryTab {
+    width: 100% !important;
 }
 
-#flagContainer img {
-    max-width: 50px;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+#HistoryTab #historyList {
+    display: grid !important;
+    gap: 1rem !important;
+}
+
+/* 日誌卡片樣式 */
+.history-card {
+    border: 2px solid black !important;
+    background: white !important;
+    padding: 1rem !important;
+    position: relative !important;
+}
+
+.history-card-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-bottom: 0.75rem !important;
+}
+
+.history-card-title {
+    font-size: 1.125rem !important;
+    font-weight: bold !important;
+    color: black !important;
+}
+
+.history-card-group {
+    background: black !important;
+    color: white !important;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.history-card-location {
+    font-size: 0.875rem !important;
+    color: black !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.history-card-date {
+    font-size: 0.75rem !important;
+    color: #666 !important;
+}
+
+/* 響應式網格 */
+@media (max-width: 767px) {
+    #HistoryTab #historyList {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    #HistoryTab #historyList {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    #HistoryTab #historyList {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+/* 眾人地圖使用者卡片樣式 */
+.user-card {
+    border: 2px solid black !important;
+    background: white !important;
+    padding: 1rem !important;
+    position: relative !important;
+}
+
+.user-card-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-bottom: 0.75rem !important;
+}
+
+.user-card-title {
+    font-size: 1.125rem !important;
+    font-weight: bold !important;
+    color: black !important;
+}
+
+.user-card-group {
+    background: black !important;
+    color: white !important;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.user-card-location {
+    font-size: 0.875rem !important;
+    color: black !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.user-card-time {
+    font-size: 0.75rem !important;
+    color: #666 !important;
+}
+
+/* 眾人地圖使用者列表響應式網格 */
+@media (max-width: 767px) {
+    #globalUsersList {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    #globalUsersList {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    #globalUsersList {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+/* 按鈕樣式 */
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font: inherit;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 輸入框樣式 */
+input, select {
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+}
+
+input:focus, select:focus {
+    outline: none;
 }
 
 /* 地圖容器 */
 #mapContainer,
-#historyMapContainer,
 #globalTodayMapContainer {
     width: 100%;
     height: 280px;
     border: 1px solid #d0d0d0;
     border-radius: 8px;
-    margin-top: 15px;
     background-color: #f7f7f7;
+}
+
+#globalTodayMapContainer {
+    height: 400px;
 }
 
 /* 歷史記錄列表 */
 #historyList {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    text-align: left;
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    margin-top: 15px;
-    background-color: #fff;
 }
 
 #historyList li {
@@ -359,770 +692,250 @@ small { /* 通用 small 標籤樣式 */
     border-bottom: none;
 }
 
-/* 過濾器容器 */
-.filter-container {
-    display: flex;
-    gap: 15px;
-    align-items: flex-end;  /* 改為底部對齊 */
-    justify-content: center;
-    margin: 20px 0;
-    flex-wrap: nowrap;
-    width: 100%;
-}
-
-.date-picker-container,
-.group-filter-container {
-    display: flex;
-    flex-direction: column;  /* 改為垂直排列 */
-    align-items: flex-start; /* 標籤左對齊 */
-    gap: 4px;  /* 標籤和輸入框之間的間距 */
-    flex: 1;
-    min-width: 0;
-}
-
-.date-picker-container label,
-.group-filter-container label {
-    white-space: nowrap;
-    font-weight: bold;
-    color: #333;
-    font-size: 14px;
-    margin: 0;  /* 移除外邊距 */
-}
-
-.date-picker-container input[type="date"] {
-    flex: 1;
-    min-width: 0;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;  /* 確保寬度一致 */
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-.group-filter-container select {
-    flex: 1;
-    min-width: 0;
-    padding: 8px;
-    border: 1px solid #ccc;  /* 統一邊框顏色 */
-    border-radius: 4px;
-    width: 100%;  /* 確保寬度一致 */
-    box-sizing: border-box;
-    font-size: 14px;
-    background-color: white;
-}
-
-#refreshGlobalMapButton {
-    flex-shrink: 0;
-    white-space: nowrap;
-    margin: 0;
-}
-
-/* 主要操作按鈕 */
-#findCityButton,
-#refreshHistoryButton,
-#refreshGlobalMapButton {
-    display: inline-block;
-    padding: 10px 22px;
-    font-size: 1em;
-    color: white;
-    background-color: #d4b208;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+/* 除錯資訊 */
+#debugInfo, #historyDebugInfo, #globalTodayDebugInfo {
+    font-size: 0.8em;
+    color: #666;
     margin-top: 15px;
-    margin-bottom: 15px;
-    transition: background-color 0.2s, transform 0.1s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    word-wrap: break-word;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: left;
+    line-height: 1.5;
 }
 
-#findCityButton:hover,
-#refreshHistoryButton:hover,
-#refreshGlobalMapButton:hover {
-    background-color: #b89e1d;
+/* 模態框樣式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal-dialog {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    margin: 30px auto;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-dialog {
+    transform: translateY(0);
+}
+
+.modal-content-wrapper {
+    background: white !important;
+    border-radius: 0 !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 20px;
+    background: #000000 !important;
+    color: white;
+    position: relative;
+    border-radius: 0 !important;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.modal-close-button {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.modal-close-button:hover {
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 0;
+    background: #000000;
+    border-top: 1px solid #dee2e6;
+    text-align: center;
+}
+
+.modal-button-secondary {
+    padding: 15px 20px;
+    background: #000000 !important;
+    color: white;
+    border: none;
+    border-radius: 0 !important;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modal-button-secondary:hover {
+    background: #333333;
+}
+
+.log-detail {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 0 !important;
+    border-left: 4px solid #000000 !important;
+}
+
+.log-detail h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.log-detail p {
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.story-content {
+    line-height: 1.6;
+    color: #555;
+    font-style: italic;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 4px;
 }
 
 /* 響應式設計 */
 @media (max-width: 768px) {
-    .container {
-        margin-top: 10px;
+    .modal-dialog {
+        width: 95%;
+        margin: 15px auto;
+    }
+    
+    .modal-header {
         padding: 15px;
     }
-
-    .input-group {
-        margin-bottom: 12px;
+    
+    .modal-body {
+        padding: 15px;
     }
-
-    .input-group input[type="text"] {
-        font-size: 14px;
-        padding: 10px;
+    
+    .modal-footer {
+        padding: 10px 15px;
     }
-
-    .input-group button {
-        font-size: 14px;
-        padding: 12px;
-        min-height: 48px;
-    }
-
-    .tab-button {
-        padding: 10px 12px;
-        font-size: 14px;
-        margin: 0 2px;
-    }
-
-    .filter-container {
+    
+    .flex-wrap {
         flex-direction: column;
-        gap: 15px;
-        align-items: stretch;  /* 讓所有元素拉伸到相同寬度 */
     }
-
-    .date-picker-container,
-    .group-filter-container {
-        width: 100%;
-        align-items: stretch;  /* 讓內部元素拉伸 */
-    }
-
-    .date-picker-container input[type="date"],
-    .group-filter-container select {
-        width: 100%;
-        padding: 12px;  /* 手機版增加padding */
-        font-size: 16px;  /* 手機版字體稍大 */
-    }
-
-    .date-picker-container label,
-    .group-filter-container label {
-        font-size: 16px;  /* 手機版標籤字體稍大 */
-        margin-bottom: 6px;
-    }
-
-    #refreshGlobalMapButton {
-        width: 100%;
-        padding: 14px;  /* 手機版增加padding */
-        font-size: 16px;
-        margin-top: 5px;
-    }
-
-    #historyList li {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    #currentUserDisplayName,
-    #currentGroupName {
-        max-width: 100%;
-        font-size: 0.95em;
+    
+    .gap-2 {
+        gap: 0.5rem;
     }
 }
 
-/* 動畫 */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+/* 特殊樣式 */
+.leading-relaxed {
+    line-height: 1.625;
+}
+
+.opacity-80 {
+    opacity: 0.8;
+}
+
+.max-w-xs {
+    max-width: 20rem;
+}
+
+/* 早餐圖片容器 */
+.postcard-image-container {
+    text-align: center;
+    padding: 10px;
+}
+
+.postcard-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 載入狀態 */
+#breakfastLoadingContainer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+}
+
+/* 錯誤狀態 */
+#breakfastErrorContainer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    border-radius: 12px;
+    border: 1px solid #f1aeb5;
+}
+
+/* 歷史記錄連結 */
+#historyList a.log-link {
+    color: #a69108;
+    text-decoration: none;
+    margin-left: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#historyList a.log-link:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
+    text-decoration: underline;
 }
 
 /* 宇宙訊息樣式 */
 #mapContainer.universe-message {
-  background-color: black;
-  color: white;            
-  display: flex;            
-  justify-content: center; 
-  align-items: center;     
-  text-align: center;      
-  padding: 20px;           
-  height: 280px; /* 與普通地圖容器高度一致 */
-  box-sizing: border-box;
-}
-#mapContainer.universe-message p {
-  margin: 0; 
-}
-
-/* 除錯資訊樣式 */
-#debugInfo, #historyDebugInfo, #globalTodayDebugInfo { 
-    font-size: 0.8em; /* 稍微調小 */
-    color: #666; /* 調整顏色 */
-    margin-top: 15px; 
-    word-wrap: break-word; 
-    /* background-color: #f0f0f0; 移除灰色背景 */
-    padding: 10px; /* 增加 padding */
-    border-radius: 4px;
-    text-align: left; 
-    line-height: 1.5; /* 增加行高 */
-}
-
-/* 歷史記錄中各部分的樣式 */
-#historyList .info-span { /* 用於包裹日期、時間、地點的 span */
-    flex-grow: 1; /* 讓它佔據多餘空間 */
-    margin-right: 10px; /* 與右側連結的間距 */
-    display: flex; /* 內部也可以用 flex 來對齊 */
-    flex-wrap: wrap; /* 允許內部元素換行 */
-}
-#historyList .date { 
-    font-weight: bold; 
-    color: #0069d9; /* 調整顏色 */
-    margin-right: 8px; 
-    white-space: nowrap;
-}
-#historyList .time { 
-    color: #1e7e34; /* 調整顏色 */
-    margin-right: 8px; 
-    white-space: nowrap;
-}
-#historyList .location { 
-    color: #444; /* 調整顏色 */
-    text-align: left; /* 保持靠左，因為 info-span 會推開連結 */
-    flex-shrink: 1; /* 允許在空間不足時被壓縮 */
-}
-/* 新增：甦醒日誌連結樣式 */
-#historyList a.log-link {
-    color: #a69108;
-    text-decoration: none; /* 移除預設底線 */
-    margin-left: 10px; /* 與左邊內容的間距 */
-    font-weight: bold;
-    white-space: nowrap; /* 避免連結文字換行 */
-    cursor: pointer;
-    padding: 3px 6px; /* 給連結一點點擊區域感 */
-    border-radius: 4px;
-    transition: background-color 0.2s, color 0.2s;
-}
-#historyList a.log-link:hover {
-    background-color: #e9ecef;
-    color: #0056b3;
-    text-decoration: underline; /* hover 時顯示底線 */
-}
-
-/* 針對冒險故事區塊的樣式 (如果您在 HTML 中保留了 #adventureStoryContainer) */
-#adventureStoryContainer {
-    margin-top: 25px; 
-    padding-top: 20px; 
-    border-top: 1px dashed #ccc; 
-    text-align: left;
-}
-#adventureStoryContainer h3 {
-    margin-bottom: 10px; 
-    color: #444; /* 調整標題顏色 */
-    font-size: 1.2em;
-}
-#adventureStoryText {
-    padding: 12px; 
-    background-color: #f0f5ff; /* 淡藍色背景 */
-    border: 1px solid #d6e3ff; 
-    border-radius: 6px; 
-    min-height: 100px; 
-    white-space: pre-wrap; /* 保留換行和空格 */
-    line-height: 1.7; 
-    color: #334; /* 深色文字 */
-    font-size: 0.95em; /* 調整字體大小 */
-}
-
-/* 新增從 index.html 移過來的樣式 */
-.user-section {
-    background-color: #f9f9f9;
-    padding: 15px 20px; /* 稍微增加 padding */
-    border-radius: 8px;
-    margin-bottom: 25px; /* 增加與下方元件的間距 */
-    border: 1px solid #e0e0e0;
-}
-.user-section label {
-    display: block;
-    margin-bottom: 6px; /* 微調 */
-    font-weight: bold;
-    color: #333;
-    text-align: left; /* 讓 label 文字靠左 */
-}
-.user-section input[type="text"] {
-    padding: 10px;
-    margin-bottom: 10px; /* 增加與按鈕的間距 */
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 100%; /* 改為 100% 並用 box-sizing 控制 */
-    box-sizing: border-box;
-}
-.user-section button { /* 設定名稱按鈕的特定樣式 */
-    padding: 10px 18px;
-    font-size: 15px;
+    background-color: black;
     color: white;
-    background-color: #a6a08f; /* 從 HTML style 引用 */
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    display: block; /* 讓按鈕獨佔一行或根據需要調整 */
-    width: fit-content;
-    margin: 5px auto 0 auto; /* 上方間距，並水平置中 */
-}
-.user-section button:hover {
-    background-color: #827d6f; /* 從 HTML style 引用 */
-}
-.user-section p { /* user-section 內部 p 標籤的樣式 */
-    font-size: 0.9em; /* 稍微調整 */
-    color: #555; /* 調整顏色使其更易讀 */
-    margin-top: 8px; 
-    margin-bottom: 8px; 
-    line-height: 1.5; 
-    text-align: left; /* 讓提示文字靠左 */
-}
-.user-section span { /* 用於顯示 ID 和名稱的 span */
-    font-weight: bold;
-    color: #e8af10; /* 從 HTML style 引用 */
-}
-
-/* 新增從 index.html 移過來的樣式 */
-.group-filter-container select {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    min-width: 150px;
-}
-
-#groupName {
-    color: #2c3e50;
-}
-
-#currentGroupName {
-    color: #666;
-    font-size: 0.9em;
-    margin-left: 10px;
-    text-align: center;
-}
-
-/* 自定義工具提示樣式 */
-.custom-tooltip {
-    background-color: rgba(255, 255, 255, 0.95);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px;
-    font-size: 14px;
-    line-height: 1.4;
-    max-width: 300px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.custom-tooltip.leaflet-tooltip-top:before {
-    border-top-color: #ccc;
-}
-
-.custom-tooltip.leaflet-tooltip-bottom:before {
-    border-bottom-color: #ccc;
-}
-
-.custom-tooltip.leaflet-tooltip-left:before {
-    border-left-color: #ccc;
-}
-
-.custom-tooltip.leaflet-tooltip-right:before {
-    border-right-color: #ccc;
-}
-
-/* 響應式設計 */
-@media screen and (max-width: 480px) {
-    .tab-button {
-        padding: 10px 12px;
-        font-size: 14px;
-        margin: 0 2px;
-    }
-}
-
-.input-field select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-}
-
-.input-field select:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-}
-
-.input-field select option {
-    padding: 8px;
-}
-
-/* 1. 調整 input-group-vertical 與 input-field 間距 */
-.input-group-vertical {
     display: flex;
-    flex-direction: column;
-    gap: 16px; /* 增加欄位間距 */
-    align-items: stretch;
-}
-.input-field {
-    margin-bottom: 0; /* 由 gap 控制間距 */
-}
-
-/* 2. 設定/更新名稱按鈕字體大小與 #findCityButton 一致 */
-#setUserNameButton {
-    font-size: 1em; /* 與 #findCityButton 相同 */
-    padding: 10px 22px;
-    color: white;
-    background-color: #a6a08f;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    transition: background-color 0.2s, transform 0.1s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    min-height: 44px;
-}
-#setUserNameButton:hover {
-    background-color: #827d6f;
-}
-
-/* 3. 目前使用者資訊置中顯示 */
-#currentUserDisplayName,
-#currentUserId {
-    color: #666;
-    font-size: 0.9em;
-    text-align: center;
-}
-
-.history-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  background: #fff;
-}
-.history-table th, .history-table td {
-  border: 1px solid #e0e0e0;
-  padding: 8px 10px;
-  text-align: left;
-  font-size: 15px;
-}
-.history-table th {
-  background: #f5f5f5;
-  color: #4c4c4c;
-  font-weight: bold;
-}
-.history-table tr:nth-child(even) {
-  background: #fafafa;
-}
-.history-table tr:hover {
-  background: #f0f7f0;
-}
-
-.history-log-button {
-  padding: 8px 16px;
-  background-color: #a6a08f;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 15px;
-  min-width: 90px;
-  min-height: 36px;
-  white-space: nowrap;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.2s;
-  letter-spacing: 1px;
-}
-.history-log-button:hover, .history-log-button:active {
-  background-color: #827d6f;
-}
-
-#refreshHistoryButton {
-  padding: 8px 16px;
-  background-color: #a6a08f;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 15px;
-  min-width: 90px;
-  min-height: 36px;
-  white-space: nowrap;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.2s;
-  letter-spacing: 1px;
-}
-#refreshHistoryButton:hover, #refreshHistoryButton:active {
-  background-color: #827d6f;
-}
-
-/* 路線箭頭樣式 */
-.route-arrow {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    color: #e81010a0;
-    font-size: 20px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-
-/* 顯示名稱與組別名稱欄位樣式調整 */
-#userName, #groupName {
-    font-size: 1em;
-    padding: 10px 22px; /* 與按鈕的 padding 一致 */
-    border-radius: 6px; /* 與按鈕的 border-radius 一致 */
-    border: 1px solid #ccc;
-    width: 100%; /* 與按鈕一樣使用 100% 寬度 */
-    background: #fff;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    height: 280px;
     box-sizing: border-box;
-    margin-bottom: 8px; /* 與按鈕的間距一致 */
-    min-height: 44px; /* 與按鈕的最小高度一致 */
-    vertical-align: middle;
 }
 
-@media (max-width: 600px) {
-  #userName, #groupName {
-    width: 100%;
-  }
-}
-
-/* ======= 過濾器容器修正樣式 ======= */
-/* 確保眾人地圖分頁的控制元素對齊整齊 */
-.filter-container {
-    display: flex !important;
-    gap: 20px !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    margin: 20px 0 !important;
-    flex-wrap: nowrap !important;
-    width: 100% !important;
-    padding: 0 !important;
-}
-
-.date-picker-container,
-.group-filter-container {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 6px !important;
-    flex: 1 !important;
-    min-width: 140px !important;
-    max-width: 200px !important;
-}
-
-.date-picker-container label,
-.group-filter-container label {
-    font-weight: bold !important;
-    color: #333 !important;
-    font-size: 14px !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-    text-align: left !important;
-}
-
-.date-picker-container input[type="date"],
-.group-filter-container select {
-    width: 100% !important;
-    padding: 10px 12px !important;
-    border: 1px solid #ccc !important;
-    border-radius: 4px !important;
-    font-size: 14px !important;
-    box-sizing: border-box !important;
-    background-color: white !important;
-    height: 40px !important;
-}
-
-#refreshGlobalMapButton {
-    flex-shrink: 0 !important;
-    white-space: nowrap !important;
-    margin: 0 !important;
-    padding: 10px 20px !important;
-    height: 40px !important;
-    align-self: flex-end !important;
-}
-
-/* 手機版修正 */
-@media (max-width: 768px) {
-    .filter-container {
-        flex-direction: column !important;
-        gap: 16px !important;
-        align-items: stretch !important;
-    }
-
-    .date-picker-container,
-    .group-filter-container {
-        max-width: none !important;
-        min-width: auto !important;
-        width: 100% !important;
-    }
-
-    .date-picker-container input[type="date"],
-    .group-filter-container select {
-        padding: 12px !important;
-        font-size: 16px !important;
-        height: 48px !important;
-    }
-
-    .date-picker-container label,
-    .group-filter-container label {
-        font-size: 16px !important;
-        margin-bottom: 8px !important;
-    }
-
-    #refreshGlobalMapButton {
-        width: 100% !important;
-        padding: 14px !important;
-        font-size: 16px !important;
-        height: 48px !important;
-        margin-top: 0 !important;
-    }
-}
-
-/* 移除心情選擇相關的樣式 */
-#todayMood,
-#todayMood:focus,
-#todayMood option,
-.mood-info {
-    display: none;
-}
-
-/* 改善輸入欄位的整體布局 */
-.input-field {
-    margin-bottom: 12px;
-}
-
-.input-field label {
-    display: block;
-    margin-bottom: 4px;
-    font-weight: 500;
-    color: #555;
-}
-
-/* 說明文字樣式 */
-.action-description {
-    margin: 10px 0 5px 0;
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-left: 4px solid #7a776d;
-    border-radius: 0 8px 8px 0;
-    color: #333;
-    font-size: 1em;
-    line-height: 1.5;
-    text-align: left;
-}
-
-/* 按鈕行佈局 */
-.button-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-/* 半寬按鈕樣式 */
-.half-width-button {
-    flex: 1 !important;
-    padding: 12px 16px !important;
-    background-color: #a6a08f !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 6px !important;
-    cursor: pointer !important;
-    font-size: 16px !important;
-    font-weight: 500 !important;
-    transition: background-color 0.2s, transform 0.1s !important;
-    min-height: 48px !important;
-    height: 48px !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    line-height: 1 !important;
-}
-
-.half-width-button:hover {
-    background-color: #827d6f !important;
-    transform: translateY(-1px) !important;
-}
-
-.half-width-button:disabled {
-    background-color: #ccc !important;
-    cursor: not-allowed !important;
-    transform: none !important;
-}
-
-.half-width-button:active {
-    transform: translateY(0) !important;
-}
-
-/* 開始這一天按鈕的特定顏色覆蓋 */
-#findCityButton.half-width-button {
-    background-color: #d4b208 !important;  /* 金黃色 */
-}
-
-#findCityButton.half-width-button:hover {
-    background-color: #b89e1d !important;  /* hover時的深金黃色 */
-}
-
-/* 早餐按鈕樣式 */
-.breakfast-button {
-    padding: 15px 30px;
-    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-    text-transform: none;
-    letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
-}
-
-.breakfast-button:hover {
-    background: linear-gradient(135deg, #ff5252, #ff7979);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-}
-
-.breakfast-button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.2);
-}
-
-.breakfast-button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-/* 早餐按鈕動畫效果 */
-.breakfast-button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.breakfast-button:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
-/* 響應式設計：手機版本 */
-@media (max-width: 768px) {
-    .button-row {
-        flex-direction: column;
-        gap: 8px;
-    }
-    
-    .half-width-button {
-        width: 100%;
-    }
-    
-    .action-description {
-        padding: 12px;
-        font-size: 0.95em;
-    }
+#mapContainer.universe-message p {
+    margin: 0;
 }
