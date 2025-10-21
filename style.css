@@ -364,29 +364,11 @@ body {
     display: grid;
 }
 
-.grid-cols-1 {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-.md\:grid-cols-6 {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-}
-
-.lg\:grid-cols-12 {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-}
-
-.md\:col-span-3 {
-    grid-column: span 3 / span 3;
-}
-
-.lg\:col-span-3 {
-    grid-column: span 3 / span 3;
-}
-
-.lg\:col-span-12 {
-    grid-column: span 12 / span 12;
-}
+/* 網格系統 */
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.col-span-1 { grid-column: span 1; }
+.col-span-4 { grid-column: span 4; }
 
 /* 響應式設計 */
 @media (min-width: 768px) {
@@ -428,6 +410,12 @@ body {
 
 .tab-content.active {
     display: block;
+}
+
+/* 四欄佈局 */
+#ClockTab .grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 180px;
 }
 
 /* 按鈕樣式 */

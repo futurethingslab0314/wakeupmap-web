@@ -1810,7 +1810,7 @@ window.addEventListener('firebaseReady', async (event) => {
 
     async function loadHistory() {
         if (!currentDataIdentifier) {
-            historyListUl.innerHTML = '<li>請先設定你的顯示名稱以查看歷史記錄。</li>';
+            historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">請先設定你的顯示名稱以查看歷史記錄。</div>';
             if (historyLeafletMap) {
                 historyLeafletMap.remove();
                 historyLeafletMap = null;
@@ -1820,7 +1820,7 @@ window.addEventListener('firebaseReady', async (event) => {
         }
 
         console.log("[loadHistory] 準備載入歷史記錄，使用識別碼:", currentDataIdentifier);
-        historyListUl.innerHTML = '<li>載入歷史記錄中...</li>';
+        historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">載入歷史記錄中...</div>';
         if (!historyLeafletMap) {
             historyMapContainerDiv.innerHTML = '<p>載入個人歷史地圖中...</p>';
         } else if (historyMarkerLayerGroup) {
@@ -1838,7 +1838,7 @@ window.addEventListener('firebaseReady', async (event) => {
             const historyPoints = [];
 
             if (querySnapshot.empty) {
-                historyListUl.innerHTML = '<li>尚無歷史記錄。</li>';
+                historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">尚無歷史記錄。</div>';
                 renderHistoryMap(historyPoints, historyMapContainerDiv, historyDebugInfoSmall, `${rawUserDisplayName} 的歷史軌跡`);
                 return;
             }
@@ -1893,10 +1893,15 @@ window.addEventListener('firebaseReady', async (event) => {
                 // 城市訪問次數顯示（只有重複訪問才顯示）
                 const visitInfo = cityVisitNumber > 1 ? `<br><span class="visit-info" style="color: #007bff; font-size: 0.8em;">第 ${cityVisitNumber} 次拜訪這座城市</span>` : '';
 
-                const li = document.createElement('li');
-                li.innerHTML = `<span class="date">${recordDate}</span> -  
-                                甦醒於: <span class="location">${cityDisplay || '未知城市'}, ${countryDisplay || '未知國家'}</span>
-                                ${visitInfo}`;
+                const li = document.createElement('div');
+                li.className = 'border border-gray-300 p-3 mb-2 rounded bg-white';
+                li.innerHTML = `<div class="flex justify-between items-start">
+                                    <div>
+                                        <span class="date font-semibold text-gray-700">${recordDate}</span> -  
+                                        甦醒於: <span class="location font-semibold text-blue-600">${cityDisplay || '未知城市'}, ${countryDisplay || '未知國家'}</span>
+                                        ${visitInfo}
+                                    </div>
+                                </div>`;
                 
                 const detailsButton = document.createElement('button');
                 detailsButton.textContent = '查看日誌';
@@ -1955,7 +1960,7 @@ window.addEventListener('firebaseReady', async (event) => {
 
         } catch (e) {
             console.error("讀取歷史記錄失敗:", e);
-            historyListUl.innerHTML = '<li>讀取歷史記錄失敗。</li>';
+            historyListUl.innerHTML = '<div class="p-4 text-center text-red-500">讀取歷史記錄失敗。</div>';
             historyMapContainerDiv.innerHTML = '<p>讀取歷史記錄時發生錯誤。</p>';
             historyDebugInfoSmall.textContent = `錯誤: ${e.message}`;
         }
@@ -2175,9 +2180,11 @@ window.addEventListener('firebaseReady', async (event) => {
                     console.log("[openTab] HistoryTab is visible, invalidating map size.");
                     historyLeafletMap.invalidateSize();
                 }
-                if (currentDataIdentifier && auth.currentUser && !isInitialLoad) {
+                if (currentDataIdentifier && auth.currentUser) {
                     console.log("[openTab] 呼叫 loadHistory for HistoryTab.");
                     loadHistory();
+                } else {
+                    console.log("[openTab] HistoryTab 條件不滿足 - currentDataIdentifier:", !!currentDataIdentifier, "auth.currentUser:", !!auth.currentUser);
                 }
             } else if (tabName === 'GlobalTodayMapTab') {
                 if (globalLeafletMap && globalTodayMapContainerDiv.offsetParent !== null) {
