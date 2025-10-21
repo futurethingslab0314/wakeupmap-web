@@ -656,8 +656,7 @@ window.addEventListener('firebaseReady', async (event) => {
                 const existingBreakfastContainers = document.querySelectorAll('#breakfastImageContainer');
                 existingBreakfastContainers.forEach(container => container.remove());
                 
-                // 顯示HTML中的早餐按鈕容器（如果有早餐圖片則隱藏按鈕，直接顯示圖片）
-                const breakfastButtonContainer = document.getElementById('breakfastButtonContainer');
+                // 檢查早餐圖片並顯示
                 
                 console.log(`[displayLastRecordForCurrentUser] 檢查早餐圖片: ${lastRecord.imageUrl ? '有' : '無'}`);
                 
@@ -3149,9 +3148,6 @@ window.setupBreakfastButton = function(recordData, cityDisplayName, countryDispl
 window.generateBreakfastImage = async function(recordData, cityDisplayName, countryDisplayName, recordId) {
     console.log(`[generateBreakfastImage] 開始生成早餐圖片: ${cityDisplayName}, ${countryDisplayName}`);
     
-    const breakfastBtn = document.getElementById('generateBreakfastBtn');
-    const breakfastButtonContainer = document.getElementById('breakfastButtonContainer');
-    
     // 創建載入狀態顯示
     const loadingContainer = document.createElement('div');
     loadingContainer.id = 'breakfastLoadingContainer';
@@ -3165,11 +3161,6 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
     loadingContainer.innerHTML = `
         <div style="font-size: 12pt; color: #333;">正在準備${cityDisplayName}的地方早餐...</div>
     `;
-    
-    // 隱藏按鈕容器並顯示載入狀態
-    if (breakfastButtonContainer) {
-        breakfastButtonContainer.style.display = 'none';
-    }
     
     // 將載入容器插入到早餐卡片內
     const breakfastCard = document.getElementById('breakfastCard');
@@ -3458,19 +3449,7 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             }
         }
         
-        // 顯示早餐按鈕作為重試選項
-        if (breakfastButtonContainer) {
-            breakfastButtonContainer.style.display = 'block';
-            if (breakfastBtn) {
-                breakfastBtn.disabled = false;
-                if (recordData.isUniverseTheme) {
-                    breakfastBtn.innerHTML = '🌌 我想吃宇宙早餐';
-                    breakfastBtn.nextElementSibling.innerHTML = '<em>探索來自星際的神秘早餐</em>';
-                } else {
-                    breakfastBtn.innerHTML = `🍽️ 我想吃${cityDisplayName}早餐`;
-                    breakfastBtn.nextElementSibling.innerHTML = `<em>品嚐來自${cityDisplayName}的當地特色早餐</em>`;
-                }
-            }
-        }
+        // 早餐生成失敗，將在下次重新嘗試
+        console.log(`[generateBreakfastImage] ${cityDisplayName}早餐生成失敗，將在下次重新嘗試`);
     }
 };
