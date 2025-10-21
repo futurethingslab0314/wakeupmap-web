@@ -1941,51 +1941,23 @@ window.addEventListener('firebaseReady', async (event) => {
                 const formattedNumber = recordNumber.toString().padStart(2, '0');
                 
                 const li = document.createElement('div');
-                li.className = 'border-2 border-black p-3 bg-white';
-                li.innerHTML = `<div class="flex items-start justify-between mb-2">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-6 h-6 ${index === 0 ? 'bg-orange-400' : 'bg-black'} text-white flex items-center justify-center text-xs">
-                                            ${formattedNumber}
-                                        </div>
-                                        <span class="text-xs text-black uppercase tracking-wide">${recordDate}</span>
-                                    </div>
-                                </div>
-                                
-                                <h3 class="text-black mb-1">${cityDisplay || '未知城市'}</h3>
-                                <p class="text-xs text-black mb-3">${countryDisplay || '未知國家'}</p>
-                                ${visitInfo}
-                                
-                                ${index === 0 ? `
-                                <div class="mt-2 pt-2 border-t-2 border-orange-400">
-                                    <span class="text-xs text-black bg-orange-400 px-2 py-1">最新記錄</span>
-                                </div>
-                                ` : ''}`;
+                li.className = 'history-card';
+                li.innerHTML = `
+                    <div class="history-card-header">
+                        <div class="history-card-title">${rawUserDisplayName}</div>
+                        <div class="history-card-group">${formattedNumber}</div>
+                    </div>
+                    <div class="history-card-location">
+                        ${cityDisplay || '未知城市'}, ${countryDisplay || '未知國家'}
+                    </div>
+                    <div class="history-card-date">${recordDate}</div>
+                    ${index === 0 ? `
+                    <div class="mt-2 pt-2 border-t-2 border-orange-400">
+                        <span class="text-xs text-black bg-orange-400 px-2 py-1">最新記錄</span>
+                    </div>
+                    ` : ''}`;
                 
-                const detailsButton = document.createElement('button');
-                detailsButton.textContent = '查看日誌';
-                detailsButton.className = 'bg-black hover:bg-gray-800 text-white rounded-none h-8 px-3 uppercase tracking-wide text-xs border-2 border-black w-full';
-
-                // 替換原本的 onclick 事件處理
-                const handleButtonClick = (e) => {
-                    e.preventDefault();  // 防止預設行為
-                    e.stopPropagation(); // 防止事件冒泡
-                    showHistoryLogModal(record); // 開啟日誌彈窗
-                    console.log("查看日誌按鈕被點擊，記錄:", record);
-                };
-
-                // 添加多個事件監聽器
-                detailsButton.addEventListener('click', handleButtonClick);
-                detailsButton.addEventListener('touchstart', handleButtonClick, { passive: false });
-                detailsButton.addEventListener('touchend', (e) => {
-                    e.preventDefault();  // 防止觸控結束時的點擊事件
-                }, { passive: false });
-
-                // 防止觸控時的滾動
-                detailsButton.addEventListener('touchmove', (e) => {
-                    e.preventDefault();
-                }, { passive: false });
-
-                li.appendChild(detailsButton);
+                // 卡片式設計不需要按鈕，直接顯示資訊
 
                 if (typeof record.latitude === 'number' && isFinite(record.latitude) &&
                     typeof record.longitude === 'number' && isFinite(record.longitude)) {
