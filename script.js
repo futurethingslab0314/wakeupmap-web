@@ -1955,9 +1955,26 @@ window.addEventListener('firebaseReady', async (event) => {
                     <div class="mt-2 pt-2 border-t-2 border-orange-400">
                         <span class="text-xs text-black bg-orange-400 px-2 py-1">最新記錄</span>
                     </div>
-                    ` : ''}`;
+                    ` : ''}
+                    <div class="mt-4">
+                        <button class="view-log-button bg-black hover:bg-gray-800 text-white rounded-none h-8 px-3 uppercase tracking-wide text-xs border-2 border-black w-full">
+                            查看日誌
+                        </button>
+                    </div>`;
                 
-                // 卡片式設計不需要按鈕，直接顯示資訊
+                // 為每個日誌卡片添加「查看日誌」按鈕的事件監聽器
+                const viewLogButton = li.querySelector('.view-log-button');
+                if (viewLogButton) {
+                    const handleButtonClick = (e) => {
+                        e.preventDefault();  // 防止預設行為
+                        e.stopPropagation(); // 防止事件冒泡
+                        showHistoryLogModal(record); // 開啟日誌彈窗
+                        console.log("查看日誌按鈕被點擊，記錄:", record);
+                    };
+                    
+                    viewLogButton.addEventListener('click', handleButtonClick);
+                    viewLogButton.addEventListener('touchstart', handleButtonClick, { passive: false });
+                }
 
                 if (typeof record.latitude === 'number' && isFinite(record.latitude) &&
                     typeof record.longitude === 'number' && isFinite(record.longitude)) {
