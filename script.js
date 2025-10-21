@@ -661,11 +661,8 @@ window.addEventListener('firebaseReady', async (event) => {
                 console.log(`[displayLastRecordForCurrentUser] 檢查早餐圖片: ${lastRecord.imageUrl ? '有' : '無'}`);
                 
                 if (lastRecord.imageUrl) {
-                    // 如果已有早餐圖片，隱藏按鈕並將圖片放入早餐卡片
+                    // 如果已有早餐圖片，直接顯示圖片
                     console.log(`[displayLastRecordForCurrentUser] 顯示早餐圖片: ${lastRecord.imageUrl}`);
-                    if (breakfastButtonContainer) {
-                        breakfastButtonContainer.style.display = 'none';
-                    }
                     
                     const breakfastCard = document.getElementById('breakfastCard');
                     if (breakfastCard) {
@@ -710,12 +707,12 @@ window.addEventListener('firebaseReady', async (event) => {
                         console.log(`[displayLastRecordForCurrentUser] 早餐圖片已放入早餐卡片`);
                     }
                 } else {
-                    // 如果沒有早餐圖片，顯示早餐按鈕
-                    console.log(`[displayLastRecordForCurrentUser] 顯示早餐按鈕`);
-                    if (breakfastButtonContainer) {
-                        breakfastButtonContainer.style.display = 'block';
-                        // 設置按鈕點擊事件
-                        setupBreakfastButton(lastRecord, finalCityName, finalCountryName, querySnapshot.docs[0].id);
+                    // 如果沒有早餐圖片，自動生成早餐
+                    console.log(`[displayLastRecordForCurrentUser] 自動生成早餐`);
+                    try {
+                        await generateBreakfastImage(lastRecord, finalCityName, finalCountryName, querySnapshot.docs[0].id);
+                    } catch (error) {
+                        console.error('[displayLastRecordForCurrentUser] 自動生成早餐失敗:', error);
                     }
                 }
                 
@@ -967,17 +964,8 @@ window.addEventListener('firebaseReady', async (event) => {
                 mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
                 countryFlagImg.style.display = 'none';
 
-                // 顯示早餐按鈕（宇宙主題）
-                const breakfastButtonContainer = document.getElementById('breakfastButtonContainer');
-                if (breakfastButtonContainer) {
-                    breakfastButtonContainer.style.display = 'block';
-                    // 修改按鈕文字為宇宙主題
-                    const breakfastBtn = document.getElementById('generateBreakfastBtn');
-                    if (breakfastBtn) {
-                        breakfastBtn.innerHTML = '🌌 我想吃宇宙早餐';
-                        breakfastBtn.nextElementSibling.innerHTML = '<em>探索來自星際的神秘早餐</em>';
-                    }
-                }
+                // 自動生成宇宙早餐
+                console.log('[findMatchingCity] 自動生成宇宙早餐');
                 debugInfoSmall.innerHTML = `(目標 UTC 偏移: ${requiredUTCOffset.toFixed(2)})`;
 
                 // 先保存宇宙記錄（不包含圖片）
@@ -1028,18 +1016,8 @@ window.addEventListener('firebaseReady', async (event) => {
                     }, "未知星球", "宇宙", savedUniverseDocId);
                 } catch (breakfastError) {
                     console.error('[findMatchingCity] 自動生成宇宙早餐圖片失敗:', breakfastError);
-                    // 如果自動生成失敗，顯示早餐按鈕作為備用
-                    const breakfastButtonContainer = document.getElementById('breakfastButtonContainer');
-                    if (breakfastButtonContainer) {
-                        breakfastButtonContainer.style.display = 'block';
-                        setupBreakfastButton({
-                            city: "Unknown Planet",
-                            country: "Universe",
-                            city_zh: "未知星球",
-                            country_zh: "宇宙",
-                            isUniverseTheme: true
-                        }, "未知星球", "宇宙", savedUniverseDocId);
-                    }
+                    // 如果自動生成失敗，記錄錯誤並在下次重新嘗試
+                    console.log('[findMatchingCity] 宇宙早餐生成失敗，將在下次重新嘗試');
                 }
 
                 console.log("--- 尋找匹配城市結束 (宇宙情況) ---");
@@ -1272,17 +1250,8 @@ window.addEventListener('firebaseReady', async (event) => {
             const chineseCityName = bestMatchCity.city_zh || englishCityName;
             const chineseCountryName = bestMatchCity.country_zh || englishCountryName;
 
-            // 顯示早餐按鈕（當地特色）
-            const breakfastButtonContainer = document.getElementById('breakfastButtonContainer');
-            if (breakfastButtonContainer) {
-                breakfastButtonContainer.style.display = 'block';
-                // 修改按鈕文字為當地主題
-                const breakfastBtn = document.getElementById('generateBreakfastBtn');
-                if (breakfastBtn) {
-                    breakfastBtn.innerHTML = `🍽️ 我想吃${chineseCityName}早餐`;
-                    breakfastBtn.nextElementSibling.innerHTML = `<em>品嚐來自${chineseCityName}的當地特色早餐</em>`;
-                }
-            }
+            // 自動生成當地早餐
+            console.log(`[findMatchingCity] 自動生成${chineseCityName}早餐`);
 
             const recordedAtDate = userLocalDate.toLocaleString();
             const latitudeStr = latitude ? latitude.toFixed(5) : 'N/A';
@@ -1352,18 +1321,8 @@ window.addEventListener('firebaseReady', async (event) => {
                 }, chineseCityName, chineseCountryName, savedDocId);
             } catch (breakfastError) {
                 console.error('[findMatchingCity] 自動生成早餐圖片失敗:', breakfastError);
-                // 如果自動生成失敗，顯示早餐按鈕作為備用
-                const breakfastButtonContainer = document.getElementById('breakfastButtonContainer');
-                if (breakfastButtonContainer) {
-                    breakfastButtonContainer.style.display = 'block';
-                    setupBreakfastButton({
-                        city: englishCityName,
-                        country: englishCountryName,
-                        city_zh: chineseCityName,
-                        country_zh: chineseCountryName,
-                        isUniverseTheme: false
-                    }, chineseCityName, chineseCountryName, savedDocId);
-                }
+                // 如果自動生成失敗，記錄錯誤並在下次重新嘗試
+                console.log(`[findMatchingCity] ${chineseCityName}早餐生成失敗，將在下次重新嘗試`);
             }
 
             console.log("--- 使用 GeoNames API 尋找匹配城市結束 ---");
@@ -3124,25 +3083,7 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
     }
 };
 
-// 全域函數：設置早餐按鈕
-window.setupBreakfastButton = function(recordData, cityDisplayName, countryDisplayName, recordId) {
-    console.log(`[setupBreakfastButton] 設置早餐按鈕: ${cityDisplayName}, ${countryDisplayName}, recordId: ${recordId}`);
-    
-    const breakfastBtn = document.getElementById('generateBreakfastBtn');
-    if (!breakfastBtn) {
-        console.error('[setupBreakfastButton] 找不到早餐按鈕元素');
-        return;
-    }
-    
-    // 移除舊的事件監聽器
-    const newBtn = breakfastBtn.cloneNode(true);
-    breakfastBtn.parentNode.replaceChild(newBtn, breakfastBtn);
-    
-    // 添加新的事件監聽器
-    document.getElementById('generateBreakfastBtn').addEventListener('click', () => {
-        generateBreakfastImage(recordData, cityDisplayName, countryDisplayName, recordId);
-    });
-};
+// 注意：setupBreakfastButton 函數已移除，早餐現在會自動生成
 
 // 全域函數：生成早餐圖片
 window.generateBreakfastImage = async function(recordData, cityDisplayName, countryDisplayName, recordId) {
