@@ -153,10 +153,10 @@
 
                     <!-- Breakfast Card -->
                     <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
-                        <div id="breakfastCard" class="bg-white p-6 min-h-[180px]">
-                            <div class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
-                                <h3 class="text-black text-lg font-bold mb-2">今日早餐</h3>
-                                <p class="text-black text-sm max-w-xs">開始這一天後，將為你準備當地早餐</p>
+                        <div id="breakfastCard" class="bg-white flex flex-col items-center justify-center text-center p-8 min-h-[180px]">
+                            <p class="text-black text-sm uppercase tracking-wide">
+                                開始這一天後，將準備你的當地早餐
+                            </p>
                                 <!-- 早餐按鈕容器 - 會動態插入在這裡 -->
                                 <div id="breakfastButtonContainer" style="display: none; margin-top: 20px; text-align: center;">
                                     <button id="generateBreakfastBtn" class="bg-orange-400 hover:bg-orange-500 text-white rounded-none h-10 px-4 uppercase tracking-wide text-sm border-2 border-black">
@@ -174,20 +174,18 @@
                     <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
                         <div id="adventureCard" class="bg-white p-6 min-h-[180px]">
                             <div class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
-                                <h3 class="text-black text-lg font-bold mb-2">今日冒險日誌</h3>
-                                <p class="text-black text-sm max-w-xs">開始這一天後，將為你生成冒險故事</p>
+                                <p class="text-black text-sm max-w-xs">開始這一天後，你的冒險故事將在這裡展開</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Map Card - Full Width -->
                     <div class="md:col-span-6 lg:col-span-12 border-r-2 border-b-2 border-black">
-                        <div id="mapCard" class="bg-white p-6 min-h-[300px]">
-                            <div class="mb-4">
-                                <h2 class="text-black text-xl font-bold mb-2">甦醒位置地圖</h2>
-                                <p class="text-black text-sm">WAKE UP LOCATION MAP</p>
+                        <div id="mapCard" class="bg-white relative">
+                            <div class="bg-black text-white px-4 py-2 text-xs uppercase tracking-wide">
+                                甦醒位置地圖 / Wake Up Location Map
                             </div>
-                            <div id="mapContainer" class="w-full h-[280px] border border-gray-300 rounded"></div>
+                            <div id="mapContainer" class="w-full h-[500px]"></div>
                             <small id="debugInfo" class="text-gray-500 text-xs mt-2"></small>
                         </div>
                     </div>

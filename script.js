@@ -900,16 +900,18 @@ window.addEventListener('firebaseReady', async (event) => {
                     </div>
                 `;
                 
-                // 顯示故事在冒險卡片中，按照示意圖風格
+                // 顯示故事在冒險卡片中，使用 new interface 佈局
                 const adventureCard = document.getElementById('adventureCard');
                 if (adventureCard) {
                     adventureCard.innerHTML = `
                         <div class="bg-white p-6 min-h-[180px]">
-                            <div class="min-h-[132px] flex flex-col justify-center text-center space-y-4">
-                                <h3 class="text-black text-lg font-bold mb-4">宇宙冒險日誌</h3>
-                                <div style="text-align: left; padding: 0 20px;">
-                                    <p style="font-style: italic; font-size: 0.9em; color: #555; line-height: 1.6; text-align: justify;">${storyFromAPI}</p>
-                                </div>
+                            <div class="border-l-4 border-orange-400 pl-3 mb-4">
+                                <h3 class="text-black uppercase tracking-wide">宇宙冒險日誌</h3>
+                                <p class="text-xs text-black mt-1">UNIVERSE ADVENTURE LOG</p>
+                            </div>
+                            
+                            <div class="text-black leading-relaxed p-4 text-[16px]">
+                                <p>${storyFromAPI}</p>
                             </div>
                         </div>
                     `;
@@ -1161,16 +1163,18 @@ window.addEventListener('firebaseReady', async (event) => {
                 </div>
             `;
             
-            // 顯示故事在冒險卡片中，按照示意圖風格
+            // 顯示故事在冒險卡片中，使用 new interface 佈局
             const adventureCard = document.getElementById('adventureCard');
             if (adventureCard) {
                 adventureCard.innerHTML = `
                     <div class="bg-white p-6 min-h-[180px]">
-                        <div class="min-h-[132px] flex flex-col justify-center text-center space-y-4">
-                            <h3 class="text-black text-lg font-bold mb-4">今日冒險日誌</h3>
-                            <div style="text-align: left; padding: 0 20px;">
-                                <p style="font-style: italic; font-size: 0.9em; color: #555; line-height: 1.6; text-align: justify;">${storyFromAPI}</p>
-                            </div>
+                        <div class="border-l-4 border-orange-400 pl-3 mb-4">
+                            <h3 class="text-black uppercase tracking-wide">今日冒險日誌</h3>
+                            <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
+                        </div>
+                        
+                        <div class="text-black leading-relaxed p-4 text-[16px]">
+                            <p>${storyFromAPI}</p>
                         </div>
                     </div>
                 `;
@@ -3071,25 +3075,24 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             </div>
         `;
         
-        // 插入圖片容器到早餐卡片中，讓圖片滿版顯示
+        // 插入圖片容器到早餐卡片中，使用 new interface 佈局
         const breakfastCard = document.getElementById('breakfastCard');
         if (breakfastCard) {
-            // 清除早餐卡片的現有內容，設置滿版樣式
+            // 清除早餐卡片的現有內容，使用 new interface 樣式
             breakfastCard.innerHTML = '';
             breakfastCard.style.padding = '0';
             breakfastCard.style.overflow = 'hidden';
+            breakfastCard.style.aspectRatio = '1/1';
+            breakfastCard.style.position = 'relative';
             
-            // 修改圖片容器樣式為滿版
-            breakfastContainer.style.cssText = `
+            // 創建滿版圖片容器
+            const imageContainer = document.createElement('div');
+            imageContainer.style.cssText = `
                 width: 100%;
                 height: 100%;
-                min-height: 180px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-                border-radius: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
             `;
             
             // 修改圖片樣式為滿版
@@ -3101,9 +3104,10 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
                     object-fit: cover;
                     border-radius: 0;
                 `;
+                imageContainer.appendChild(img);
             }
             
-            breakfastCard.appendChild(breakfastContainer);
+            breakfastCard.appendChild(imageContainer);
         } else {
             // 備用方案：插入到地圖下方
             const debugInfo = document.getElementById('debugInfo');
