@@ -569,6 +569,66 @@ body {
     }
 }
 
+/* 眾人地圖使用者卡片樣式 */
+.user-card {
+    border: 2px solid black !important;
+    background: white !important;
+    padding: 1rem !important;
+    position: relative !important;
+}
+
+.user-card-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-bottom: 0.75rem !important;
+}
+
+.user-card-title {
+    font-size: 1.125rem !important;
+    font-weight: bold !important;
+    color: black !important;
+}
+
+.user-card-group {
+    background: black !important;
+    color: white !important;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.user-card-location {
+    font-size: 0.875rem !important;
+    color: black !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.user-card-time {
+    font-size: 0.75rem !important;
+    color: #666 !important;
+}
+
+/* 眾人地圖使用者列表響應式網格 */
+@media (max-width: 767px) {
+    #globalUsersList {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    #globalUsersList {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    #globalUsersList {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
 /* 按鈕樣式 */
 button {
     cursor: pointer;

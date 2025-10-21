@@ -258,6 +258,24 @@
                     <div id="globalTodayMapContainer" class="w-full h-[400px] border border-gray-300" style="border-radius: 0;"></div>
                     
                     <small id="globalTodayDebugInfo" class="text-gray-500 text-xs"></small>
+                    
+                    <!-- 今日甦醒使用者列表 -->
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-black text-lg font-bold mb-1">今日甦醒記錄</h3>
+                                <p class="text-xs text-black">TODAY'S WAKE UP RECORDS</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-xs text-black uppercase tracking-wide">總計</p>
+                                <p id="globalTotalUsers" class="text-xl text-black">0</p>
+                                <p class="text-xs text-black">人甦醒</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 使用者卡片網格 -->
+                        <div id="globalUsersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    </div>
                 </div>
             </div>
         </div>

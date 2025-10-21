@@ -1649,11 +1649,96 @@ window.addEventListener('firebaseReady', async (event) => {
             renderPointsOnMap(globalPoints, globalTodayMapContainerDiv, globalTodayDebugInfoSmall, 
                 `日期 ${selectedDateValue} 的${selectedGroup !== 'all' ? `${selectedGroup}組別` : '眾人'}甦醒地圖`, 'global');
 
+            // 顯示使用者列表
+            displayGlobalUsersList(querySnapshot);
+
         } catch (e) {
             console.error("[loadGlobalTodayMap] 讀取全域每日記錄失敗:", e);
             globalTodayMapContainerDiv.innerHTML = '<p>讀取全域地圖資料失敗。</p>';
             globalTodayDebugInfoSmall.textContent = `錯誤: ${e.message}`;
+            
+            // 清空使用者列表
+            const globalUsersList = document.getElementById('globalUsersList');
+            const globalTotalUsers = document.getElementById('globalTotalUsers');
+            if (globalUsersList) globalUsersList.innerHTML = '';
+            if (globalTotalUsers) globalTotalUsers.textContent = '0';
         }
+    }
+
+    // 顯示眾人地圖使用者列表
+    function displayGlobalUsersList(querySnapshot) {
+        const globalUsersList = document.getElementById('globalUsersList');
+        const globalTotalUsers = document.getElementById('globalTotalUsers');
+        
+        if (!globalUsersList || !globalTotalUsers) {
+            console.error('找不到使用者列表元素');
+            return;
+        }
+
+        // 清空現有內容
+        globalUsersList.innerHTML = '';
+
+        if (querySnapshot.empty) {
+            globalUsersList.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">今日尚無甦醒記錄</div>';
+            globalTotalUsers.textContent = '0';
+            return;
+        }
+
+        // 按時間排序（最新的在前）
+        const records = [];
+        querySnapshot.forEach((doc) => {
+            const record = doc.data();
+            records.push({
+                id: doc.id,
+                ...record,
+                timestamp: record.timestamp || new Date(record.recordedDateString).getTime()
+            });
+        });
+
+        records.sort((a, b) => b.timestamp - a.timestamp);
+
+        // 生成使用者卡片
+        records.forEach((record, index) => {
+            const userCard = document.createElement('div');
+            userCard.className = 'user-card';
+            
+            const cityDisplay = record.city_zh && record.city_zh !== record.city ? 
+                `${record.city_zh} (${record.city})` : record.city;
+            const countryDisplay = record.country_zh && record.country_zh !== record.country ? 
+                `${record.country_zh} (${record.country})` : record.country;
+            const userDisplay = record.userDisplayName || record.dataIdentifier || "匿名";
+            const groupName = record.groupName || 'A組';
+            
+            // 格式化時間
+            const recordTime = new Date(record.timestamp);
+            const timeString = recordTime.toLocaleString('zh-TW', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
+            userCard.innerHTML = `
+                <div class="user-card-header">
+                    <div class="user-card-title">${userDisplay}</div>
+                    <div class="user-card-group">${groupName}</div>
+                </div>
+                <div class="user-card-location">
+                    ${cityDisplay || '未知城市'}, ${countryDisplay || '未知國家'}
+                </div>
+                <div class="user-card-time">${timeString}</div>
+            `;
+
+            globalUsersList.appendChild(userCard);
+        });
+
+        // 更新總計
+        globalTotalUsers.textContent = records.length;
+        
+        console.log(`[displayGlobalUsersList] 顯示 ${records.length} 位使用者的甦醒記錄`);
     }
 
     function renderPointsOnMap(points, mapDivElement, debugDivElement, mapTitle = "地圖", mapType = 'global') {
