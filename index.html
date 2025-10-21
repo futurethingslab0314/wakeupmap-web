@@ -185,7 +185,7 @@
                             <div class="bg-black text-white px-4 py-2 text-xs uppercase tracking-wide">
                                 甦醒位置地圖 / Wake Up Location Map
                             </div>
-                            <div id="mapContainer" class="w-full h-[400px]"></div>
+                            <div id="mapContainer" class="w-full h-[400px]" style="border-radius: 0;"></div>
                             <small id="debugInfo" class="text-gray-500 text-xs mt-2"></small>
                         </div>
                     </div>
@@ -193,28 +193,28 @@
             </div>
 
             <div id="HistoryTab" class="tab-content" role="tabpanel" aria-labelledby="tabButton-HistoryTab">
-                <div class="border-2 border-black p-6 bg-white">
-                    <div class="mb-4">
-                        <h2 class="text-black text-xl font-bold mb-2">甦醒軌跡</h2>
-                        <p class="text-black text-sm">記錄關於你每日於地球上的哪一個角落起床。</p>
-                    </div>
-                    
-                    <button id="refreshHistoryButton" class="bg-black hover:bg-gray-800 text-white rounded-none h-10 px-4 uppercase tracking-wide text-sm border-2 border-black mb-4">
-                        刷新記錄
-                    </button>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="text-black text-lg font-bold mb-2">歷史記錄</h3>
-                            <div id="historyList" class="space-y-2"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 border-2 border-black">
+                    <!-- History List -->
+                    <div class="lg:col-span-1 border-r-2 border-black bg-white">
+                        <div class="border-b-2 border-black p-4 bg-orange-400">
+                            <h2 class="text-black uppercase tracking-wide">甦醒軌跡</h2>
+                            <p class="text-xs text-black mt-1">WAKE UP HISTORY</p>
                         </div>
-                        <div>
-                            <h3 class="text-black text-lg font-bold mb-2">軌跡地圖</h3>
-                            <div id="historyMapContainer" class="w-full h-[400px] border border-gray-300 rounded"></div>
+                        
+                        <div class="p-4">
+                            <button id="refreshHistoryButton" class="bg-black hover:bg-gray-800 text-white rounded-none h-10 px-4 uppercase tracking-wide text-sm border-2 border-black mb-4 w-full">
+                                刷新記錄
+                            </button>
+                            
+                            <div id="historyList" class="space-y-3 max-h-[600px] overflow-y-auto"></div>
                         </div>
                     </div>
                     
-                    <small id="historyDebugInfo" class="text-gray-500 text-xs mt-4"></small>
+                    <!-- Map -->
+                    <div class="lg:col-span-2 bg-white">
+                        <div id="historyMapContainer" class="w-full h-[600px]" style="border-radius: 0;"></div>
+                        <small id="historyDebugInfo" class="text-gray-500 text-xs p-4"></small>
+                    </div>
                 </div>
             </div>
 
@@ -243,7 +243,7 @@
                         </div>
                     </div>
                     
-                    <div id="globalTodayMapContainer" class="w-full h-[400px] border border-gray-300 rounded"></div>
+                    <div id="globalTodayMapContainer" class="w-full h-[400px] border border-gray-300" style="border-radius: 0;"></div>
                     
                     <small id="globalTodayDebugInfo" class="text-gray-500 text-xs"></small>
                 </div>

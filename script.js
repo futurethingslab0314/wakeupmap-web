@@ -1212,8 +1212,9 @@ window.addEventListener('firebaseReady', async (event) => {
                         doubleClickZoom: false
                     }).setView([latitude, longitude], 10);
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; OpenStreetMap contributors'
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                        subdomains: 'abcd', maxZoom: 18, minZoom: 2
                     }).addTo(clockLeafletMap);
 
                     L.marker([latitude, longitude])
@@ -1894,18 +1895,23 @@ window.addEventListener('firebaseReady', async (event) => {
                 const visitInfo = cityVisitNumber > 1 ? `<br><span class="visit-info" style="color: #007bff; font-size: 0.8em;">第 ${cityVisitNumber} 次拜訪這座城市</span>` : '';
 
                 const li = document.createElement('div');
-                li.className = 'border border-gray-300 p-3 mb-2 rounded bg-white';
-                li.innerHTML = `<div class="flex justify-between items-start">
-                                    <div>
-                                        <span class="date font-semibold text-gray-700">${recordDate}</span> -  
-                                        甦醒於: <span class="location font-semibold text-blue-600">${cityDisplay || '未知城市'}, ${countryDisplay || '未知國家'}</span>
-                                        ${visitInfo}
+                li.className = 'border-2 border-black p-3 bg-white';
+                li.innerHTML = `<div class="flex items-start justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 ${cityVisitNumber > 1 ? 'bg-orange-400' : 'bg-black'} text-white flex items-center justify-center text-xs">
+                                            ${cityVisitNumber}
+                                        </div>
+                                        <span class="text-xs text-black uppercase tracking-wide">${recordDate}</span>
                                     </div>
-                                </div>`;
+                                </div>
+                                
+                                <h3 class="text-black mb-1">${cityDisplay || '未知城市'}</h3>
+                                <p class="text-xs text-black mb-3">${countryDisplay || '未知國家'}</p>
+                                ${visitInfo}`;
                 
                 const detailsButton = document.createElement('button');
                 detailsButton.textContent = '查看日誌';
-                detailsButton.className = 'history-log-button';
+                detailsButton.className = 'bg-black hover:bg-gray-800 text-white rounded-none h-8 px-3 uppercase tracking-wide text-xs border-2 border-black w-full';
 
                 // 替換原本的 onclick 事件處理
                 const handleButtonClick = (e) => {
@@ -1974,8 +1980,13 @@ window.addEventListener('firebaseReady', async (event) => {
         let currentMarkerLayerGroup = historyMarkerLayerGroup;
 
         if (!currentMapInstance) {
-            console.log(`[renderHistoryMap] 初始化新的 Leaflet 地圖實例`);
+            console.log(`[renderHistoryMap] 初始化新的 Leaflet 地圖實例到容器:`, mapDivElement.id);
             mapDivElement.innerHTML = '';
+            
+            // 確保容器有正確的尺寸
+            mapDivElement.style.width = '100%';
+            mapDivElement.style.height = '600px';
+            
             currentMapInstance = L.map(mapDivElement).setView([20, 0], 2);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -1985,6 +1996,14 @@ window.addEventListener('firebaseReady', async (event) => {
 
             historyLeafletMap = currentMapInstance;
             historyMarkerLayerGroup = currentMarkerLayerGroup;
+            
+            // 延遲調整地圖大小
+            setTimeout(() => {
+                if (currentMapInstance) {
+                    currentMapInstance.invalidateSize();
+                    console.log(`[renderHistoryMap] 地圖大小已調整`);
+                }
+            }, 100);
         }
 
         console.log(`[renderHistoryMap] 清除舊標記`);
