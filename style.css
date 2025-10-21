@@ -454,6 +454,23 @@ body {
     }
 }
 
+/* 早餐卡片正方形設計 */
+#breakfastCard {
+    aspect-ratio: 1/1 !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+#breakfastCard img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    border-radius: 0 !important;
+}
+
 /* 強制 ClockTab 子元素正確顯示 */
 #ClockTab .grid > * {
     display: block !important;

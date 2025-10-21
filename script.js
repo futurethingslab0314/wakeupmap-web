@@ -702,7 +702,8 @@ window.addEventListener('firebaseReady', async (event) => {
                             object-fit: cover;
                             border-radius: 0;
                             position: absolute;
-                            inset: 0;
+                            top: 0;
+                            left: 0;
                         `;
                         img.onerror = () => handleImageLoadError(img, recordId, currentDataIdentifier, finalCityName);
                         
@@ -3221,7 +3222,8 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
                     object-fit: cover;
                     border-radius: 0;
                     position: absolute;
-                    inset: 0;
+                    top: 0;
+                    left: 0;
                 `;
                 imageContainer.appendChild(img);
             }
