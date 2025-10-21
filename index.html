@@ -142,6 +142,7 @@
                     <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
                         <div id="locationCard" class="bg-white p-6 min-h-[180px]">
                             <div id="result" class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
+                                <h3 class="text-black text-lg font-bold mb-2">今日甦醒</h3>
                                 <p id="resultText" class="text-black text-sm max-w-xs">點擊「開始這一天」來發現你今天在哪裡甦醒</p>
                                 <div id="flagContainer" class="text-center min-h-[40px] mb-4">
                                     <img id="countryFlag" src="" alt="國家國旗" style="display:none; max-width: 50px; height: auto; border: 1px solid #ddd; border-radius: 4px; margin-top: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);"/>
@@ -154,6 +155,7 @@
                     <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
                         <div id="breakfastCard" class="bg-white p-6 min-h-[180px]">
                             <div class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
+                                <h3 class="text-black text-lg font-bold mb-2">今日早餐</h3>
                                 <p class="text-black text-sm max-w-xs">開始這一天後，將為你準備當地早餐</p>
                                 <!-- 早餐按鈕容器 - 會動態插入在這裡 -->
                                 <div id="breakfastButtonContainer" style="display: none; margin-top: 20px; text-align: center;">
@@ -172,6 +174,7 @@
                     <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
                         <div id="adventureCard" class="bg-white p-6 min-h-[180px]">
                             <div class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
+                                <h3 class="text-black text-lg font-bold mb-2">今日冒險日誌</h3>
                                 <p class="text-black text-sm max-w-xs">開始這一天後，將為你生成冒險故事</p>
                             </div>
                         </div>
@@ -180,6 +183,10 @@
                     <!-- Map Card - Full Width -->
                     <div class="md:col-span-6 lg:col-span-12 border-r-2 border-b-2 border-black">
                         <div id="mapCard" class="bg-white p-6 min-h-[300px]">
+                            <div class="mb-4">
+                                <h2 class="text-black text-xl font-bold mb-2">甦醒位置地圖</h2>
+                                <p class="text-black text-sm">WAKE UP LOCATION MAP</p>
+                            </div>
                             <div id="mapContainer" class="w-full h-[280px] border border-gray-300 rounded"></div>
                             <small id="debugInfo" class="text-gray-500 text-xs mt-2"></small>
                         </div>

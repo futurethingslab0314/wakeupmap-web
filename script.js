@@ -892,20 +892,24 @@ window.addEventListener('firebaseReady', async (event) => {
                 const greetingFromAPI = apiResponse.greeting;
                 const storyFromAPI = apiResponse.story;
 
-                // 顯示宇宙主題資訊在位置卡片
+                // 顯示宇宙主題資訊在位置卡片，按照示意圖風格
                 resultTextDiv.innerHTML = `
-                    <p style="font-weight: bold; font-size: 1.1em;">${greetingFromAPI}</p>
-                    <p>今天的你，在當地 <strong>${userLocalDate.toLocaleTimeString()}</strong> 開啟了這一天，<br>但是很抱歉，你已經脫離地球了，與非地球生物共同開啟了新的一天。</p>
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">${greetingFromAPI}</div>
+                        <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 5px;">今天的你，在當地 <strong>${userLocalDate.toLocaleTimeString()}</strong> 開啟了這一天，<br>但是很抱歉，你已經脫離地球了，與非地球生物共同開啟了新的一天。</div>
+                    </div>
                 `;
                 
-                // 顯示故事在冒險卡片中
+                // 顯示故事在冒險卡片中，按照示意圖風格
                 const adventureCard = document.getElementById('adventureCard');
                 if (adventureCard) {
                     adventureCard.innerHTML = `
                         <div class="bg-white p-6 min-h-[180px]">
                             <div class="min-h-[132px] flex flex-col justify-center text-center space-y-4">
-                                <h3 class="text-black text-lg font-bold mb-2">宇宙冒險故事</h3>
-                                <p style="font-style: italic; font-size: 0.9em; color: #555; line-height: 1.6;">${storyFromAPI}</p>
+                                <h3 class="text-black text-lg font-bold mb-4">宇宙冒險日誌</h3>
+                                <div style="text-align: left; padding: 0 20px;">
+                                    <p style="font-style: italic; font-size: 0.9em; color: #555; line-height: 1.6; text-align: justify;">${storyFromAPI}</p>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -1147,22 +1151,26 @@ window.addEventListener('firebaseReady', async (event) => {
                 `緯度 ${Math.abs(latitude).toFixed(1)}°${latitude >= 0 ? 'N' : 'S'}` : '';
             const latitudeCategory = bestMatchCity.latitudeCategory || '';
             
-            // 顯示問候語和地點資訊在位置卡片
+            // 顯示問候語和地點資訊在位置卡片，按照示意圖風格
             resultTextDiv.innerHTML = `
-                <p style="font-weight: bold; font-size: 1.1em;">${greetingFromAPI}</p>
-                <p>今天的你在<strong>${finalCityName}, ${finalCountryName}</strong>甦醒！</p>
-                ${latitudeInfo ? `<p style="font-size: 0.9em; color: #666;">位於${latitudeInfo}${latitudeCategory ? ` (${latitudeCategory})` : ''}</p>` : ''}
-                ${bestMatchCity.source === 'predefined' ? '<p style="font-size: 0.8em; color: #888;"><em>※ 使用預設城市資料</em></p>' : ''}
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 2em; margin-bottom: 10px;">${greetingFromAPI}</div>
+                    <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 5px;">${rawUserDisplayName} 於<strong>${finalCityName} (${finalCountryName})</strong>甦醒。</div>
+                    ${latitudeInfo ? `<div style="font-size: 0.9em; color: #666; margin-top: 10px;">位於${latitudeInfo}${latitudeCategory ? ` (${latitudeCategory})` : ''}</div>` : ''}
+                    ${bestMatchCity.source === 'predefined' ? '<div style="font-size: 0.8em; color: #888; margin-top: 10px;"><em>※ 使用預設城市資料</em></div>' : ''}
+                </div>
             `;
             
-            // 顯示故事在冒險卡片中
+            // 顯示故事在冒險卡片中，按照示意圖風格
             const adventureCard = document.getElementById('adventureCard');
             if (adventureCard) {
                 adventureCard.innerHTML = `
                     <div class="bg-white p-6 min-h-[180px]">
                         <div class="min-h-[132px] flex flex-col justify-center text-center space-y-4">
-                            <h3 class="text-black text-lg font-bold mb-2">今日冒險故事</h3>
-                            <p style="font-style: italic; font-size: 0.9em; color: #555; line-height: 1.6;">${storyFromAPI}</p>
+                            <h3 class="text-black text-lg font-bold mb-4">今日冒險日誌</h3>
+                            <div style="text-align: left; padding: 0 20px;">
+                                <p style="font-style: italic; font-size: 0.9em; color: #555; line-height: 1.6; text-align: justify;">${storyFromAPI}</p>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -3063,11 +3071,38 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             </div>
         `;
         
-        // 插入圖片容器到早餐卡片中
+        // 插入圖片容器到早餐卡片中，讓圖片滿版顯示
         const breakfastCard = document.getElementById('breakfastCard');
         if (breakfastCard) {
-            // 清除早餐卡片的現有內容
+            // 清除早餐卡片的現有內容，設置滿版樣式
             breakfastCard.innerHTML = '';
+            breakfastCard.style.padding = '0';
+            breakfastCard.style.overflow = 'hidden';
+            
+            // 修改圖片容器樣式為滿版
+            breakfastContainer.style.cssText = `
+                width: 100%;
+                height: 100%;
+                min-height: 180px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+                border-radius: 0;
+            `;
+            
+            // 修改圖片樣式為滿版
+            const img = breakfastContainer.querySelector('img');
+            if (img) {
+                img.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 0;
+                `;
+            }
+            
             breakfastCard.appendChild(breakfastContainer);
         } else {
             // 備用方案：插入到地圖下方
