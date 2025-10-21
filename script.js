@@ -201,7 +201,9 @@ window.addEventListener('firebaseReady', async (event) => {
 
     } catch (e) {
         console.error("Firebase 初始化失敗:", e);
-        currentUserIdSpan.textContent = "Firebase 初始化失敗";
+        if (currentUserIdSpan) {
+            currentUserIdSpan.textContent = "Firebase 初始化失敗";
+        }
         alert("Firebase 初始化失敗，部分功能可能無法使用。");
         return;
     }
@@ -305,7 +307,12 @@ window.addEventListener('firebaseReady', async (event) => {
             } else if (currentDataIdentifier) {
                 // 移除對 citiesData 的檢查，直接啟用按鈕
                 console.log("Firebase 已認證且 currentDataIdentifier 已設定，啟用 findCityButton。");
-                findCityButton.disabled = false;
+                if (findCityButton) {
+                    findCityButton.disabled = false;
+                    console.log("findCityButton 已啟用");
+                } else {
+                    console.error("findCityButton 元素不存在！");
+                }
             }
             if (document.getElementById('HistoryTab').classList.contains('active') && currentDataIdentifier) {
                  loadHistory();
@@ -315,7 +322,9 @@ window.addEventListener('firebaseReady', async (event) => {
             }
         } else {
             console.log("Firebase 會話未認證，嘗試登入...");
-            currentUserIdSpan.textContent = "認證中...";
+            if (currentUserIdSpan) {
+                currentUserIdSpan.textContent = "認證中...";
+            }
             findCityButton.disabled = true;
             if (initialAuthToken) {
                 console.log("嘗試使用 initialAuthToken 登入...");
@@ -324,7 +333,9 @@ window.addEventListener('firebaseReady', async (event) => {
                         console.error("使用 initialAuthToken 登入失敗, 嘗試匿名登入:", error.code, error.message);
                         signInAnonymously(auth).catch(anonError => {
                             console.error("匿名登入失敗:", anonError);
-                            currentUserIdSpan.textContent = "認證失敗";
+                            if (currentUserIdSpan) {
+                                currentUserIdSpan.textContent = "認證失敗";
+                            }
                             alert("Firebase 認證失敗，無法儲存歷史記錄。");
                         });
                     });
@@ -332,7 +343,9 @@ window.addEventListener('firebaseReady', async (event) => {
                  console.log("未提供 initialAuthToken, 嘗試匿名登入...");
                  signInAnonymously(auth).catch(error => {
                     console.error("匿名登入失敗:", error);
-                    currentUserIdSpan.textContent = "認證失敗";
+                    if (currentUserIdSpan) {
+                        currentUserIdSpan.textContent = "認證失敗";
+                    }
                     alert("Firebase 認證失敗，無法儲存歷史記錄。");
                 });
             }
@@ -422,12 +435,26 @@ window.addEventListener('firebaseReady', async (event) => {
         currentGroupName = newGroupName;  // 保存組別名稱
 
         // 更新 UI
-        currentUserIdSpan.textContent = rawUserDisplayName;  // 顯示原始名稱
-        currentUserDisplayNameSpan.textContent = rawUserDisplayName;  // 顯示原始名稱
-        userNameInput.value = rawUserDisplayName;  // 保持輸入框顯示原始名稱
-        currentGroupNameSpan.textContent = currentGroupName ? `(${currentGroupName})` : '';
+        if (currentUserIdSpan) {
+            currentUserIdSpan.textContent = rawUserDisplayName;  // 顯示原始名稱
+        }
+        if (currentUserDisplayNameSpan) {
+            currentUserDisplayNameSpan.textContent = rawUserDisplayName;  // 顯示原始名稱
+        }
+        if (userNameInput) {
+            userNameInput.value = rawUserDisplayName;  // 保持輸入框顯示原始名稱
+        }
+        if (currentGroupNameSpan) {
+            currentGroupNameSpan.textContent = currentGroupName ? `(${currentGroupName})` : '';
+        }
         localStorage.setItem('worldClockUserName', rawUserDisplayName);
         localStorage.setItem('worldClockGroupName', currentGroupName);
+
+        // 顯示使用者資訊
+        const currentUserInfo = document.getElementById('currentUserInfo');
+        if (currentUserInfo) {
+            currentUserInfo.style.display = 'block';
+        }
 
         console.log("[setOrLoadUserName] 使用者資料識別碼已設定為:", currentDataIdentifier);
         console.log("[setOrLoadUserName] 顯示名稱設定為:", rawUserDisplayName);
@@ -441,10 +468,17 @@ window.addEventListener('firebaseReady', async (event) => {
         // 移除對 citiesData 的檢查，直接根據認證狀態啟用按鈕
         if (auth.currentUser && currentDataIdentifier) {
             console.log("[setOrLoadUserName] 所有條件滿足，啟用 findCityButton。");
-            findCityButton.disabled = false;
+            if (findCityButton) {
+                findCityButton.disabled = false;
+                console.log("[setOrLoadUserName] findCityButton 已啟用");
+            } else {
+                console.error("[setOrLoadUserName] findCityButton 元素不存在！");
+            }
         } else {
             console.log("[setOrLoadUserName] 條件不滿足，findCityButton 保持禁用。Auth current user:", !!auth.currentUser, "Data ID set:", !!currentDataIdentifier);
-            findCityButton.disabled = true;
+            if (findCityButton) {
+                findCityButton.disabled = true;
+            }
         }
 
         console.log("[setOrLoadUserName] 準備切換到時鐘分頁並顯示最後記錄。");
@@ -682,10 +716,15 @@ window.addEventListener('firebaseReady', async (event) => {
     }
 
     async function findMatchingCity() {
+        console.log("findMatchingCity 函數被調用");
         clearPreviousResults();
         console.log("--- 開始使用 GeoNames API 尋找匹配城市 ---");
-        findCityButton.disabled = true; // 防止重複點擊
-        resultTextDiv.innerHTML = "<p>正在定位你的甦醒座標，請稍候...</p>";
+        if (findCityButton) {
+            findCityButton.disabled = true; // 防止重複點擊
+        }
+        if (resultTextDiv) {
+            resultTextDiv.innerHTML = "<p>正在定位你的甦醒座標，請稍候...</p>";
+        }
 
         // 檢查並更新最新的用戶名稱和組名
         const currentUserName = userNameInput.value.trim();
@@ -702,12 +741,18 @@ window.addEventListener('firebaseReady', async (event) => {
         currentGroupName = currentGroupNameValue;
         
         // 更新顯示
-        currentUserIdSpan.textContent = rawUserDisplayName;
-        currentUserDisplayNameSpan.textContent = rawUserDisplayName;
-        if (currentGroupName) {
-            currentGroupNameSpan.textContent = `[${currentGroupName}]`;
-        } else {
-            currentGroupNameSpan.textContent = '';
+        if (currentUserIdSpan) {
+            currentUserIdSpan.textContent = rawUserDisplayName;
+        }
+        if (currentUserDisplayNameSpan) {
+            currentUserDisplayNameSpan.textContent = rawUserDisplayName;
+        }
+        if (currentGroupNameSpan) {
+            if (currentGroupName) {
+                currentGroupNameSpan.textContent = `[${currentGroupName}]`;
+            } else {
+                currentGroupNameSpan.textContent = '';
+            }
         }
         
         console.log(`[findMatchingCity] 使用最新資料 - 名稱: ${rawUserDisplayName}, 組名: ${currentGroupName || '無'}`)
@@ -847,11 +892,24 @@ window.addEventListener('firebaseReady', async (event) => {
                 const greetingFromAPI = apiResponse.greeting;
                 const storyFromAPI = apiResponse.story;
 
+                // 顯示宇宙主題資訊在位置卡片
                 resultTextDiv.innerHTML = `
                     <p style="font-weight: bold; font-size: 1.1em;">${greetingFromAPI}</p>
                     <p>今天的你，在當地 <strong>${userLocalDate.toLocaleTimeString()}</strong> 開啟了這一天，<br>但是很抱歉，你已經脫離地球了，與非地球生物共同開啟了新的一天。</p>
-                    <p style="font-style: italic; margin-top: 10px; font-size: 0.9em; color: #555;">${storyFromAPI}</p>
                 `;
+                
+                // 顯示故事在冒險卡片中
+                const adventureCard = document.getElementById('adventureCard');
+                if (adventureCard) {
+                    adventureCard.innerHTML = `
+                        <div class="bg-white p-6 min-h-[180px]">
+                            <div class="min-h-[132px] flex flex-col justify-center text-center space-y-4">
+                                <h3 class="text-black text-lg font-bold mb-2">宇宙冒險故事</h3>
+                                <p style="font-style: italic; font-size: 0.9em; color: #555; line-height: 1.6;">${storyFromAPI}</p>
+                            </div>
+                        </div>
+                    `;
+                }
 
                 if (clockLeafletMap) {
                     clockLeafletMap.remove();
@@ -1089,13 +1147,26 @@ window.addEventListener('firebaseReady', async (event) => {
                 `緯度 ${Math.abs(latitude).toFixed(1)}°${latitude >= 0 ? 'N' : 'S'}` : '';
             const latitudeCategory = bestMatchCity.latitudeCategory || '';
             
+            // 顯示問候語和地點資訊在位置卡片
             resultTextDiv.innerHTML = `
                 <p style="font-weight: bold; font-size: 1.1em;">${greetingFromAPI}</p>
                 <p>今天的你在<strong>${finalCityName}, ${finalCountryName}</strong>甦醒！</p>
                 ${latitudeInfo ? `<p style="font-size: 0.9em; color: #666;">位於${latitudeInfo}${latitudeCategory ? ` (${latitudeCategory})` : ''}</p>` : ''}
-                <p style="font-style: italic; margin-top: 10px; font-size: 0.9em; color: #555;">${storyFromAPI}</p>
                 ${bestMatchCity.source === 'predefined' ? '<p style="font-size: 0.8em; color: #888;"><em>※ 使用預設城市資料</em></p>' : ''}
             `;
+            
+            // 顯示故事在冒險卡片中
+            const adventureCard = document.getElementById('adventureCard');
+            if (adventureCard) {
+                adventureCard.innerHTML = `
+                    <div class="bg-white p-6 min-h-[180px]">
+                        <div class="min-h-[132px] flex flex-col justify-center text-center space-y-4">
+                            <h3 class="text-black text-lg font-bold mb-2">今日冒險故事</h3>
+                            <p style="font-style: italic; font-size: 0.9em; color: #555; line-height: 1.6;">${storyFromAPI}</p>
+                        </div>
+                    </div>
+                `;
+            }
 
             if (bestMatchCity.country_iso_code) {
                 countryFlagImg.src = `https://flagcdn.com/w40/${bestMatchCity.country_iso_code.toLowerCase()}.png`;
@@ -1255,7 +1326,14 @@ window.addEventListener('firebaseReady', async (event) => {
 
     // 確保按鈕存在後再添加事件監聽器
     if (findCityButton) {
-        findCityButton.addEventListener('click', findMatchingCity);
+        findCityButton.addEventListener('click', function(e) {
+            console.log("findCityButton 被點擊！");
+            e.preventDefault();
+            findMatchingCity();
+        });
+        console.log("findCityButton 事件監聽器已添加");
+    } else {
+        console.error("findCityButton 元素不存在，無法添加事件監聽器！");
     }
     if (refreshHistoryButton) {
         refreshHistoryButton.addEventListener('click', loadHistory);
@@ -2666,7 +2744,9 @@ window.addEventListener('firebaseReady', async (event) => {
     if (initialGroupName) {
         groupNameInput.value = initialGroupName;
         currentGroupName = initialGroupName;
-        currentGroupNameSpan.textContent = `(${initialGroupName})`;
+        if (currentGroupNameSpan) {
+            currentGroupNameSpan.textContent = `(${initialGroupName})`;
+        }
     }
     
     // 確保在首次載入時，如果 ClockTab 是預設活動的，則嘗試顯示最後記錄
@@ -2983,9 +3063,19 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             </div>
         `;
         
-        // 插入圖片容器
-        const debugInfo = document.getElementById('debugInfo');
-        debugInfo.parentNode.insertBefore(breakfastContainer, debugInfo);
+        // 插入圖片容器到早餐卡片中
+        const breakfastCard = document.getElementById('breakfastCard');
+        if (breakfastCard) {
+            // 清除早餐卡片的現有內容
+            breakfastCard.innerHTML = '';
+            breakfastCard.appendChild(breakfastContainer);
+        } else {
+            // 備用方案：插入到地圖下方
+            const debugInfo = document.getElementById('debugInfo');
+            if (debugInfo) {
+                debugInfo.parentNode.insertBefore(breakfastContainer, debugInfo);
+            }
+        }
         
         // 更新 Firebase 記錄中的圖片 URL
         if (recordId) {
