@@ -677,7 +677,7 @@ window.addEventListener('firebaseReady', async (event) => {
                         breakfastCard.style.position = 'relative';
                         breakfastCard.style.height = '100%';
                         
-                        // 創建滿版圖片容器
+                        // 創建滿版正方形圖片容器
                         const imageContainer = document.createElement('div');
                         imageContainer.style.cssText = `
                             width: 100%;
@@ -685,6 +685,8 @@ window.addEventListener('firebaseReady', async (event) => {
                             position: absolute;
                             top: 0;
                             left: 0;
+                            aspect-ratio: 1/1;
+                            overflow: hidden;
                         `;
                         
                         const recordId = querySnapshot.docs[0].id; // 獲取記錄ID
@@ -699,6 +701,8 @@ window.addEventListener('firebaseReady', async (event) => {
                             height: 100%;
                             object-fit: cover;
                             border-radius: 0;
+                            position: absolute;
+                            inset: 0;
                         `;
                         img.onerror = () => handleImageLoadError(img, recordId, currentDataIdentifier, finalCityName);
                         
@@ -1936,8 +1940,8 @@ window.addEventListener('firebaseReady', async (event) => {
                 li.className = 'border-2 border-black p-3 bg-white';
                 li.innerHTML = `<div class="flex items-start justify-between mb-2">
                                     <div class="flex items-center gap-2">
-                                        <div class="w-6 h-6 ${cityVisitNumber > 1 ? 'bg-orange-400' : 'bg-black'} text-white flex items-center justify-center text-xs">
-                                            ${cityVisitNumber}
+                                        <div class="w-6 h-6 ${index === 0 ? 'bg-orange-400' : 'bg-black'} text-white flex items-center justify-center text-xs">
+                                            ${index + 1}
                                         </div>
                                         <span class="text-xs text-black uppercase tracking-wide">${recordDate}</span>
                                     </div>
@@ -1945,7 +1949,13 @@ window.addEventListener('firebaseReady', async (event) => {
                                 
                                 <h3 class="text-black mb-1">${cityDisplay || '未知城市'}</h3>
                                 <p class="text-xs text-black mb-3">${countryDisplay || '未知國家'}</p>
-                                ${visitInfo}`;
+                                ${visitInfo}
+                                
+                                ${index === 0 ? `
+                                <div class="mt-2 pt-2 border-t-2 border-orange-400">
+                                    <span class="text-xs text-black bg-orange-400 px-2 py-1">最新記錄</span>
+                                </div>
+                                ` : ''}`;
                 
                 const detailsButton = document.createElement('button');
                 detailsButton.textContent = '查看日誌';
@@ -2002,11 +2012,23 @@ window.addEventListener('firebaseReady', async (event) => {
             // 渲染歷史軌跡地圖
             renderHistoryMap(historyPoints, historyMapContainerDiv, historyDebugInfoSmall, `${rawUserDisplayName} 的歷史軌跡`);
 
+            // 更新統計區域
+            const totalRecordsElement = document.getElementById('totalRecords');
+            if (totalRecordsElement) {
+                totalRecordsElement.textContent = querySnapshot.size;
+            }
+
         } catch (e) {
             console.error("讀取歷史記錄失敗:", e);
             historyListUl.innerHTML = '<div class="p-4 text-center text-red-500">讀取歷史記錄失敗。</div>';
             historyMapContainerDiv.innerHTML = '<p>讀取歷史記錄時發生錯誤。</p>';
             historyDebugInfoSmall.textContent = `錯誤: ${e.message}`;
+            
+            // 更新統計區域為 0
+            const totalRecordsElement = document.getElementById('totalRecords');
+            if (totalRecordsElement) {
+                totalRecordsElement.textContent = '0';
+            }
         }
     }
 
@@ -3174,7 +3196,7 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             breakfastCard.style.position = 'relative';
             breakfastCard.style.height = '100%';
             
-            // 創建滿版圖片容器
+            // 創建滿版正方形圖片容器
             const imageContainer = document.createElement('div');
             imageContainer.style.cssText = `
                 width: 100%;
@@ -3182,9 +3204,11 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
                 position: absolute;
                 top: 0;
                 left: 0;
+                aspect-ratio: 1/1;
+                overflow: hidden;
             `;
             
-            // 修改圖片樣式為滿版
+            // 修改圖片樣式為滿版正方形
             const img = breakfastContainer.querySelector('img');
             if (img) {
                 img.style.cssText = `
@@ -3192,6 +3216,8 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
                     height: 100%;
                     object-fit: cover;
                     border-radius: 0;
+                    position: absolute;
+                    inset: 0;
                 `;
                 imageContainer.appendChild(img);
             }
