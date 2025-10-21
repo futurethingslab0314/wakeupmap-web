@@ -421,19 +421,49 @@ body {
 
 /* 四欄佈局 */
 #ClockTab .grid {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 180px;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    grid-auto-rows: 180px !important;
+}
+
+#ClockTab .col-span-1 {
+    grid-column: span 1 !important;
+}
+
+#ClockTab .col-span-4 {
+    grid-column: span 4 !important;
+}
+
+/* 強制 ClockTab 子元素正確顯示 */
+#ClockTab .grid > * {
+    display: block !important;
+    box-sizing: border-box !important;
 }
 
 /* 歷史記錄分頁佈局 */
 #HistoryTab .grid {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-auto-rows: auto;
 }
 
 @media (min-width: 1024px) {
     #HistoryTab .grid {
-        grid-template-columns: 1fr 2fr;
+        grid-template-columns: 1fr 2fr !important;
+        grid-auto-rows: 600px !important;
+    }
+    
+    #HistoryTab .lg\:col-span-1 {
+        grid-column: span 1 !important;
+    }
+    
+    #HistoryTab .lg\:col-span-2 {
+        grid-column: span 2 !important;
+    }
+    
+    /* 強制歷史記錄分頁為水平佈局 */
+    #HistoryTab .grid > div {
+        display: block !important;
     }
 }
 
