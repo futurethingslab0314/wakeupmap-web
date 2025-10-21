@@ -1936,12 +1936,16 @@ window.addEventListener('firebaseReady', async (event) => {
                 // 城市訪問次數顯示（只有重複訪問才顯示）
                 const visitInfo = cityVisitNumber > 1 ? `<br><span class="visit-info" style="color: #007bff; font-size: 0.8em;">第 ${cityVisitNumber} 次拜訪這座城市</span>` : '';
 
+                // 計算編號：最舊的為 01，最新的為較大數字
+                const recordNumber = querySnapshot.size - index;
+                const formattedNumber = recordNumber.toString().padStart(2, '0');
+                
                 const li = document.createElement('div');
                 li.className = 'border-2 border-black p-3 bg-white';
                 li.innerHTML = `<div class="flex items-start justify-between mb-2">
                                     <div class="flex items-center gap-2">
                                         <div class="w-6 h-6 ${index === 0 ? 'bg-orange-400' : 'bg-black'} text-white flex items-center justify-center text-xs">
-                                            ${index + 1}
+                                            ${formattedNumber}
                                         </div>
                                         <span class="text-xs text-black uppercase tracking-wide">${recordDate}</span>
                                     </div>
