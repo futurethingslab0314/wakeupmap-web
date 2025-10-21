@@ -3082,9 +3082,8 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             breakfastCard.innerHTML = '';
             breakfastCard.style.padding = '0';
             breakfastCard.style.overflow = 'hidden';
-            breakfastCard.style.aspectRatio = '1/1';
             breakfastCard.style.position = 'relative';
-            breakfastCard.style.minHeight = '180px';
+            breakfastCard.style.height = '100%';
             
             // 創建滿版圖片容器
             const imageContainer = document.createElement('div');

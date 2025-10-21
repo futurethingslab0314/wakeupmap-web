@@ -121,11 +121,11 @@
 
             <!-- Tab Content -->
             <div id="ClockTab" class="tab-content active" role="tabpanel" aria-labelledby="tabButton-ClockTab">
-                <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-0 border-l-2 border-t-2 border-black" style="grid-auto-rows: auto;">
+                <div class="grid grid-cols-4 gap-0 border-l-2 border-t-2 border-black" style="grid-auto-rows: 180px;">
                     <!-- Start Day Button - 變窄 -->
                     <button
                         id="findCityButton"
-                        class="md:col-span-1 lg:col-span-2 border-r-2 border-b-2 border-black w-full min-h-[180px] flex flex-col items-center justify-center transition-all py-8 bg-black hover:bg-gray-800 text-white"
+                        class="col-span-1 border-r-2 border-b-2 border-black w-full h-full flex flex-col items-center justify-center transition-all bg-black hover:bg-gray-800 text-white"
                         disabled
                     >
                         <div class="text-center">
@@ -139,9 +139,9 @@
                     </button>
 
                     <!-- Location Card - 正方形 -->
-                    <div class="md:col-span-2 lg:col-span-2 border-r-2 border-b-2 border-black">
-                        <div id="locationCard" class="bg-white p-6 min-h-[180px]" style="aspect-ratio: 1/1;">
-                            <div id="result" class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
+                    <div class="col-span-1 border-r-2 border-b-2 border-black">
+                        <div id="locationCard" class="bg-white p-6 h-full flex flex-col items-center justify-center text-center">
+                            <div id="result" class="flex flex-col items-center justify-center text-center space-y-4">
                                 <h3 class="text-black text-lg font-bold mb-2">今日甦醒</h3>
                                 <p id="resultText" class="text-black text-sm max-w-xs">點擊「開始這一天」來發現你今天在哪裡甦醒</p>
                                 <div id="flagContainer" class="text-center min-h-[40px] mb-4">
@@ -152,8 +152,8 @@
                     </div>
 
                     <!-- Breakfast Card - 正方形 -->
-                    <div class="md:col-span-2 lg:col-span-2 border-r-2 border-b-2 border-black">
-                        <div id="breakfastCard" class="bg-white flex flex-col items-center justify-center text-center p-8 min-h-[180px]" style="aspect-ratio: 1/1;">
+                    <div class="col-span-1 border-r-2 border-b-2 border-black">
+                        <div id="breakfastCard" class="bg-white h-full flex flex-col items-center justify-center text-center p-8">
                             <p class="text-black text-sm uppercase tracking-wide">
                                 開始這一天後，將準備你的當地早餐
                             </p>
@@ -171,21 +171,21 @@
                     </div>
 
                     <!-- Adventure Card - 正方形 -->
-                    <div class="md:col-span-1 lg:col-span-2 border-r-2 border-b-2 border-black">
-                        <div id="adventureCard" class="bg-white p-6 min-h-[180px]" style="aspect-ratio: 1/1;">
-                            <div class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
+                    <div class="col-span-1 border-r-2 border-b-2 border-black">
+                        <div id="adventureCard" class="bg-white p-6 h-full flex flex-col items-center justify-center text-center">
+                            <div class="flex flex-col items-center justify-center text-center space-y-4">
                                 <p class="text-black text-sm max-w-xs">開始這一天後，你的冒險故事將在這裡展開</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Map Card - Full Width -->
-                    <div class="md:col-span-6 lg:col-span-12 border-r-2 border-b-2 border-black">
-                        <div id="mapCard" class="bg-white relative">
+                    <div class="col-span-4 border-r-2 border-b-2 border-black">
+                        <div id="mapCard" class="bg-white relative h-full">
                             <div class="bg-black text-white px-4 py-2 text-xs uppercase tracking-wide">
                                 甦醒位置地圖 / Wake Up Location Map
                             </div>
-                            <div id="mapContainer" class="w-full h-[500px]"></div>
+                            <div id="mapContainer" class="w-full h-[400px]"></div>
                             <small id="debugInfo" class="text-gray-500 text-xs mt-2"></small>
                         </div>
                     </div>
