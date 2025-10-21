@@ -454,9 +454,13 @@ body {
     }
 }
 
-/* 早餐卡片正方形設計 */
+/* 增加卡片高度讓早餐圖片能正方形呈現 */
+#ClockTab .grid {
+    grid-auto-rows: 240px !important; /* 增加高度從 180px 到 240px */
+}
+
+/* 早餐卡片圖片滿版設計 */
 #breakfastCard {
-    aspect-ratio: 1/1 !important;
     position: relative !important;
     overflow: hidden !important;
 }

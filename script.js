@@ -677,7 +677,7 @@ window.addEventListener('firebaseReady', async (event) => {
                         breakfastCard.style.position = 'relative';
                         breakfastCard.style.height = '100%';
                         
-                        // 創建滿版正方形圖片容器
+                        // 創建滿版圖片容器
                         const imageContainer = document.createElement('div');
                         imageContainer.style.cssText = `
                             width: 100%;
@@ -685,7 +685,6 @@ window.addEventListener('firebaseReady', async (event) => {
                             position: absolute;
                             top: 0;
                             left: 0;
-                            aspect-ratio: 1/1;
                             overflow: hidden;
                         `;
                         
@@ -3201,7 +3200,7 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             breakfastCard.style.position = 'relative';
             breakfastCard.style.height = '100%';
             
-            // 創建滿版正方形圖片容器
+            // 創建滿版圖片容器
             const imageContainer = document.createElement('div');
             imageContainer.style.cssText = `
                 width: 100%;
@@ -3209,11 +3208,10 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
                 position: absolute;
                 top: 0;
                 left: 0;
-                aspect-ratio: 1/1;
                 overflow: hidden;
             `;
             
-            // 修改圖片樣式為滿版正方形
+            // 修改圖片樣式為滿版
             const img = breakfastContainer.querySelector('img');
             if (img) {
                 img.style.cssText = `
