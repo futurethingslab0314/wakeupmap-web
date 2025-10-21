@@ -617,7 +617,6 @@ window.addEventListener('firebaseReady', async (event) => {
                 resultTextDiv.innerHTML = `
                     <p style="font-weight: bold; font-size: 1.1em;">${greetingText}</p>
                     <p>${mainMessage}</p>
-                    <p style="font-style: italic; margin-top: 10px; font-size: 0.9em; color: #555;">${storyText}</p>
                 `;
 
                 if (lastRecord.country_iso_code && lastRecord.country_iso_code !== 'universe_code') {
