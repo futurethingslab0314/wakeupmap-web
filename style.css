@@ -677,14 +677,14 @@ input:focus, select:focus {
 
 .modal-content-wrapper {
     background: white;
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     overflow: hidden;
 }
 
 .modal-header {
     padding: 20px;
-    background: #4d714f;
+    background: #000000;
     color: white;
     position: relative;
 }
@@ -717,32 +717,35 @@ input:focus, select:focus {
 }
 
 .modal-footer {
-    padding: 15px 20px;
-    background: #f8f9fa;
+    padding: 0;
+    background: #000000;
     border-top: 1px solid #dee2e6;
-    text-align: right;
+    text-align: center;
 }
 
 .modal-button-secondary {
-    padding: 8px 20px;
-    background: #6c757d;
+    padding: 15px 20px;
+    background: #000000;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 0;
     cursor: pointer;
     transition: background-color 0.2s;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .modal-button-secondary:hover {
-    background: #5a6268;
+    background: #333333;
 }
 
 .log-detail {
     margin-bottom: 20px;
     padding: 15px;
     background-color: #f9f9f9;
-    border-radius: 8px;
-    border-left: 4px solid #4d714f;
+    border-radius: 0;
+    border-left: 4px solid #000000;
 }
 
 .log-detail h3 {
