@@ -2913,7 +2913,7 @@ window.handleImageLoadError = async function(imgElement, recordId, userIdentifie
     // 顯示載入中狀態
     const container = imgElement.parentElement;
     container.innerHTML = `
-        <p style="color: #007bff;">
+        <p style="color: #333; font-size: 12pt;">
             <em>正在嘗試修復${cityName}的早餐圖片...</em>
         </p>
     `;
@@ -2994,7 +2994,7 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
     }
     
     container.innerHTML = `
-        <p style="color: #007bff; text-align: center;">
+        <p style="color: #333; font-size: 12pt; text-align: center;">
             <em>正在嘗試修復${cityName}的早餐圖片...</em>
         </p>
     `;
@@ -3073,13 +3073,12 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
     loadingContainer.style.cssText = `
         text-align: center; 
         margin-top: 20px; 
-        padding: 20px; 
-        background: linear-gradient(135deg,rgb(255, 255, 255),rgb(255, 255, 255));
-        border-radius: 0px;
-        border: 0px solid #dee2e6;
+        padding: 0; 
+        background: transparent;
+        border: none;
     `;
     loadingContainer.innerHTML = `
-        <div style="font-size: 1.2em; margin-bottom: 10px;">正在準備${cityDisplayName}的地方早餐...</div>
+        <div style="font-size: 12pt; color: #333;">正在準備${cityDisplayName}的地方早餐...</div>
     `;
     
     // 隱藏按鈕容器並顯示載入狀態
