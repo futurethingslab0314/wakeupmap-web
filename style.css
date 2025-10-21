@@ -454,7 +454,7 @@ body {
     #HistoryTab .grid {
         display: grid !important;
         grid-template-columns: 1fr 2fr !important;
-        grid-auto-rows: 600px !important;
+        grid-auto-rows: auto !important;
         gap: 0 !important;
         width: 100% !important;
     }
