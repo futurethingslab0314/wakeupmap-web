@@ -663,32 +663,50 @@ window.addEventListener('firebaseReady', async (event) => {
                 console.log(`[displayLastRecordForCurrentUser] 檢查早餐圖片: ${lastRecord.imageUrl ? '有' : '無'}`);
                 
                 if (lastRecord.imageUrl) {
-                    // 如果已有早餐圖片，隱藏按鈕並創建圖片容器
+                    // 如果已有早餐圖片，隱藏按鈕並將圖片放入早餐卡片
                     console.log(`[displayLastRecordForCurrentUser] 顯示早餐圖片: ${lastRecord.imageUrl}`);
                     if (breakfastButtonContainer) {
                         breakfastButtonContainer.style.display = 'none';
                     }
                     
-                    const breakfastContainer = document.createElement('div');
-                    breakfastContainer.id = 'breakfastImageContainer';
-                    breakfastContainer.style.marginTop = '20px';
-                    breakfastContainer.style.textAlign = 'center';
-                    
-                    const recordId = querySnapshot.docs[0].id; // 獲取記錄ID
-                    const displayName = lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球" ? 
-                        "星際早餐" : `${finalCityName}的早餐`;
-                    
-                    breakfastContainer.innerHTML = `
-                        <div class="postcard-image-container">
-                            <img src="${lastRecord.imageUrl}" alt="${displayName}" style="max-width: 100%; border-radius: 8px;" 
-                                 onerror="handleImageLoadError(this, '${recordId}', '${currentDataIdentifier}', '${finalCityName}')">
-                            <p style="font-size: 0.9em; color: #555;"><em>今日的${displayName}</em></p>
-                        </div>
-                    `;
-                    
-                    // 將早餐圖片容器插入到地圖和 debugInfo 之間
-                    debugInfoSmall.parentNode.insertBefore(breakfastContainer, debugInfoSmall);
-                    console.log(`[displayLastRecordForCurrentUser] 早餐圖片容器已插入DOM`);
+                    const breakfastCard = document.getElementById('breakfastCard');
+                    if (breakfastCard) {
+                        // 清除早餐卡片的現有內容
+                        breakfastCard.innerHTML = '';
+                        breakfastCard.style.padding = '0';
+                        breakfastCard.style.overflow = 'hidden';
+                        breakfastCard.style.position = 'relative';
+                        breakfastCard.style.height = '100%';
+                        
+                        // 創建滿版圖片容器
+                        const imageContainer = document.createElement('div');
+                        imageContainer.style.cssText = `
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                        `;
+                        
+                        const recordId = querySnapshot.docs[0].id; // 獲取記錄ID
+                        const displayName = lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球" ? 
+                            "星際早餐" : `${finalCityName}的早餐`;
+                        
+                        const img = document.createElement('img');
+                        img.src = lastRecord.imageUrl;
+                        img.alt = displayName;
+                        img.style.cssText = `
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            border-radius: 0;
+                        `;
+                        img.onerror = () => handleImageLoadError(img, recordId, currentDataIdentifier, finalCityName);
+                        
+                        imageContainer.appendChild(img);
+                        breakfastCard.appendChild(imageContainer);
+                        console.log(`[displayLastRecordForCurrentUser] 早餐圖片已放入早餐卡片`);
+                    }
                 } else {
                     // 如果沒有早餐圖片，顯示早餐按鈕
                     console.log(`[displayLastRecordForCurrentUser] 顯示早餐按鈕`);
@@ -696,6 +714,27 @@ window.addEventListener('firebaseReady', async (event) => {
                         breakfastButtonContainer.style.display = 'block';
                         // 設置按鈕點擊事件
                         setupBreakfastButton(lastRecord, finalCityName, finalCountryName, querySnapshot.docs[0].id);
+                    }
+                }
+                
+                // 顯示故事在冒險卡片中
+                if (lastRecord.story) {
+                    console.log(`[displayLastRecordForCurrentUser] 顯示故事: ${lastRecord.story.substring(0, 50)}...`);
+                    const adventureCard = document.getElementById('adventureCard');
+                    if (adventureCard) {
+                        adventureCard.innerHTML = `
+                            <div class="bg-white p-6 min-h-[180px]">
+                                <div class="border-l-4 border-orange-400 pl-3 mb-4">
+                                    <h3 class="text-black uppercase tracking-wide">今日冒險日誌</h3>
+                                    <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
+                                </div>
+                                
+                                <div class="text-black leading-relaxed p-4 text-[16px]">
+                                    <p>${lastRecord.story}</p>
+                                </div>
+                            </div>
+                        `;
+                        console.log(`[displayLastRecordForCurrentUser] 故事已放入冒險卡片`);
                     }
                 }
 

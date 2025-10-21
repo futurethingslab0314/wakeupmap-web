@@ -370,6 +370,13 @@ body {
 .col-span-1 { grid-column: span 1; }
 .col-span-4 { grid-column: span 4; }
 
+/* 響應式網格 */
+@media (min-width: 1024px) {
+    .lg\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .lg\:col-span-1 { grid-column: span 1; }
+    .lg\:col-span-2 { grid-column: span 2; }
+}
+
 /* 響應式設計 */
 @media (min-width: 768px) {
     .md\:p-8 {
@@ -416,6 +423,18 @@ body {
 #ClockTab .grid {
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 180px;
+}
+
+/* 歷史記錄分頁佈局 */
+#HistoryTab .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+    #HistoryTab .grid {
+        grid-template-columns: 1fr 2fr;
+    }
 }
 
 /* 按鈕樣式 */
