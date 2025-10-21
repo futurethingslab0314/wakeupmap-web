@@ -140,8 +140,11 @@
                     <!-- Location Card -->
                     <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
                         <div id="locationCard" class="bg-white p-6 min-h-[180px]">
-                            <div class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
-                                <p class="text-black text-sm max-w-xs">點擊「開始這一天」來發現你今天在哪裡甦醒</p>
+                            <div id="result" class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
+                                <p id="resultText" class="text-black text-sm max-w-xs">點擊「開始這一天」來發現你今天在哪裡甦醒</p>
+                                <div id="flagContainer" class="text-center min-h-[40px] mb-4">
+                                    <img id="countryFlag" src="" alt="國家國旗" style="display:none; max-width: 50px; height: auto; border: 1px solid #ddd; border-radius: 4px; margin-top: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);"/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,6 +154,15 @@
                         <div id="breakfastCard" class="bg-white p-6 min-h-[180px]">
                             <div class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
                                 <p class="text-black text-sm max-w-xs">開始這一天後，將為你準備當地早餐</p>
+                                <!-- 早餐按鈕容器 - 會動態插入在這裡 -->
+                                <div id="breakfastButtonContainer" style="display: none; margin-top: 20px; text-align: center;">
+                                    <button id="generateBreakfastBtn" class="bg-orange-400 hover:bg-orange-500 text-white rounded-none h-10 px-4 uppercase tracking-wide text-sm border-2 border-black">
+                                        🍽️ 我想吃早餐
+                                    </button>
+                                    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">
+                                        <em>點擊為你準備今日當地早餐</em>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -168,6 +180,7 @@
                     <div class="md:col-span-6 lg:col-span-12 border-r-2 border-b-2 border-black">
                         <div id="mapCard" class="bg-white p-6 min-h-[300px]">
                             <div id="mapContainer" class="w-full h-[280px] border border-gray-300 rounded"></div>
+                            <small id="debugInfo" class="text-gray-500 text-xs mt-2"></small>
                         </div>
                     </div>
                 </div>
