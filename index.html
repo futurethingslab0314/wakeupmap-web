@@ -122,14 +122,14 @@
             <!-- Tab Content -->
             <div id="ClockTab" class="tab-content active" role="tabpanel" aria-labelledby="tabButton-ClockTab">
                 <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-0 border-l-2 border-t-2 border-black" style="grid-auto-rows: auto;">
-                    <!-- Start Day Button -->
+                    <!-- Start Day Button - 變窄 -->
                     <button
                         id="findCityButton"
-                        class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black w-full min-h-[180px] flex flex-col items-center justify-center transition-all py-8 bg-black hover:bg-gray-800 text-white"
+                        class="md:col-span-1 lg:col-span-2 border-r-2 border-b-2 border-black w-full min-h-[180px] flex flex-col items-center justify-center transition-all py-8 bg-black hover:bg-gray-800 text-white"
                         disabled
                     >
                         <div class="text-center">
-                            <h2 class="uppercase tracking-wide mb-2 text-[16px]">
+                            <h2 class="uppercase tracking-wide mb-2 text-[14px]">
                                 開始這一天
                             </h2>
                             <p class="text-xs opacity-80">
@@ -138,9 +138,9 @@
                         </div>
                     </button>
 
-                    <!-- Location Card -->
-                    <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
-                        <div id="locationCard" class="bg-white p-6 min-h-[180px]">
+                    <!-- Location Card - 正方形 -->
+                    <div class="md:col-span-2 lg:col-span-2 border-r-2 border-b-2 border-black">
+                        <div id="locationCard" class="bg-white p-6 min-h-[180px]" style="aspect-ratio: 1/1;">
                             <div id="result" class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
                                 <h3 class="text-black text-lg font-bold mb-2">今日甦醒</h3>
                                 <p id="resultText" class="text-black text-sm max-w-xs">點擊「開始這一天」來發現你今天在哪裡甦醒</p>
@@ -151,9 +151,9 @@
                         </div>
                     </div>
 
-                    <!-- Breakfast Card -->
-                    <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
-                        <div id="breakfastCard" class="bg-white flex flex-col items-center justify-center text-center p-8 min-h-[180px]">
+                    <!-- Breakfast Card - 正方形 -->
+                    <div class="md:col-span-2 lg:col-span-2 border-r-2 border-b-2 border-black">
+                        <div id="breakfastCard" class="bg-white flex flex-col items-center justify-center text-center p-8 min-h-[180px]" style="aspect-ratio: 1/1;">
                             <p class="text-black text-sm uppercase tracking-wide">
                                 開始這一天後，將準備你的當地早餐
                             </p>
@@ -170,9 +170,9 @@
                         </div>
                     </div>
 
-                    <!-- Adventure Card -->
-                    <div class="md:col-span-3 lg:col-span-3 border-r-2 border-b-2 border-black">
-                        <div id="adventureCard" class="bg-white p-6 min-h-[180px]">
+                    <!-- Adventure Card - 正方形 -->
+                    <div class="md:col-span-1 lg:col-span-2 border-r-2 border-b-2 border-black">
+                        <div id="adventureCard" class="bg-white p-6 min-h-[180px]" style="aspect-ratio: 1/1;">
                             <div class="min-h-[132px] flex flex-col items-center justify-center text-center space-y-4">
                                 <p class="text-black text-sm max-w-xs">開始這一天後，你的冒險故事將在這裡展開</p>
                             </div>
