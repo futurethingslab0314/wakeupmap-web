@@ -447,25 +447,43 @@ body {
     display: grid !important;
     grid-template-columns: 1fr !important;
     grid-auto-rows: auto;
+    gap: 0 !important;
 }
 
 @media (min-width: 1024px) {
     #HistoryTab .grid {
+        display: grid !important;
         grid-template-columns: 1fr 2fr !important;
         grid-auto-rows: 600px !important;
+        gap: 0 !important;
+        width: 100% !important;
     }
     
     #HistoryTab .lg\:col-span-1 {
         grid-column: span 1 !important;
+        display: block !important;
+        width: auto !important;
+        float: none !important;
     }
     
     #HistoryTab .lg\:col-span-2 {
         grid-column: span 2 !important;
+        display: block !important;
+        width: auto !important;
+        float: none !important;
     }
     
     /* 強制歷史記錄分頁為水平佈局 */
     #HistoryTab .grid > div {
         display: block !important;
+        box-sizing: border-box !important;
+        float: none !important;
+        clear: none !important;
+    }
+    
+    /* 確保響應式類別生效 */
+    #HistoryTab .lg\:grid-cols-3 {
+        grid-template-columns: 1fr 2fr !important;
     }
 }
 
