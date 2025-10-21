@@ -373,6 +373,12 @@ body {
 .col-span-4 { grid-column: span 4; }
 
 /* 響應式網格 */
+@media (min-width: 768px) {
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .md\:col-span-1 { grid-column: span 1; }
+    .md\:col-span-3 { grid-column: span 3; }
+}
+
 @media (min-width: 1024px) {
     .lg\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
     .lg\:col-span-1 { grid-column: span 1; }
@@ -421,11 +427,17 @@ body {
     display: block;
 }
 
-/* 三欄佈局 */
+/* 三欄佈局 - 響應式設計 */
 #ClockTab .grid {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-columns: 1fr !important;
     grid-auto-rows: 180px !important;
+}
+
+@media (min-width: 768px) {
+    #ClockTab .grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
 }
 
 #ClockTab .col-span-1 {
@@ -433,7 +445,13 @@ body {
 }
 
 #ClockTab .col-span-3 {
-    grid-column: span 3 !important;
+    grid-column: span 1 !important;
+}
+
+@media (min-width: 768px) {
+    #ClockTab .col-span-3 {
+        grid-column: span 3 !important;
+    }
 }
 
 /* 強制 ClockTab 子元素正確顯示 */
