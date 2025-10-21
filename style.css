@@ -456,7 +456,7 @@ body {
 
 /* 增加卡片高度讓早餐圖片能正方形呈現 */
 #ClockTab .grid {
-    grid-auto-rows: 240px !important; /* 增加高度從 180px 到 240px */
+    grid-auto-rows: 300px !important; /* 增加高度從 180px 到 240px */
 }
 
 /* 早餐卡片圖片滿版設計 */
