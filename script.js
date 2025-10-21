@@ -485,28 +485,30 @@ window.addEventListener('firebaseReady', async (event) => {
     }
 
     // 設定名稱按鈕的事件處理
-    setUserNameButton.addEventListener('click', async (e) => {
-        e.preventDefault();
-        console.log("「設定/更新名稱」按鈕被點擊。");
-        await setOrLoadUserName(userNameInput.value.trim());
-    });
+    if (setUserNameButton) {
+        setUserNameButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            console.log("「設定/更新名稱」按鈕被點擊。");
+            await setOrLoadUserName(userNameInput.value.trim());
+        });
 
-    // 添加觸控事件支援
-    setUserNameButton.addEventListener('touchstart', async (e) => {
-        e.preventDefault();
-        console.log("「設定/更新名稱」按鈕被觸控。");
-        await setOrLoadUserName(userNameInput.value.trim());
-    }, { passive: false });
+        // 添加觸控事件支援
+        setUserNameButton.addEventListener('touchstart', async (e) => {
+            e.preventDefault();
+            console.log("「設定/更新名稱」按鈕被觸控。");
+            await setOrLoadUserName(userNameInput.value.trim());
+        }, { passive: false });
 
-    // 防止觸控時的滾動
-    setUserNameButton.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-    }, { passive: false });
+        // 防止觸控時的滾動
+        setUserNameButton.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
 
-    // 防止觸控結束時的點擊事件
-    setUserNameButton.addEventListener('touchend', (e) => {
-        e.preventDefault();
-    }, { passive: false });
+        // 防止觸控結束時的點擊事件
+        setUserNameButton.addEventListener('touchend', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+    }
 
     // 添加 CSS 樣式以改善手機上的按鈕體驗
     const buttonStyle = document.createElement('style');
@@ -1251,8 +1253,13 @@ window.addEventListener('firebaseReady', async (event) => {
 
 
 
-    findCityButton.addEventListener('click', findMatchingCity);
-    refreshHistoryButton.addEventListener('click', loadHistory);
+    // 確保按鈕存在後再添加事件監聽器
+    if (findCityButton) {
+        findCityButton.addEventListener('click', findMatchingCity);
+    }
+    if (refreshHistoryButton) {
+        refreshHistoryButton.addEventListener('click', loadHistory);
+    }
     if (refreshGlobalMapButton) {
         refreshGlobalMapButton.addEventListener('click', loadGlobalTodayMap);
     }
@@ -2044,9 +2051,12 @@ window.addEventListener('firebaseReady', async (event) => {
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
         }
-        tablinks = document.getElementsByClassName("tab-button");
+        tablinks = document.querySelectorAll('[data-tab]');
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].classList.remove("active");
+            // 移除黑色背景，恢復白色背景
+            tablinks[i].classList.remove("bg-black", "text-white");
+            tablinks[i].classList.add("bg-white", "text-black");
         }
         const currentTabDiv = document.getElementById(tabName);
         if (currentTabDiv) {
@@ -2060,8 +2070,13 @@ window.addEventListener('firebaseReady', async (event) => {
         const targetButton = document.getElementById(targetButtonId);
         if (targetButton) {
             targetButton.classList.add("active");
+            // 設置激活狀態的樣式
+            targetButton.classList.remove("bg-white", "text-black");
+            targetButton.classList.add("bg-black", "text-white");
         } else if (evt && evt.currentTarget) {
             evt.currentTarget.classList.add("active");
+            evt.currentTarget.classList.remove("bg-white", "text-black");
+            evt.currentTarget.classList.add("bg-black", "text-white");
         }
 
         setTimeout(() => {
@@ -2675,7 +2690,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 重寫分頁按鈕的事件處理
     function initializeTabButtons() {
         console.log("初始化分頁按鈕...");
-        const tabButtons = document.getElementsByClassName('tab-button');
+        const tabButtons = document.querySelectorAll('[data-tab]');
         
         // 先移除所有現有的事件監聽器
         Array.from(tabButtons).forEach(button => {
@@ -2684,7 +2699,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // 重新添加事件監聽器
-        Array.from(document.getElementsByClassName('tab-button')).forEach(button => {
+        Array.from(document.querySelectorAll('[data-tab]')).forEach(button => {
             const tabName = button.getAttribute('data-tab');
             if (!tabName) return;
 
