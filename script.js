@@ -3085,13 +3085,12 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         text-align: center; 
         margin-top: 20px; 
         padding: 20px; 
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        border-radius: 12px;
-        border: 1px solid #dee2e6;
+        background: linear-gradient(135deg,rgb(255, 255, 255),rgb(255, 255, 255));
+        border-radius: 0px;
+        border: 0px solid #dee2e6;
     `;
     loadingContainer.innerHTML = `
-        <div style="font-size: 1.2em; margin-bottom: 10px;">🔄 正在生成${cityDisplayName}的早餐圖片...</div>
-        <div style="color: #6c757d; font-size: 0.9em;"><em>請稍候，正在為你準備當地特色早餐</em></div>
+        <div style="font-size: 1.2em; margin-bottom: 10px;">正在準備${cityDisplayName}的地方早餐...</div>
     `;
     
     // 隱藏按鈕容器並顯示載入狀態
