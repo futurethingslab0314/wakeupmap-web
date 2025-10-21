@@ -366,8 +366,10 @@ body {
 
 /* 網格系統 */
 .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
 .col-span-1 { grid-column: span 1; }
+.col-span-3 { grid-column: span 3; }
 .col-span-4 { grid-column: span 4; }
 
 /* 響應式網格 */
@@ -419,10 +421,10 @@ body {
     display: block;
 }
 
-/* 四欄佈局 */
+/* 三欄佈局 */
 #ClockTab .grid {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
     grid-auto-rows: 180px !important;
 }
 
@@ -430,8 +432,8 @@ body {
     grid-column: span 1 !important;
 }
 
-#ClockTab .col-span-4 {
-    grid-column: span 4 !important;
+#ClockTab .col-span-3 {
+    grid-column: span 3 !important;
 }
 
 /* 強制 ClockTab 子元素正確顯示 */
