@@ -3074,10 +3074,35 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         breakfastButtonContainer.style.display = 'none';
     }
     
-    // 將載入容器插入到地圖容器後
-    const mapContainer = document.getElementById('mapContainer');
-    if (mapContainer && mapContainer.parentNode) {
-        mapContainer.parentNode.insertBefore(loadingContainer, mapContainer.nextSibling);
+    // 將載入容器插入到早餐卡片內
+    const breakfastCard = document.getElementById('breakfastCard');
+    if (breakfastCard) {
+        // 清除早餐卡片的現有內容
+        breakfastCard.innerHTML = '';
+        breakfastCard.style.padding = '20px';
+        breakfastCard.style.display = 'flex';
+        breakfastCard.style.alignItems = 'center';
+        breakfastCard.style.justifyContent = 'center';
+        breakfastCard.style.height = '100%';
+        
+        // 調整載入容器樣式以適應卡片
+        loadingContainer.style.cssText = `
+            text-align: center; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            width: 100%;
+            max-width: 100%;
+        `;
+        
+        breakfastCard.appendChild(loadingContainer);
+    } else {
+        // 備用方案：插入到地圖容器後
+        const mapContainer = document.getElementById('mapContainer');
+        if (mapContainer && mapContainer.parentNode) {
+            mapContainer.parentNode.insertBefore(loadingContainer, mapContainer.nextSibling);
+        }
     }
     
     try {
@@ -3301,10 +3326,35 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             <div style="color: #721c24; font-size: 0.9em;"><em>${error.message}</em></div>
         `;
         
-        // 插入錯誤容器
-        const mapContainer = document.getElementById('mapContainer');
-        if (mapContainer && mapContainer.parentNode) {
-            mapContainer.parentNode.insertBefore(errorContainer, mapContainer.nextSibling);
+        // 插入錯誤容器到早餐卡片內
+        const breakfastCard = document.getElementById('breakfastCard');
+        if (breakfastCard) {
+            // 清除早餐卡片的現有內容
+            breakfastCard.innerHTML = '';
+            breakfastCard.style.padding = '20px';
+            breakfastCard.style.display = 'flex';
+            breakfastCard.style.alignItems = 'center';
+            breakfastCard.style.justifyContent = 'center';
+            breakfastCard.style.height = '100%';
+            
+            // 調整錯誤容器樣式以適應卡片
+            errorContainer.style.cssText = `
+                text-align: center; 
+                padding: 20px; 
+                background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+                border-radius: 8px;
+                border: 1px solid #f1aeb5;
+                width: 100%;
+                max-width: 100%;
+            `;
+            
+            breakfastCard.appendChild(errorContainer);
+        } else {
+            // 備用方案：插入到地圖容器後
+            const mapContainer = document.getElementById('mapContainer');
+            if (mapContainer && mapContainer.parentNode) {
+                mapContainer.parentNode.insertBefore(errorContainer, mapContainer.nextSibling);
+            }
         }
         
         // 顯示早餐按鈕作為重試選項
