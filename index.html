@@ -192,38 +192,41 @@
             </div>
 
             <div id="HistoryTab" class="tab-content" role="tabpanel" aria-labelledby="tabButton-HistoryTab">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 border-l-2 border-t-2 border-black">
-
-                    <!-- History List -->
-                    <div class="lg:col-span-1 border-r-2 border-black bg-white">
-                        <div class="border-b-2 border-black p-4 bg-white">
-                            <h2 class="text-black text-xl font-bold mb-2">甦醒軌跡</h2>
-                            <p class="text-xs text-black mt-1">WAKE UP HISTORY</p>
-                        </div>
-                        
-                        <div class="p-4">
-                            <button id="refreshHistoryButton" class="bg-black hover:bg-gray-800 text-white rounded-none h-10 px-4 uppercase tracking-wide text-sm border-2 border-black mb-4 w-full">
-                                刷新記錄
-                            </button>
+                <div class="border-2 border-black">
+                    <table class="w-full border-collapse">
+                        <tr>
+                            <!-- 第一欄位：日誌列表 -->
+                            <td class="w-1/3 border-r-2 border-black bg-white align-top">
+                                <div class="border-b-2 border-black p-4 bg-white">
+                                    <h2 class="text-black text-xl font-bold mb-2">甦醒軌跡</h2>
+                                    <p class="text-xs text-black mt-1">WAKE UP HISTORY</p>
+                                </div>
+                                
+                                <div class="p-4">
+                                    <button id="refreshHistoryButton" class="bg-black hover:bg-gray-800 text-white rounded-none h-10 px-4 uppercase tracking-wide text-sm border-2 border-black mb-4 w-full">
+                                        刷新記錄
+                                    </button>
+                                    
+                                    <div id="historyList" class="space-y-3 max-h-[500px] overflow-y-auto"></div>
+                                </div>
+                                
+                                <!-- 統計區域 -->
+                                <div class="border-t-2 border-black p-4 bg-gray-50">
+                                    <div class="text-center">
+                                        <p class="text-xs text-black uppercase tracking-wide">總計</p>
+                                        <p id="totalRecords" class="text-2xl text-black">0</p>
+                                        <p class="text-xs text-black mt-1">次甦醒</p>
+                                    </div>
+                                </div>
+                            </td>
                             
-                            <div id="historyList" class="space-y-3 max-h-[500px] overflow-y-auto"></div>
-                        </div>
-                        
-                        <!-- 統計區域 -->
-                        <div class="border-t-2 border-black p-4 bg-gray-50">
-                            <div class="text-center">
-                                <p class="text-xs text-black uppercase tracking-wide">總計</p>
-                                <p id="totalRecords" class="text-2xl text-black">0</p>
-                                <p class="text-xs text-black mt-1">次甦醒</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Map -->
-                    <div class="lg:col-span-2 bg-white">
-                        <div id="historyMapContainer" class="w-full h-[600px]" style="border-radius: 0;"></div>
-                        <small id="historyDebugInfo" class="text-gray-500 text-xs p-4"></small>
-                    </div>
+                            <!-- 第二與第三欄位合併：地圖 -->
+                            <td class="w-2/3 bg-white align-top" colspan="2">
+                                <div id="historyMapContainer" class="w-full h-[600px]" style="border-radius: 0;"></div>
+                                <small id="historyDebugInfo" class="text-gray-500 text-xs p-4"></small>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
