@@ -807,6 +807,9 @@ window.addEventListener('firebaseReady', async (event) => {
             currentDataIdentifier = newDataIdentifier;
             console.log("[findMatchingCity] 用戶名稱已變更，更新識別碼為:", currentDataIdentifier);
         }
+        
+        // 設定全域變數供 generateBreakfastImage 使用
+        window.currentDataIdentifier = currentDataIdentifier;
 
         if (!auth.currentUser) {
             alert("Firebase 會話未就緒，請稍候或刷新頁面。");
