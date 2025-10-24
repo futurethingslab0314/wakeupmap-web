@@ -353,6 +353,11 @@ body {
     background-color: #FBBF24;
 }
 
+/* 開始這一天按鈕 hover 效果 */
+#findCityButton:hover:not(:disabled) {
+    background-color: #FCD34D !important;
+}
+
 .bg-gray-100 {
     background-color: #f3f4f6;
 }
