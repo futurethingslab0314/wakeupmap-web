@@ -183,18 +183,18 @@
             </div>
 
             <div id="HistoryTab" class="tab-content" role="tabpanel" aria-labelledby="tabButton-HistoryTab">
-                <div class="border-l-2 border-t-2 border-black bg-white max-w-full">
-                    <!-- 地圖區域 - 上方滿版 -->
-                    <div class="border-b-2 border-black">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 border-l-2 border-t-2 border-black">
+                    <!-- 地圖區域 - 左側兩欄 -->
+                    <div class="lg:col-span-2 border-r-2 border-b-2 border-black bg-white">
                         <div class="bg-orange-400 text-white px-4 py-2 text-xs uppercase tracking-wide">
                             甦醒軌跡地圖 / WAKE UP HISTORY MAP
                         </div>
-                        <div id="historyMapContainer" class="w-full h-[500px] border-2 border-black" style="border-radius: 0;"></div>
+                        <div id="historyMapContainer" class="w-full h-[500px]" style="border-radius: 0;"></div>
                         <small id="historyDebugInfo" class="text-gray-500 text-xs p-4"></small>
                     </div>
                     
-                    <!-- 日誌記錄區域 - 下方卡片式排列 -->
-                    <div class="p-4">
+                    <!-- 日誌記錄區域 - 右側一欄 -->
+                    <div class="lg:col-span-1 border-r-2 border-b-2 border-black bg-white p-4">
                         <div class="flex items-center justify-between mb-4">
                             <div>
                                 <h2 class="text-black text-xl font-bold mb-2">甦醒記錄列表</h2>
@@ -221,15 +221,16 @@
             </div>
 
             <div id="GlobalTodayMapTab" class="tab-content" role="tabpanel" aria-labelledby="tabButton-GlobalTodayMapTab">
-                <div class="border-l-2 border-t-2 border-black bg-white max-w-full">
-                        <div class="px-4 py-4">
-                            <div class="mb-4">
-                                <h2 class="text-black text-xl font-bold mb-2">眾人地圖</h2>
-                                <p class="text-xs text-black mt-1">Crowd Wake Up Map</p>
-                                <p class="text-black text-sm">看看今天大家都在地球的哪些角落開啟新的一天！</p>
-                            </div>
-                            
-                            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-0 border-l-2 border-t-2 border-black">
+                    <!-- 篩選條件區塊 -->
+                    <div class="border-r-2 border-b-2 border-black p-4 bg-white">
+                        <div class="mb-4">
+                            <h2 class="text-black text-xl font-bold mb-2">眾人地圖</h2>
+                            <p class="text-xs text-black mt-1">Crowd Wake Up Map</p>
+                            <p class="text-black text-sm">看看今天大家都在地球的哪些角落開啟新的一天！</p>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row gap-4 mb-4">
                         <div class="flex-1">
                             <label class="text-black text-xs uppercase tracking-wide mb-2 block">選擇日期</label>
                             <input type="date" id="globalDate" class="border-2 border-black rounded-none bg-white focus:ring-0 focus:border-black h-10 w-full px-2">
@@ -247,12 +248,14 @@
                         </div>
                     </div>
                     
-                    <div id="globalTodayMapContainer" class="w-full h-[400px] border-2 border-black" style="border-radius: 0;"></div>
+                    <!-- 地圖區塊 -->
+                    <div class="border-r-2 border-b-2 border-black bg-white">
+                        <div id="globalTodayMapContainer" class="w-full h-[400px]" style="border-radius: 0;"></div>
+                        <small id="globalTodayDebugInfo" class="text-gray-500 text-xs p-4"></small>
+                    </div>
                     
-                    <small id="globalTodayDebugInfo" class="text-gray-500 text-xs"></small>
-                    
-                    <!-- 今日甦醒使用者列表 -->
-                    <div class="mt-6">
+                    <!-- 記錄列表區塊 -->
+                    <div class="border-r-2 border-b-2 border-black bg-white p-4">
                         <div class="flex items-center justify-between mb-4">
                             <div>
                                 <h3 class="text-black text-lg font-bold mb-1">今日甦醒記錄</h3>
