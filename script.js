@@ -707,12 +707,17 @@ window.addEventListener('firebaseReady', async (event) => {
                         console.log(`[displayLastRecordForCurrentUser] 早餐圖片已放入早餐卡片`);
                     }
                 } else {
-                    // 如果沒有早餐圖片，自動生成早餐
-                    console.log(`[displayLastRecordForCurrentUser] 自動生成早餐`);
-                    try {
-                        await generateBreakfastImage(lastRecord, finalCityName, finalCountryName, querySnapshot.docs[0].id);
-                    } catch (error) {
-                        console.error('[displayLastRecordForCurrentUser] 自動生成早餐失敗:', error);
+                    // 如果沒有早餐圖片，顯示提示訊息而不是重新生成
+                    console.log(`[displayLastRecordForCurrentUser] 記錄中沒有早餐圖片，顯示提示訊息`);
+                    const breakfastCard = document.getElementById('breakfastCard');
+                    if (breakfastCard) {
+                        breakfastCard.innerHTML = `
+                            <div class="bg-white h-full flex flex-col items-center justify-center text-center p-8">
+                                <p class="text-black text-sm uppercase tracking-wide">
+                                    早餐圖片生成中，請稍候...
+                                </p>
+                            </div>
+                        `;
                     }
                 }
                 
@@ -2268,9 +2273,9 @@ window.addEventListener('firebaseReady', async (event) => {
         tablinks = document.querySelectorAll('[data-tab]');
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].classList.remove("active");
-            // 移除黑色背景，恢復白色背景
+            // 移除黑色背景，恢復灰色背景
             tablinks[i].classList.remove("bg-black", "text-white");
-            tablinks[i].classList.add("bg-white", "text-black");
+            tablinks[i].classList.add("bg-gray-300", "text-black");
         }
         const currentTabDiv = document.getElementById(tabName);
         if (currentTabDiv) {
@@ -2285,11 +2290,11 @@ window.addEventListener('firebaseReady', async (event) => {
         if (targetButton) {
             targetButton.classList.add("active");
             // 設置激活狀態的樣式
-            targetButton.classList.remove("bg-white", "text-black");
+            targetButton.classList.remove("bg-gray-300", "text-black");
             targetButton.classList.add("bg-black", "text-white");
         } else if (evt && evt.currentTarget) {
             evt.currentTarget.classList.add("active");
-            evt.currentTarget.classList.remove("bg-white", "text-black");
+            evt.currentTarget.classList.remove("bg-gray-300", "text-black");
             evt.currentTarget.classList.add("bg-black", "text-white");
         }
 
