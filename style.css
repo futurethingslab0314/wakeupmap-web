@@ -893,6 +893,75 @@ input:focus, select:focus {
     margin: 0;
 }
 
+/* 強制邊框樣式 - 確保所有邊框都顯示 */
+.border-8 {
+    border-width: 8px !important;
+    border-style: solid !important;
+    border-color: #000000 !important;
+}
+
+.border-4 {
+    border-width: 4px !important;
+    border-style: solid !important;
+    border-color: #000000 !important;
+}
+
+.border-2 {
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: #000000 !important;
+}
+
+.border-black {
+    border-color: #000000 !important;
+    border-style: solid !important;
+}
+
+.border-r-2 {
+    border-right-width: 2px !important;
+    border-right-style: solid !important;
+    border-right-color: #000000 !important;
+}
+
+.border-b-2 {
+    border-bottom-width: 2px !important;
+    border-bottom-style: solid !important;
+    border-bottom-color: #000000 !important;
+}
+
+.border-l-2 {
+    border-left-width: 2px !important;
+    border-left-style: solid !important;
+    border-left-color: #000000 !important;
+}
+
+.border-t-2 {
+    border-top-width: 2px !important;
+    border-top-style: solid !important;
+    border-top-color: #000000 !important;
+}
+
+/* 強制移除圓角以確保邊框顯示 */
+.rounded-none {
+    border-radius: 0 !important;
+}
+
+/* 確保主容器邊框顯示 */
+.max-w-7xl.mx-auto {
+    border: 8px solid #000000 !important;
+}
+
+/* 確保分頁導航邊框顯示 */
+.flex.border-2.border-black {
+    border: 2px solid #000000 !important;
+}
+
+/* 確保網格邊框顯示 */
+.grid.border-l-2.border-t-2.border-black {
+    border-left: 2px solid #000000 !important;
+    border-top: 2px solid #000000 !important;
+}
+
 /* 響應式設計 */
 @media (max-width: 768px) {
     .modal-dialog {
