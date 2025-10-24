@@ -21,6 +21,13 @@ let initialLoadHandled = false;
 // currentMood 變數已移除，改用時間分鐘數決定緯度偏好
 
 window.addEventListener('firebaseReady', async (event) => {
+    // 等待 DOM 完全載入
+    if (document.readyState !== 'complete') {
+        await new Promise(resolve => {
+            window.addEventListener('load', resolve);
+        });
+    }
+    
     const {
         initializeApp,
         getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken,
@@ -325,7 +332,9 @@ window.addEventListener('firebaseReady', async (event) => {
             if (currentUserIdSpan) {
                 currentUserIdSpan.textContent = "認證中...";
             }
-            findCityButton.disabled = true;
+            if (findCityButton) {
+                findCityButton.disabled = true;
+            }
             if (initialAuthToken) {
                 console.log("嘗試使用 initialAuthToken 登入...");
                 signInWithCustomToken(auth, initialAuthToken)
@@ -500,18 +509,22 @@ window.addEventListener('firebaseReady', async (event) => {
                 }
             });
 
-            groupFilterSelect.innerHTML = '';
-            groupFilterSelect.appendChild(new Option('所有人', 'all'));
-            Array.from(groups)
-                .filter(group => group !== 'all')
-                .sort()
-                .forEach(group => {
-                    groupFilterSelect.appendChild(new Option(group, group));
-                });
+            if (groupFilterSelect) {
+                groupFilterSelect.innerHTML = '';
+                groupFilterSelect.appendChild(new Option('所有人', 'all'));
+            }
+            if (groupFilterSelect) {
+                Array.from(groups)
+                    .filter(group => group !== 'all')
+                    .sort()
+                    .forEach(group => {
+                        groupFilterSelect.appendChild(new Option(group, group));
+                    });
 
-            // 如果當前使用者有組別，預設選擇該組別
-            if (currentGroupName && groups.has(currentGroupName)) {
-                groupFilterSelect.value = currentGroupName;
+                // 如果當前使用者有組別，預設選擇該組別
+                if (currentGroupName && groups.has(currentGroupName)) {
+                    groupFilterSelect.value = currentGroupName;
+                }
             }
         } catch (error) {
             console.error("更新組別過濾器失敗:", error);
@@ -626,19 +639,25 @@ window.addEventListener('firebaseReady', async (event) => {
                 }
 
                 if (lastRecord.country_iso_code && lastRecord.country_iso_code !== 'universe_code') {
-                    countryFlagImg.src = `https://flagcdn.com/w40/${lastRecord.country_iso_code.toLowerCase()}.png`;
-                    countryFlagImg.alt = `${finalCountryName} 國旗`;
-                    countryFlagImg.style.display = 'inline-block';
+                    if (countryFlagImg) {
+                        countryFlagImg.src = `https://flagcdn.com/w40/${lastRecord.country_iso_code.toLowerCase()}.png`;
+                        countryFlagImg.alt = `${finalCountryName} 國旗`;
+                        countryFlagImg.style.display = 'inline-block';
+                    }
                 } else {
-                    countryFlagImg.style.display = 'none';
+                    if (countryFlagImg) {
+                        countryFlagImg.style.display = 'none';
+                    }
                 }
 
                 if (clockLeafletMap) {
                     clockLeafletMap.remove();
                     clockLeafletMap = null;
                 }
-                mapContainerDiv.innerHTML = '';
-                mapContainerDiv.classList.remove('universe-message');
+                if (mapContainerDiv) {
+                    mapContainerDiv.innerHTML = '';
+                    mapContainerDiv.classList.remove('universe-message');
+                }
 
                 if (typeof lastRecord.latitude === 'number' && isFinite(lastRecord.latitude) &&
                     typeof lastRecord.longitude === 'number' && isFinite(lastRecord.longitude)) {
@@ -651,10 +670,14 @@ window.addEventListener('firebaseReady', async (event) => {
                         color: 'red', fillColor: '#f03', fillOpacity: 0.8, radius: 8
                     }).addTo(clockLeafletMap).bindPopup(`<b>${finalCityName}</b><br>${finalCountryName}`).openPopup();
                 } else if (lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球") {
-                    mapContainerDiv.classList.add('universe-message');
-                    mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
+                    if (mapContainerDiv) {
+                        mapContainerDiv.classList.add('universe-message');
+                        mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
+                    }
                 } else {
-                    mapContainerDiv.innerHTML = "<p>無法顯示地圖，此記錄座標資訊不完整或無效。</p>";
+                    if (mapContainerDiv) {
+                        mapContainerDiv.innerHTML = "<p>無法顯示地圖，此記錄座標資訊不完整或無效。</p>";
+                    }
                 }
 
                 // 添加早餐區域（按鈕或圖片）
@@ -780,7 +803,9 @@ window.addEventListener('firebaseReady', async (event) => {
         
         if (!currentUserName) {
             alert("請先輸入你的顯示名稱。");
-            findCityButton.disabled = false;
+            if (findCityButton) {
+                findCityButton.disabled = false;
+            }
             return;
         }
 
@@ -814,7 +839,9 @@ window.addEventListener('firebaseReady', async (event) => {
 
         if (!auth.currentUser) {
             alert("Firebase 會話未就緒，請稍候或刷新頁面。");
-            findCityButton.disabled = false;
+            if (findCityButton) {
+                findCityButton.disabled = false;
+            }
             return;
         }
 
@@ -909,7 +936,9 @@ window.addEventListener('firebaseReady', async (event) => {
                     requestBody.targetLatitude = 0; // 赤道附近
                     requestBody.useLocalPosition = false;
                     
-                    findCityButton.disabled = false;
+                    if (findCityButton) {
+                        findCityButton.disabled = false;
+                    }
                     return;
                 }
             } else {
@@ -974,14 +1003,20 @@ window.addEventListener('firebaseReady', async (event) => {
                     clockLeafletMap.remove();
                     clockLeafletMap = null;
                 }
-                mapContainerDiv.innerHTML = '';
-                mapContainerDiv.classList.add('universe-message');
-                mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
-                countryFlagImg.style.display = 'none';
+                if (mapContainerDiv) {
+                    mapContainerDiv.innerHTML = '';
+                    mapContainerDiv.classList.add('universe-message');
+                    mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
+                }
+                if (countryFlagImg) {
+                    countryFlagImg.style.display = 'none';
+                }
 
                 // 自動生成宇宙早餐
                 console.log('[findMatchingCity] 自動生成宇宙早餐');
-                debugInfoSmall.innerHTML = `(目標 UTC 偏移: ${requiredUTCOffset.toFixed(2)})`;
+                if (debugInfoSmall) {
+                    debugInfoSmall.innerHTML = `(目標 UTC 偏移: ${requiredUTCOffset.toFixed(2)})`;
+                }
 
                 // 先保存宇宙記錄（不包含圖片）
                 // 使用本地日期而不是UTC日期
@@ -1036,7 +1071,9 @@ window.addEventListener('firebaseReady', async (event) => {
                 }
 
                 console.log("--- 尋找匹配城市結束 (宇宙情況) ---");
-                findCityButton.disabled = false;
+                if (findCityButton) {
+                    findCityButton.disabled = false;
+                }
                 return;
             }
 
@@ -1216,17 +1253,21 @@ window.addEventListener('firebaseReady', async (event) => {
             }
 
             if (bestMatchCity.country_iso_code) {
-                countryFlagImg.src = `https://flagcdn.com/w40/${bestMatchCity.country_iso_code.toLowerCase()}.png`;
-                countryFlagImg.alt = `${finalCountryName} 國旗`;
-                countryFlagImg.style.display = 'inline-block';
+                if (countryFlagImg) {
+                    countryFlagImg.src = `https://flagcdn.com/w40/${bestMatchCity.country_iso_code.toLowerCase()}.png`;
+                    countryFlagImg.alt = `${finalCountryName} 國旗`;
+                    countryFlagImg.style.display = 'inline-block';
+                }
             }
 
             if (clockLeafletMap) {
                 clockLeafletMap.remove();
                 clockLeafletMap = null;
             }
-            mapContainerDiv.innerHTML = '';
-            mapContainerDiv.classList.remove('universe-message');
+            if (mapContainerDiv) {
+                mapContainerDiv.innerHTML = '';
+                mapContainerDiv.classList.remove('universe-message');
+            }
 
             // 顯示地圖
             if (clockLeafletMap) {
@@ -1239,7 +1280,9 @@ window.addEventListener('firebaseReady', async (event) => {
                 latitude < -90 || latitude > 90 || 
                 longitude < -180 || longitude > 180) {
                 console.error('地圖初始化失敗：經緯度無效', { latitude, longitude });
-                mapContainerDiv.innerHTML = '<p style="color: red;">無法顯示地圖：經緯度資料無效</p>';
+                if (mapContainerDiv) {
+                    mapContainerDiv.innerHTML = '<p style="color: red;">無法顯示地圖：經緯度資料無效</p>';
+                }
             } else {
                 try {
                     clockLeafletMap = L.map(mapContainerDiv, {
@@ -1258,7 +1301,9 @@ window.addEventListener('firebaseReady', async (event) => {
                         .openPopup();
                 } catch (mapError) {
                     console.error('地圖初始化錯誤:', mapError);
-                    mapContainerDiv.innerHTML = '<p style="color: red;">地圖載入失敗</p>';
+                    if (mapContainerDiv) {
+                        mapContainerDiv.innerHTML = '<p style="color: red;">地圖載入失敗</p>';
+                    }
                 }
             }
 
@@ -1378,9 +1423,8 @@ window.addEventListener('firebaseReady', async (event) => {
     }
 
     function clearPreviousResults() {
-        if (resultTextDiv) {
-            resultTextDiv.innerHTML = "";
-        }
+        // 簡單的檢查：如果元素不存在就跳過
+        if (resultTextDiv) resultTextDiv.innerHTML = "";
         if (countryFlagImg) {
             countryFlagImg.src = "";
             countryFlagImg.alt = "國家國旗";
@@ -1390,9 +1434,11 @@ window.addEventListener('firebaseReady', async (event) => {
             clockLeafletMap.remove();
             clockLeafletMap = null;
         }
-        mapContainerDiv.innerHTML = "";
-        mapContainerDiv.classList.remove('universe-message');
-        debugInfoSmall.innerHTML = "";
+        if (mapContainerDiv) {
+            mapContainerDiv.innerHTML = "";
+            mapContainerDiv.classList.remove('universe-message');
+        }
+        if (debugInfoSmall) debugInfoSmall.innerHTML = "";
 
         // 清除所有已存在的早餐圖片容器
         const existingBreakfastContainers = document.querySelectorAll('#breakfastImageContainer');
@@ -1578,20 +1624,26 @@ window.addEventListener('firebaseReady', async (event) => {
 
     async function loadGlobalTodayMap() {
         if (!auth.currentUser) {
-            if (!globalLeafletMap) globalTodayMapContainerDiv.innerHTML = '<p>Firebase 認證中，請稍候...</p>';
+            if (!globalLeafletMap && globalTodayMapContainerDiv) {
+                globalTodayMapContainerDiv.innerHTML = '<p>Firebase 認證中，請稍候...</p>';
+            }
             return;
         }
 
         const selectedDateValue = globalDateInput.value;
         if (!selectedDateValue) {
-            if (!globalLeafletMap) globalTodayMapContainerDiv.innerHTML = '<p>請先選擇一個日期。</p>';
+            if (!globalLeafletMap && globalTodayMapContainerDiv) {
+                globalTodayMapContainerDiv.innerHTML = '<p>請先選擇一個日期。</p>';
+            }
             return;
         }
 
         const selectedGroup = groupFilterSelect.value;
         console.log(`[loadGlobalTodayMap] 開始載入日期 ${selectedDateValue} 的全域地圖，組別: ${selectedGroup}`);
 
-        if (!globalLeafletMap) globalTodayMapContainerDiv.innerHTML = '<p>載入今日眾人地圖中...</p>';
+        if (!globalLeafletMap && globalTodayMapContainerDiv) {
+            globalTodayMapContainerDiv.innerHTML = '<p>載入今日眾人地圖中...</p>';
+        }
         else if (globalMarkerLayerGroup) globalMarkerLayerGroup.clearLayers();
 
         globalTodayDebugInfoSmall.textContent = `查詢日期: ${selectedDateValue}${selectedGroup !== 'all' ? `, 組別: ${selectedGroup}` : ''}`;
@@ -1638,8 +1690,12 @@ window.addEventListener('firebaseReady', async (event) => {
 
         } catch (e) {
             console.error("[loadGlobalTodayMap] 讀取全域每日記錄失敗:", e);
-            globalTodayMapContainerDiv.innerHTML = '<p>讀取全域地圖資料失敗。</p>';
-            globalTodayDebugInfoSmall.textContent = `錯誤: ${e.message}`;
+            if (globalTodayMapContainerDiv) {
+                globalTodayMapContainerDiv.innerHTML = '<p>讀取全域地圖資料失敗。</p>';
+            }
+            if (globalTodayDebugInfoSmall) {
+                globalTodayDebugInfoSmall.textContent = `錯誤: ${e.message}`;
+            }
             
             // 清空使用者列表
             const globalUsersList = document.getElementById('globalUsersList');
@@ -1660,11 +1716,17 @@ window.addEventListener('firebaseReady', async (event) => {
         }
 
         // 清空現有內容
-        globalUsersList.innerHTML = '';
+        if (globalUsersList) {
+            globalUsersList.innerHTML = '';
+        }
 
         if (querySnapshot.empty) {
-            globalUsersList.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">今日尚無甦醒記錄</div>';
-            globalTotalUsers.textContent = '0';
+            if (globalUsersList) {
+                globalUsersList.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">今日尚無甦醒記錄</div>';
+            }
+            if (globalTotalUsers) {
+                globalTotalUsers.textContent = '0';
+            }
             return;
         }
 
@@ -1716,11 +1778,15 @@ window.addEventListener('firebaseReady', async (event) => {
                 <div class="user-card-time">${timeString}</div>
             `;
 
-            globalUsersList.appendChild(userCard);
+            if (globalUsersList) {
+                globalUsersList.appendChild(userCard);
+            }
         });
 
         // 更新總計
-        globalTotalUsers.textContent = records.length;
+        if (globalTotalUsers) {
+            globalTotalUsers.textContent = records.length;
+        }
         
         console.log(`[displayGlobalUsersList] 顯示 ${records.length} 位使用者的甦醒記錄`);
     }
@@ -1922,23 +1988,33 @@ window.addEventListener('firebaseReady', async (event) => {
 
     async function loadHistory() {
         if (!currentDataIdentifier) {
-            historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">請先設定你的顯示名稱以查看歷史記錄。</div>';
+            if (historyListUl) {
+                historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">請先設定你的顯示名稱以查看歷史記錄。</div>';
+            }
             if (historyLeafletMap) {
                 historyLeafletMap.remove();
                 historyLeafletMap = null;
             }
-            historyMapContainerDiv.innerHTML = '<p>設定名稱後，此處將顯示您的個人歷史地圖。</p>';
+            if (historyMapContainerDiv) {
+                historyMapContainerDiv.innerHTML = '<p>設定名稱後，此處將顯示您的個人歷史地圖。</p>';
+            }
             return;
         }
 
         console.log("[loadHistory] 準備載入歷史記錄，使用識別碼:", currentDataIdentifier);
-        historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">載入歷史記錄中...</div>';
+        if (historyListUl) {
+            historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">載入歷史記錄中...</div>';
+        }
         if (!historyLeafletMap) {
-            historyMapContainerDiv.innerHTML = '<p>載入個人歷史地圖中...</p>';
+            if (historyMapContainerDiv) {
+                historyMapContainerDiv.innerHTML = '<p>載入個人歷史地圖中...</p>';
+            }
         } else if (historyMarkerLayerGroup) {
             historyMarkerLayerGroup.clearLayers();
         }
-        historyDebugInfoSmall.textContent = "";
+        if (historyDebugInfoSmall) {
+            historyDebugInfoSmall.textContent = "";
+        }
 
         const historyCollectionRef = collection(db, `artifacts/${appId}/userProfiles/${currentDataIdentifier}/clockHistory`);
         const q = query(historyCollectionRef, orderBy("recordedAt", "desc"));
@@ -1946,11 +2022,15 @@ window.addEventListener('firebaseReady', async (event) => {
         try {
             const querySnapshot = await getDocs(q);
             console.log("[loadHistory] 查詢結果:", querySnapshot.size, "筆記錄");
-            historyListUl.innerHTML = '';
+            if (historyListUl) {
+                historyListUl.innerHTML = '';
+            }
             const historyPoints = [];
 
             if (querySnapshot.empty) {
-                historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">尚無歷史記錄。</div>';
+                if (historyListUl) {
+                    historyListUl.innerHTML = '<div class="p-4 text-center text-gray-500">尚無歷史記錄。</div>';
+                }
                 renderHistoryMap(historyPoints, historyMapContainerDiv, historyDebugInfoSmall, `${rawUserDisplayName} 的歷史軌跡`);
                 return;
             }
@@ -2065,7 +2145,9 @@ window.addEventListener('firebaseReady', async (event) => {
                     });
                 }
 
-                historyListUl.appendChild(li);
+                if (historyListUl) {
+                    historyListUl.appendChild(li);
+                }
             });
 
             // 按時間順序排序點位（從舊到新）
@@ -2082,9 +2164,15 @@ window.addEventListener('firebaseReady', async (event) => {
 
         } catch (e) {
             console.error("讀取歷史記錄失敗:", e);
-            historyListUl.innerHTML = '<div class="p-4 text-center text-red-500">讀取歷史記錄失敗。</div>';
-            historyMapContainerDiv.innerHTML = '<p>讀取歷史記錄時發生錯誤。</p>';
-            historyDebugInfoSmall.textContent = `錯誤: ${e.message}`;
+            if (historyListUl) {
+                historyListUl.innerHTML = '<div class="p-4 text-center text-red-500">讀取歷史記錄失敗。</div>';
+            }
+            if (historyMapContainerDiv) {
+                historyMapContainerDiv.innerHTML = '<p>讀取歷史記錄時發生錯誤。</p>';
+            }
+            if (historyDebugInfoSmall) {
+                historyDebugInfoSmall.textContent = `錯誤: ${e.message}`;
+            }
             
             // 更新統計區域為 0
             const totalRecordsElement = document.getElementById('totalRecords');
@@ -2345,7 +2433,7 @@ window.addEventListener('firebaseReady', async (event) => {
                     loadGlobalTodayMap();
                 }
             } else if (tabName === 'ClockTab') {
-                if (clockLeafletMap && mapContainerDiv.offsetParent !== null) {
+                if (clockLeafletMap && mapContainerDiv && mapContainerDiv.offsetParent !== null) {
                     console.log("[openTab] ClockTab is visible, invalidating map size.");
                     clockLeafletMap.invalidateSize();
                 }
@@ -2400,8 +2488,12 @@ window.addEventListener('firebaseReady', async (event) => {
         }
         
         // 先顯示載入中的狀態
-        modalContent.innerHTML = '<div style="text-align: center; padding: 20px;">載入最新資料中...</div>';
-        modal.style.display = 'block';
+        if (modalContent) {
+            modalContent.innerHTML = '<div style="text-align: center; padding: 20px;">載入最新資料中...</div>';
+        }
+        if (modal) {
+            modal.style.display = 'block';
+        }
         modal.classList.add('show');
         
         try {
@@ -2561,10 +2653,14 @@ window.addEventListener('firebaseReady', async (event) => {
                 `;
             }
             
-            modalContent.innerHTML = contentHTML;
+            if (modalContent) {
+                modalContent.innerHTML = contentHTML;
+            }
         } catch (error) {
             console.error('計算甦醒次數失敗:', error);
-            modalContent.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">載入日誌資訊失敗</div>';
+            if (modalContent) {
+                modalContent.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">載入日誌資訊失敗</div>';
+            }
         }
         
         // 設定關閉事件
