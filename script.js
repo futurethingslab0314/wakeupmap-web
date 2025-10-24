@@ -3111,9 +3111,9 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         loadingContainer.style.cssText = `
             text-align: center; 
             padding: 20px; 
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
+            background: rgb(255, 255, 255);
+            border-radius: 0px;
+            border: 0px solidrgb(255, 255, 255);
             width: 100%;
             max-width: 100%;
         `;
