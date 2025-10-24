@@ -1364,9 +1364,13 @@ window.addEventListener('firebaseReady', async (event) => {
             clockLeafletMap.remove();
             clockLeafletMap = null;
         }
-        mapContainerDiv.innerHTML = "";
-        mapContainerDiv.classList.remove('universe-message');
-        debugInfoSmall.innerHTML = "";
+        if (mapContainerDiv) {
+            mapContainerDiv.innerHTML = "";
+            mapContainerDiv.classList.remove('universe-message');
+        }
+        if (debugInfoSmall) {
+            debugInfoSmall.innerHTML = "";
+        }
 
         // 清除所有已存在的早餐圖片容器
         const existingBreakfastContainers = document.querySelectorAll('#breakfastImageContainer');
