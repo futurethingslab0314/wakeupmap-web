@@ -183,7 +183,7 @@
             </div>
 
             <div id="HistoryTab" class="tab-content" role="tabpanel" aria-labelledby="tabButton-HistoryTab">
-                <div class="border-l-2 border-t-2 border-black bg-white">
+                <div class="border-l-2 border-t-2 border-black bg-white max-w-full">
                     <!-- 地圖區域 - 上方滿版 -->
                     <div class="border-b-2 border-black">
                         <div class="bg-orange-400 text-white px-4 py-2 text-xs uppercase tracking-wide">
@@ -221,15 +221,15 @@
             </div>
 
             <div id="GlobalTodayMapTab" class="tab-content" role="tabpanel" aria-labelledby="tabButton-GlobalTodayMapTab">
-                <div class="border-l-2 border-t-2 border-black bg-white">
-                    <div class="p-4">
-                        <div class="mb-4">
-                        <h2 class="text-black text-xl font-bold mb-2">眾人地圖</h2>
-                        <p class="text-xs text-black mt-1">Crowd Wake Up Map</p>
-                        <p class="text-black text-sm">看看今天大家都在地球的哪些角落開啟新的一天！</p>
-                    </div>
-                    
-                    <div class="flex flex-col md:flex-row gap-4 mb-4">
+                <div class="border-l-2 border-t-2 border-black bg-white max-w-full">
+                        <div class="px-4 py-4">
+                            <div class="mb-4">
+                                <h2 class="text-black text-xl font-bold mb-2">眾人地圖</h2>
+                                <p class="text-xs text-black mt-1">Crowd Wake Up Map</p>
+                                <p class="text-black text-sm">看看今天大家都在地球的哪些角落開啟新的一天！</p>
+                            </div>
+                            
+                            <div class="flex flex-col md:flex-row gap-4 mb-4">
                         <div class="flex-1">
                             <label class="text-black text-xs uppercase tracking-wide mb-2 block">選擇日期</label>
                             <input type="date" id="globalDate" class="border-2 border-black rounded-none bg-white focus:ring-0 focus:border-black h-10 w-full px-2">
@@ -265,10 +265,9 @@
                             </div>
                         </div>
                         
-                        <!-- 使用者卡片網格 -->
-                        <div id="globalUsersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-                    </div>
-                    </div>
+                            <!-- 使用者卡片網格 -->
+                            <div id="globalUsersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                        </div>
                 </div>
             </div>
         </div>
