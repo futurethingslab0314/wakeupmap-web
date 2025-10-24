@@ -76,7 +76,7 @@
                             </div>
                             
                             <div id="currentUserInfo" class="text-[10px] text-black mt-2 pt-2" style="display: none;">
-                                目前使用者： <span class="bg-orange-400 px-1.5 py-0.5" id="currentUserId">未設定</span>
+                                目前使用者： <span class="px-1.5 py-0.5 text-black" id="currentUserId" style="background-color: #FBBF24;">未設定</span>
                                 <span id="currentUserDisplayName" style="display: none;"></span>
                                 <span id="currentGroupName" class="ml-2" style="display: none;">組別： <span class="bg-black text-white px-1.5 py-0.5"></span></span>
                             </div>
@@ -125,7 +125,8 @@
                     <!-- Start Day Button -->
                     <button
                         id="findCityButton"
-                        class="col-span-1 md:col-span-1 border-r border-b border-black w-full h-full flex flex-col items-center justify-center transition-all bg-orange-400 hover:bg-orange-300 text-white"
+                        class="col-span-1 md:col-span-1 border-r border-b border-black w-full h-full flex flex-col items-center justify-center transition-all text-black"
+                        style="background-color: #FBBF24;"
                         disabled
                     >
                         <div class="text-center">
@@ -184,7 +185,7 @@
                 <div class="grid grid-cols-1 gap-0 border-l-2 border-t-2 border-black">
                     <!-- 地圖區域 - 上方全寬 -->
                     <div class="border-r-2 border-b-2 border-black bg-white">
-                        <div class="bg-orange-400 text-white px-4 py-2 text-xs uppercase tracking-wide">
+                        <div class="px-4 py-2 text-xs uppercase tracking-wide text-black" style="background-color: #FBBF24;">
                             甦醒軌跡地圖 / WAKE UP HISTORY MAP
                         </div>
                         <div id="historyMapContainer" class="w-full h-[500px]" style="border-radius: 0;"></div>
