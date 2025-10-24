@@ -962,6 +962,21 @@ input:focus, select:focus {
     border-top: 2px solid #000000 !important;
 }
 
+/* 確保今日甦醒頁面卡片邊框顯示為 1px */
+.grid.border-l.border-t.border-black {
+    border-left: 1px solid #000000 !important;
+    border-top: 1px solid #000000 !important;
+}
+
+.border-r.border-b.border-black {
+    border-right: 1px solid #000000 !important;
+    border-bottom: 1px solid #000000 !important;
+}
+
+.border.border-black {
+    border: 1px solid #000000 !important;
+}
+
 /* 響應式設計 */
 @media (max-width: 768px) {
     .modal-dialog {
