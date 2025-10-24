@@ -953,7 +953,7 @@ input:focus, select:focus {
 
 /* 確保主容器邊框顯示 */
 .max-w-7xl.mx-auto {
-    border: 8px solid #000000 !important;
+    border: 0px solid #000000 !important;
 }
 
 /* 確保分頁導航邊框顯示 */
