@@ -659,6 +659,7 @@ window.addEventListener('firebaseReady', async (event) => {
                 // 檢查早餐圖片並顯示
                 
                 console.log(`[displayLastRecordForCurrentUser] 檢查早餐圖片: ${lastRecord.imageUrl ? '有' : '無'}`);
+                console.log(`[displayLastRecordForCurrentUser] imageUrl 值: ${lastRecord.imageUrl}`);
                 
                 if (lastRecord.imageUrl) {
                     // 如果已有早餐圖片，直接顯示圖片
@@ -3312,11 +3313,25 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
                 }
                 
                 console.log(`[generateBreakfastImage] 找到記錄，準備更新圖片URL: ${recordId}`);
+                console.log(`[generateBreakfastImage] 要更新的圖片URL: ${imageData.imageUrl}`);
+                
                 await updateDoc(historyDocRef, {
                     imageUrl: imageData.imageUrl
                 });
                 
                 console.log(`[generateBreakfastImage] 圖片 URL 已更新到記錄中: ${recordId}`);
+                
+                // 驗證更新是否成功
+                const updatedDoc = await getDoc(historyDocRef);
+                if (updatedDoc.exists()) {
+                    const updatedData = updatedDoc.data();
+                    console.log(`[generateBreakfastImage] 驗證更新結果 - imageUrl: ${updatedData.imageUrl}`);
+                    if (updatedData.imageUrl !== imageData.imageUrl) {
+                        console.error(`[generateBreakfastImage] 警告：更新後的 imageUrl 不匹配！預期: ${imageData.imageUrl}, 實際: ${updatedData.imageUrl}`);
+                    }
+                } else {
+                    console.error(`[generateBreakfastImage] 錯誤：更新後無法找到記錄 ${recordId}`);
+                }
                 
                 // 🔄 更新成功後，重新顯示最後記錄以反映早餐圖片
                 setTimeout(() => {
