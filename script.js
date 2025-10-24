@@ -576,12 +576,16 @@ window.addEventListener('firebaseReady', async (event) => {
 
         if (!currentDataIdentifier) {
             console.log("[displayLastRecordForCurrentUser] currentDataIdentifier 為空，返回。");
-            resultTextDiv.innerHTML = `<p>請先在上方設定您的顯示名稱。</p>`;
+            if (resultTextDiv) {
+                resultTextDiv.innerHTML = `<p>請先在上方設定您的顯示名稱。</p>`;
+            }
             return;
         }
         if (!auth.currentUser) {
             console.log("[displayLastRecordForCurrentUser] Firebase 使用者未認證，返回。");
-            resultTextDiv.innerHTML = `<p>Firebase 認證中，請稍候...</p>`;
+            if (resultTextDiv) {
+                resultTextDiv.innerHTML = `<p>Firebase 認證中，請稍候...</p>`;
+            }
             return;
         }
 
@@ -614,10 +618,12 @@ window.addEventListener('firebaseReady', async (event) => {
                 } else {
                      mainMessage = `${rawUserDisplayName} 於<strong>${finalCityName} (${finalCountryName})</strong>甦醒。`;
                 }
-                resultTextDiv.innerHTML = `
-                    <p style="font-weight: bold; font-size: 1.1em;">${greetingText}</p>
-                    <p>${mainMessage}</p>
-                `;
+                if (resultTextDiv) {
+                    resultTextDiv.innerHTML = `
+                        <p style="font-weight: bold; font-size: 1.1em;">${greetingText}</p>
+                        <p>${mainMessage}</p>
+                    `;
+                }
 
                 if (lastRecord.country_iso_code && lastRecord.country_iso_code !== 'universe_code') {
                     countryFlagImg.src = `https://flagcdn.com/w40/${lastRecord.country_iso_code.toLowerCase()}.png`;
@@ -744,12 +750,16 @@ window.addEventListener('firebaseReady', async (event) => {
 
                 //debugInfoSmall.innerHTML = `(記錄於: ${recordedAtDate})<br>(目標城市緯度: ${latitudeStr}°, 經度: ${longitudeStr}°)<br>(目標 UTC 偏移: ${targetUTCOffsetStr}, 城市實際 UTC 偏移: ${cityActualUTCOffset !== null ? cityActualUTCOffset.toFixed(2) : 'N/A'}, 時區: ${lastRecord.timezone || '未知'})`;
             } else {
-                resultTextDiv.innerHTML = `<p>歡迎，${rawUserDisplayName}！此名稱尚無歷史記錄。</p><p>按下「開始這一天」，尋找你今日甦醒位置！</p>`;
+                if (resultTextDiv) {
+                    resultTextDiv.innerHTML = `<p>歡迎，${rawUserDisplayName}！此名稱尚無歷史記錄。</p><p>按下「開始這一天」，尋找你今日甦醒位置！</p>`;
+                }
                 console.log("[displayLastRecordForCurrentUser] 此識別碼尚無歷史記錄。");
             }
         } catch (e) {
             console.error("[displayLastRecordForCurrentUser] 讀取最後一筆記錄失敗:", e);
-            resultTextDiv.innerHTML = "<p>讀取最後記錄失敗。</p>";
+            if (resultTextDiv) {
+                resultTextDiv.innerHTML = "<p>讀取最後記錄失敗。</p>";
+            }
         }
     }
 
@@ -852,7 +862,9 @@ window.addEventListener('firebaseReady', async (event) => {
             // 檢查是否為特例時間段
             if (targetLatitude === 'local') {
                 console.log("特例時間段 (7:50-8:10)，正在獲取用戶地理位置...");
-                resultTextDiv.innerHTML = "<p>正在獲取您的地理位置...</p>";
+                if (resultTextDiv) {
+                    resultTextDiv.innerHTML = "<p>正在獲取您的地理位置...</p>";
+                }
                 
                 // 為特例時間段設定 latitudeDescription
                 latitudeDescription = "當地位置 (7:50-8:10特例時間段)";
@@ -885,7 +897,9 @@ window.addEventListener('firebaseReady', async (event) => {
                     requestBody.userLatitude = userLatitude;
                     requestBody.userLongitude = userLongitude;
                     
-                    resultTextDiv.innerHTML = "<p>已獲取地理位置，正在尋找當地城市...</p>";
+                    if (resultTextDiv) {
+                        resultTextDiv.innerHTML = "<p>已獲取地理位置，正在尋找當地城市...</p>";
+                    }
                     
                 } catch (error) {
                     console.error('獲取地理位置失敗:', error);
@@ -926,15 +940,16 @@ window.addEventListener('firebaseReady', async (event) => {
 
             // 檢查是否是宇宙情況
             if (apiResult.isUniverseCase) {
-                const apiResponse = await fetchStoryFromAPI("未知星球", "宇宙", "UNIVERSE_CODE");
-                const greetingFromAPI = apiResponse.greeting;
-                const storyFromAPI = apiResponse.story;
+                const universeApiResponse = await fetchStoryFromAPI("未知星球", "宇宙", "UNIVERSE_CODE");
+                const universeGreetingFromAPI = universeApiResponse.greeting;
+                const universeStoryFromAPI = universeApiResponse.story;
 
                 // 顯示宇宙主題資訊在位置卡片，按照示意圖風格
-                resultTextDiv.innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="font-size: 2em; margin-bottom: 10px;">${greetingFromAPI}</div>
-                        <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 5px;">今天的你，在當地 <strong>${userLocalDate.toLocaleTimeString()}</strong> 開啟了這一天，<br>但是很抱歉，你已經脫離地球了，與非地球生物共同開啟了新的一天。</div>
+                if (resultTextDiv) {
+                    resultTextDiv.innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="font-size: 2em; margin-bottom: 10px;">${universeGreetingFromAPI}</div>
+                            <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 5px;">今天的你，在當地 <strong>${userLocalDate.toLocaleTimeString()}</strong> 開啟了這一天，<br>但是很抱歉，你已經脫離地球了，與非地球生物共同開啟了新的一天。</div>
                     </div>
                 `;
                 
@@ -949,7 +964,7 @@ window.addEventListener('firebaseReady', async (event) => {
                             </div>
                             
                             <div class="text-black leading-relaxed p-4 text-[16px]">
-                                <p>${storyFromAPI}</p>
+                                <p>${universeStoryFromAPI}</p>
                             </div>
                         </div>
                     `;
@@ -1163,9 +1178,9 @@ window.addEventListener('firebaseReady', async (event) => {
             finalCountryName = bestMatchCity.country_zh && bestMatchCity.country_zh !== englishCountryName ? 
                 `${englishCountryName} (${bestMatchCity.country_zh})` : englishCountryName;
 
-            const apiResponse = await fetchStoryFromAPI(englishCityName, englishCountryName, countryCode);
-            const greetingFromAPI = apiResponse.greeting;
-            const storyFromAPI = apiResponse.story;
+            const normalApiResponse = await fetchStoryFromAPI(englishCityName, englishCountryName, countryCode);
+            const normalGreetingFromAPI = normalApiResponse.greeting;
+            const normalStoryFromAPI = normalApiResponse.story;
 
             // 顯示緯度資訊
             const latitudeInfo = latitude ? 
@@ -1173,10 +1188,11 @@ window.addEventListener('firebaseReady', async (event) => {
             const latitudeCategory = bestMatchCity.latitudeCategory || '';
             
             // 顯示問候語和地點資訊在位置卡片，按照示意圖風格
-            resultTextDiv.innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <div style="font-size: 2em; margin-bottom: 10px;">${greetingFromAPI}</div>
-                    <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 5px;">${rawUserDisplayName} 於<strong>${finalCityName} (${finalCountryName})</strong>甦醒。</div>
+            if (resultTextDiv) {
+                resultTextDiv.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">${normalGreetingFromAPI}</div>
+                        <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 5px;">${rawUserDisplayName} 於<strong>${finalCityName} (${finalCountryName})</strong>甦醒。</div>
                     ${latitudeInfo ? `<div style="font-size: 0.9em; color: #666; margin-top: 10px;">位於${latitudeInfo}${latitudeCategory ? ` (${latitudeCategory})` : ''}</div>` : ''}
                     ${bestMatchCity.source === 'predefined' ? '<div style="font-size: 0.8em; color: #888; margin-top: 10px;"><em>※ 使用預設城市資料</em></div>' : ''}
                 </div>
@@ -1326,12 +1342,18 @@ window.addEventListener('firebaseReady', async (event) => {
             }
 
             console.log("--- 使用 GeoNames API 尋找匹配城市結束 ---");
+        }
+        }
 
         } catch (error) {
             console.error("使用 GeoNames API 尋找城市時發生錯誤:", error);
-            resultTextDiv.innerHTML = `<p style="color: red;">抱歉，使用 GeoNames API 尋找城市時發生錯誤：${error.message}</p>`;
+            if (resultTextDiv) {
+                resultTextDiv.innerHTML = `<p style="color: red;">抱歉，使用 GeoNames API 尋找城市時發生錯誤：${error.message}</p>`;
+            }
         } finally {
-            findCityButton.disabled = false;
+            if (findCityButton) {
+                findCityButton.disabled = false;
+            }
         }
     }
 
@@ -1356,10 +1378,14 @@ window.addEventListener('firebaseReady', async (event) => {
     }
 
     function clearPreviousResults() {
-        resultTextDiv.innerHTML = "";
-        countryFlagImg.src = "";
-        countryFlagImg.alt = "國家國旗";
-        countryFlagImg.style.display = 'none';
+        if (resultTextDiv) {
+            resultTextDiv.innerHTML = "";
+        }
+        if (countryFlagImg) {
+            countryFlagImg.src = "";
+            countryFlagImg.alt = "國家國旗";
+            countryFlagImg.style.display = 'none';
+        }
         if (clockLeafletMap) {
             clockLeafletMap.remove();
             clockLeafletMap = null;
@@ -2893,11 +2919,12 @@ window.addEventListener('firebaseReady', async (event) => {
                 initialLoadHandled = true;
                 await displayLastRecordForCurrentUser();
             } else if (!currentDataIdentifier) {
-                resultTextDiv.innerHTML = `<p>歡迎！請在上方設定您的顯示名稱以開始使用。</p>`;
+                if (resultTextDiv) {
+                    resultTextDiv.innerHTML = `<p>歡迎！請在上方設定您的顯示名稱以開始使用。</p>`;
+                }
             }
         });
     }
-});
 
 // 確保在 DOM 載入完成後初始化分頁按鈕
 document.addEventListener('DOMContentLoaded', function() {
@@ -3387,3 +3414,4 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         console.log(`[generateBreakfastImage] ${cityDisplayName}早餐生成失敗，將在下次重新嘗試`);
     }
 };
+});
