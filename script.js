@@ -1317,6 +1317,7 @@ window.addEventListener('firebaseReady', async (event) => {
 
             // 自動生成早餐圖片（不再需要按鈕）
             console.log(`[findMatchingCity] 自動生成早餐圖片: ${chineseCityName}`);
+            console.log(`[findMatchingCity] 傳入參數 - recordId: ${savedDocId}, cityDisplayName: ${chineseCityName}, countryDisplayName: ${chineseCountryName}`);
             try {
                 await generateBreakfastImage({
                     city: englishCityName,
@@ -1325,6 +1326,7 @@ window.addEventListener('firebaseReady', async (event) => {
                     country_zh: chineseCountryName,
                     isUniverseTheme: false
                 }, chineseCityName, chineseCountryName, savedDocId);
+                console.log(`[findMatchingCity] 早餐圖片生成完成`);
             } catch (breakfastError) {
                 console.error('[findMatchingCity] 自動生成早餐圖片失敗:', breakfastError);
                 // 如果自動生成失敗，記錄錯誤並在下次重新嘗試
