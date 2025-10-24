@@ -973,6 +973,11 @@ input:focus, select:focus {
     border-bottom: 1px solid #000000 !important;
 }
 
+.border-l.border-r.border-black {
+    border-left: 1px solid #000000 !important;
+    border-right: 1px solid #000000 !important;
+}
+
 .border.border-black {
     border: 1px solid #000000 !important;
 }
