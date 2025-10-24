@@ -358,6 +358,11 @@ body {
     background-color: #FCD34D !important;
 }
 
+/* 載入資料按鈕 hover 效果 */
+#setUserNameButton:hover {
+    background-color: #FCD34D !important;
+}
+
 .bg-gray-100 {
     background-color: #f3f4f6;
 }
