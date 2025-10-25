@@ -187,6 +187,45 @@ body {
     color: #721c24;
 }
 
+/* 黃橘色背景樣式 */
+.bg-yellow-orange {
+    background-color: #FBBF24;
+}
+
+/* 隱藏元素 */
+.hidden {
+    display: none;
+}
+
+/* 地圖容器樣式 */
+.map-container {
+    border-radius: 0;
+}
+
+.map-container-400 {
+    height: 400px;
+}
+
+.map-container-500 {
+    height: 500px;
+}
+
+/* 國旗圖片樣式 */
+.country-flag {
+    display: none;
+    max-width: 50px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* 模態框樣式 */
+.modal-hidden {
+    display: none;
+}
+
 .text-\[32px\] {
     font-size: 32px;
 }

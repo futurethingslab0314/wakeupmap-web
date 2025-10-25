@@ -68,18 +68,17 @@
                                 <div>
                                     <button 
                                         id="setUserNameButton"
-                                        class="text-black rounded-none h-8 px-4 uppercase tracking-wide text-xs"
-                                        style="background-color: #FBBF24;"
+                                        class="text-black rounded-none h-8 px-4 uppercase tracking-wide text-xs bg-yellow-orange"
                                     >
                                         載入資料
                                     </button>
                                 </div>
                             </div>
                             
-                            <div id="currentUserInfo" class="text-[10px] text-black mt-2 pt-2" style="display: none;">
-                                目前使用者： <span class="px-1.5 py-0.5 text-black" id="currentUserId" style="background-color: #FBBF24;">未設定</span>
-                                <span id="currentUserDisplayName" style="display: none;"></span>
-                                <span id="currentGroupName" class="ml-2" style="display: none;">組別： <span class="bg-black text-white px-1.5 py-0.5"></span></span>
+                            <div id="currentUserInfo" class="text-[10px] text-black mt-2 pt-2 hidden">
+                                目前使用者： <span class="px-1.5 py-0.5 text-black bg-yellow-orange" id="currentUserId">未設定</span>
+                                <span id="currentUserDisplayName" class="hidden"></span>
+                                <span id="currentGroupName" class="ml-2 hidden">組別： <span class="bg-black text-white px-1.5 py-0.5"></span></span>
                             </div>
                         </div>
                     </div>
@@ -126,8 +125,7 @@
                     <!-- Start Day Button -->
                     <button
                         id="findCityButton"
-                        class="col-span-1 md:col-span-1 border-r border-b border-black w-full h-full flex flex-col items-center justify-center transition-all text-black hover:bg-yellow-300"
-                        style="background-color: #FBBF24;"
+                        class="col-span-1 md:col-span-1 border-r border-b border-black w-full h-full flex flex-col items-center justify-center transition-all text-black hover:bg-yellow-300 bg-yellow-orange"
                         disabled
                     >
                         <div class="text-center">
@@ -146,7 +144,7 @@
                             <div id="result" class="flex flex-col items-center justify-center text-center space-y-4">
                                 <p id="resultText" class="text-black text-sm max-w-xs">點擊「開始這一天」探索你今日的甦醒位置</p>
                                 <div id="flagContainer" class="text-center min-h-[40px] mb-4">
-                                    <img id="countryFlag" src="" alt="國家國旗" style="display:none; max-width: 50px; height: auto; border: 1px solid #ddd; border-radius: 4px; margin-top: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);"/>
+                                    <img id="countryFlag" src="" alt="國家國旗" class="country-flag"/>
                                 </div>
                             </div>
                         </div>
@@ -172,8 +170,8 @@
 
                     <!-- Map Card - Full Width -->
                     <div class="col-span-1 md:col-span-3 border-r border-b border-black">
-                        <div id="mapCard" class="bg-white relative" style="height: 400px;">
-                            <div id="mapContainer" class="w-full h-full" style="border-radius: 0;"></div>
+                        <div id="mapCard" class="bg-white relative map-container-400">
+                            <div id="mapContainer" class="w-full h-full map-container"></div>
                         </div>
                     </div>
                 </div>
@@ -183,7 +181,7 @@
                 <div class="grid grid-cols-1 gap-0 border-l-2 border-t-2 border-black">
                     <!-- 地圖區域 - 上方全寬 -->
                     <div class="border-r-2 border-b-2 border-black bg-white">
-                        <div id="historyMapContainer" class="w-full h-[500px]" style="border-radius: 0;"></div>
+                        <div id="historyMapContainer" class="w-full map-container-500 map-container"></div>
                         <small id="historyDebugInfo" class="text-gray-500 text-xs p-4"></small>
                     </div>
                     
@@ -244,7 +242,7 @@
                     
                     <!-- 地圖區塊 -->
                     <div class="border-r-2 border-b-2 border-black bg-white">
-                        <div id="globalTodayMapContainer" class="w-full h-[400px]" style="border-radius: 0;"></div>
+                        <div id="globalTodayMapContainer" class="w-full map-container-400 map-container"></div>
                         <small id="globalTodayDebugInfo" class="text-gray-500 text-xs p-4"></small>
                     </div>
                     
@@ -271,7 +269,7 @@
     </div>
 
     <!-- History Log Modal -->
-    <div id="historyLogModal" class="modal" style="display:none;">
+    <div id="historyLogModal" class="modal modal-hidden">
         <div class="modal-dialog">
             <div class="modal-content-wrapper">
                 <div class="modal-header">
