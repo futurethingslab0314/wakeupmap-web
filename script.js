@@ -781,7 +781,7 @@ window.addEventListener('firebaseReady', async (event) => {
                                         <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
                                     </div>
                                     
-                                    <div class="text-black leading-relaxed p-4 text-[12px]">
+                                    <div class="text-black leading-relaxed p-4" style="font-size: 12pt;">
                                         <p>${lastRecord.story}</p>
                                     </div>
                                 </div>
@@ -814,8 +814,50 @@ window.addEventListener('firebaseReady', async (event) => {
         if (findCityButton) {
             findCityButton.disabled = true; // 防止重複點擊
         }
+        
+        // 顯示載入動畫
         if (resultTextDiv) {
-            resultTextDiv.innerHTML = "<p>正在定位你的甦醒座標，請稍候...</p>";
+            resultTextDiv.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">正在定位你的甦醒座標...</p>
+                </div>
+            `;
+        }
+        
+        // 為其他卡片也顯示載入動畫
+        const breakfastCard = document.getElementById('breakfastCard');
+        if (breakfastCard) {
+            breakfastCard.innerHTML = `
+                <div class="bg-white h-full flex flex-col items-center justify-center text-center p-8">
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">準備早餐中...</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        const adventureCard = document.getElementById('adventureCard');
+        if (adventureCard) {
+            adventureCard.innerHTML = `
+                <div class="bg-white p-6 min-h-[180px]">
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">生成冒險故事中...</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        const mapContainerDiv = document.getElementById('mapContainer');
+        if (mapContainerDiv) {
+            mapContainerDiv.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">載入地圖中...</p>
+                </div>
+            `;
         }
 
         // 檢查並更新最新的用戶名稱和組名
@@ -1005,7 +1047,7 @@ window.addEventListener('firebaseReady', async (event) => {
                                 <p class="text-xs text-black mt-1">UNIVERSE ADVENTURE LOG</p>
                             </div>
                             
-                            <div class="text-black leading-relaxed p-4 text-[16px]">
+                            <div class="text-black leading-relaxed p-4" style="font-size: 12pt;">
                                 <p>${storyFromAPI}</p>
                             </div>
                         </div>
@@ -1249,7 +1291,7 @@ window.addEventListener('firebaseReady', async (event) => {
                             <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
                         </div>
                         
-                        <div class="text-black leading-relaxed p-4 text-[16px]">
+                        <div class="text-black leading-relaxed p-4" style="font-size: 12pt;">
                             <p>${storyFromAPI}</p>
                         </div>
                     </div>
