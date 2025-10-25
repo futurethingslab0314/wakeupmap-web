@@ -3214,7 +3214,12 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
     const loadingContainer = document.createElement('div');
     loadingContainer.id = 'breakfastLoadingContainer';
     loadingContainer.innerHTML = `
-        <div>正在準備${cityDisplayName}的地方早餐...</div>
+        <div class="bg-white h-full flex flex-col items-center justify-center text-center p-8">
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">正在準備${cityDisplayName}的地方早餐...</p>
+            </div>
+        </div>
     `;
     
     // 將載入容器插入到早餐卡片內
