@@ -631,7 +631,7 @@ body {
 
 /* 卡片高度設定 */
 #ClockTab .grid {
-    grid-auto-rows: 300px;
+    grid-auto-rows: 400px;
 }
 
 /* 早餐卡片圖片滿版設計 */
