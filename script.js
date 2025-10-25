@@ -734,7 +734,7 @@ window.addEventListener('firebaseReady', async (event) => {
                                     <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
                                 </div>
                                 
-                                <div class="text-black leading-relaxed p-4 text-[16px]">
+                                <div class="text-black leading-relaxed p-4 text-[12px]">
                                     <p>${lastRecord.story}</p>
                                 </div>
                             </div>
