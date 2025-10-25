@@ -614,10 +614,21 @@ window.addEventListener('firebaseReady', async (event) => {
                 } else {
                      mainMessage = `${rawUserDisplayName} 於<strong>${finalCityName} (${finalCountryName})</strong>甦醒。`;
                 }
+                // 顯示載入動畫
                 resultTextDiv.innerHTML = `
-                    <p style="font-weight: bold; font-size: 1.1em;">${greetingText}</p>
-                    <p>${mainMessage}</p>
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">載入中...</p>
+                    </div>
                 `;
+                
+                // 模擬載入時間 1.5 秒
+                setTimeout(() => {
+                    resultTextDiv.innerHTML = `
+                        <p style="font-weight: bold; font-size: 1.1em;">${greetingText}</p>
+                        <p>${mainMessage}</p>
+                    `;
+                }, 1500);
 
                 if (lastRecord.country_iso_code && lastRecord.country_iso_code !== 'universe_code') {
                     countryFlagImg.src = `https://flagcdn.com/w40/${lastRecord.country_iso_code.toLowerCase()}.png`;
@@ -631,25 +642,35 @@ window.addEventListener('firebaseReady', async (event) => {
                     clockLeafletMap.remove();
                     clockLeafletMap = null;
                 }
-                mapContainerDiv.innerHTML = '';
+                
+                // 顯示載入動畫
+                mapContainerDiv.innerHTML = `
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">載入地圖中...</p>
+                    </div>
+                `;
                 mapContainerDiv.classList.remove('universe-message');
 
-                if (typeof lastRecord.latitude === 'number' && isFinite(lastRecord.latitude) &&
-                    typeof lastRecord.longitude === 'number' && isFinite(lastRecord.longitude)) {
-                    clockLeafletMap = L.map(mapContainerDiv).setView([lastRecord.latitude, lastRecord.longitude], 7);
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                        subdomains: 'abcd', maxZoom: 19
-                    }).addTo(clockLeafletMap);
-                    L.circleMarker([lastRecord.latitude, lastRecord.longitude], {
-                        color: 'red', fillColor: '#f03', fillOpacity: 0.8, radius: 8
-                    }).addTo(clockLeafletMap).bindPopup(`<b>${finalCityName}</b><br>${finalCountryName}`).openPopup();
-                } else if (lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球") {
-                    mapContainerDiv.classList.add('universe-message');
-                    mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
-                } else {
-                    mapContainerDiv.innerHTML = "<p>無法顯示地圖，此記錄座標資訊不完整或無效。</p>";
-                }
+                // 模擬載入時間 1.5 秒
+                setTimeout(() => {
+                    if (typeof lastRecord.latitude === 'number' && isFinite(lastRecord.latitude) &&
+                        typeof lastRecord.longitude === 'number' && isFinite(lastRecord.longitude)) {
+                        clockLeafletMap = L.map(mapContainerDiv).setView([lastRecord.latitude, lastRecord.longitude], 7);
+                        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                            subdomains: 'abcd', maxZoom: 19
+                        }).addTo(clockLeafletMap);
+                        L.circleMarker([lastRecord.latitude, lastRecord.longitude], {
+                            color: 'red', fillColor: '#f03', fillOpacity: 0.8, radius: 8
+                        }).addTo(clockLeafletMap).bindPopup(`<b>${finalCityName}</b><br>${finalCountryName}`).openPopup();
+                    } else if (lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球") {
+                        mapContainerDiv.classList.add('universe-message');
+                        mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
+                    } else {
+                        mapContainerDiv.innerHTML = "<p>無法顯示地圖，此記錄座標資訊不完整或無效。</p>";
+                    }
+                }, 1500);
 
                 // 添加早餐區域（按鈕或圖片）
                 // 先清除已存在的早餐容器，防止重複顯示
@@ -661,85 +682,112 @@ window.addEventListener('firebaseReady', async (event) => {
                 console.log(`[displayLastRecordForCurrentUser] 檢查早餐圖片: ${lastRecord.imageUrl ? '有' : '無'}`);
                 console.log(`[displayLastRecordForCurrentUser] imageUrl 值: ${lastRecord.imageUrl}`);
                 
-                if (lastRecord.imageUrl) {
-                    // 如果已有早餐圖片，直接顯示圖片
-                    console.log(`[displayLastRecordForCurrentUser] 顯示早餐圖片: ${lastRecord.imageUrl}`);
-                    
-                    const breakfastCard = document.getElementById('breakfastCard');
-                    if (breakfastCard) {
-                        // 清除早餐卡片的現有內容
-                        breakfastCard.innerHTML = '';
-                        breakfastCard.style.padding = '0';
-                        breakfastCard.style.overflow = 'hidden';
-                        breakfastCard.style.position = 'relative';
-                        breakfastCard.style.height = '100%';
-                        
-                        // 創建滿版圖片容器
-                        const imageContainer = document.createElement('div');
-                        imageContainer.style.cssText = `
-                            width: 100%;
-                            height: 100%;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            overflow: hidden;
-                        `;
-                        
-                        const recordId = querySnapshot.docs[0].id; // 獲取記錄ID
-                        const displayName = lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球" ? 
-                            "星際早餐" : `${finalCityName}的早餐`;
-                        
-                        const img = document.createElement('img');
-                        img.src = lastRecord.imageUrl;
-                        img.alt = displayName;
-                        img.style.cssText = `
-                            width: 100%;
-                            height: 100%;
-                            object-fit: cover;
-                            border-radius: 0;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                        `;
-                        img.onerror = () => handleImageLoadError(img, recordId, currentDataIdentifier, finalCityName);
-                        
-                        imageContainer.appendChild(img);
-                        breakfastCard.appendChild(imageContainer);
-                        console.log(`[displayLastRecordForCurrentUser] 早餐圖片已放入早餐卡片`);
-                    }
-                } else {
-                    // 如果沒有早餐圖片，顯示提示訊息而不是重新生成
-                    console.log(`[displayLastRecordForCurrentUser] 記錄中沒有早餐圖片，顯示提示訊息`);
-                    const breakfastCard = document.getElementById('breakfastCard');
-                    if (breakfastCard) {
-                        breakfastCard.innerHTML = `
-                            <div class="bg-white h-full flex flex-col items-center justify-center text-center p-8">
-                                <p class="text-black text-sm uppercase tracking-wide">
-                                    早餐圖片生成中，請稍候...
-                                </p>
+                // 顯示載入動畫
+                const breakfastCard = document.getElementById('breakfastCard');
+                if (breakfastCard) {
+                    breakfastCard.innerHTML = `
+                        <div class="bg-white h-full flex flex-col items-center justify-center text-center p-8">
+                            <div class="loading-container">
+                                <div class="loading-spinner"></div>
+                                <p class="loading-text">準備早餐中...</p>
                             </div>
-                        `;
-                    }
+                        </div>
+                    `;
                 }
+
+                // 模擬載入時間 2 秒
+                setTimeout(() => {
+                    if (lastRecord.imageUrl) {
+                        // 如果已有早餐圖片，直接顯示圖片
+                        console.log(`[displayLastRecordForCurrentUser] 顯示早餐圖片: ${lastRecord.imageUrl}`);
+                        
+                        if (breakfastCard) {
+                            // 清除早餐卡片的現有內容
+                            breakfastCard.innerHTML = '';
+                            breakfastCard.style.padding = '0';
+                            breakfastCard.style.overflow = 'hidden';
+                            breakfastCard.style.position = 'relative';
+                            breakfastCard.style.height = '100%';
+                            
+                            // 創建滿版圖片容器
+                            const imageContainer = document.createElement('div');
+                            imageContainer.style.cssText = `
+                                width: 100%;
+                                height: 100%;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                overflow: hidden;
+                            `;
+                            
+                            const recordId = querySnapshot.docs[0].id; // 獲取記錄ID
+                            const displayName = lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球" ? 
+                                "星際早餐" : `${finalCityName}的早餐`;
+                            
+                            const img = document.createElement('img');
+                            img.src = lastRecord.imageUrl;
+                            img.alt = displayName;
+                            img.style.cssText = `
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                border-radius: 0;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                            `;
+                            img.onerror = () => handleImageLoadError(img, recordId, currentDataIdentifier, finalCityName);
+                            
+                            imageContainer.appendChild(img);
+                            breakfastCard.appendChild(imageContainer);
+                            console.log(`[displayLastRecordForCurrentUser] 早餐圖片已放入早餐卡片`);
+                        }
+                    } else {
+                        // 如果沒有早餐圖片，顯示提示訊息而不是重新生成
+                        console.log(`[displayLastRecordForCurrentUser] 記錄中沒有早餐圖片，顯示提示訊息`);
+                        if (breakfastCard) {
+                            breakfastCard.innerHTML = `
+                                <div class="bg-white h-full flex flex-col items-center justify-center text-center p-8">
+                                    <p class="text-black text-sm uppercase tracking-wide">
+                                        早餐圖片生成中，請稍候...
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    }
+                }, 2000);
                 
                 // 顯示故事在冒險卡片中
                 if (lastRecord.story) {
                     console.log(`[displayLastRecordForCurrentUser] 顯示故事: ${lastRecord.story.substring(0, 50)}...`);
                     const adventureCard = document.getElementById('adventureCard');
                     if (adventureCard) {
+                        // 顯示載入動畫
                         adventureCard.innerHTML = `
                             <div class="bg-white p-6 min-h-[180px]">
-                                <div class="border-l-4 border-orange-400 pl-3 mb-4">
-                                    <h3 class="text-black uppercase tracking-wide">今日冒險日誌</h3>
-                                    <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
-                                </div>
-                                
-                                <div class="text-black leading-relaxed p-4 text-[12px]">
-                                    <p>${lastRecord.story}</p>
+                                <div class="loading-container">
+                                    <div class="loading-spinner"></div>
+                                    <p class="loading-text">生成冒險故事中...</p>
                                 </div>
                             </div>
                         `;
-                        console.log(`[displayLastRecordForCurrentUser] 故事已放入冒險卡片`);
+                        
+                        // 模擬載入時間 2.5 秒
+                        setTimeout(() => {
+                            adventureCard.innerHTML = `
+                                <div class="bg-white p-6 min-h-[180px]">
+                                    <div class="border-l-4 border-orange-400 pl-3 mb-4">
+                                        <h3 class="text-black uppercase tracking-wide">今日冒險日誌</h3>
+                                        <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
+                                    </div>
+                                    
+                                    <div class="text-black leading-relaxed p-4 text-[12px]">
+                                        <p>${lastRecord.story}</p>
+                                    </div>
+                                </div>
+                            `;
+                            console.log(`[displayLastRecordForCurrentUser] 故事已放入冒險卡片`);
+                        }, 2500);
                     }
                 }
 
