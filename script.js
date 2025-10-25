@@ -593,8 +593,9 @@ window.addEventListener('firebaseReady', async (event) => {
             const querySnapshot = await getDocs(q);
             console.log("[displayLastRecordForCurrentUser] Firestore 查詢完成。Snapshot is empty:", querySnapshot.empty);
 
+            let lastRecord = null; // 在函數頂層定義
             if (!querySnapshot.empty) {
-                const lastRecord = querySnapshot.docs[0].data();
+                lastRecord = querySnapshot.docs[0].data();
                 console.log("[displayLastRecordForCurrentUser] 找到最後一筆記錄:", JSON.parse(JSON.stringify(lastRecord)));
 
                 const userTimeFormatted = lastRecord.localTime || "未知時間";
@@ -795,10 +796,14 @@ window.addEventListener('firebaseReady', async (event) => {
         }
         
         // 重新整理時也嘗試初始化軌跡地圖
-        console.log('[displayLastRecordForCurrentUser] 嘗試初始化軌跡地圖');
-        setTimeout(() => {
-            initializeTrajectoryMap(lastRecord);
-        }, 2000); // 等待 2 秒讓其他載入動畫完成
+        if (lastRecord) {
+            console.log('[displayLastRecordForCurrentUser] 嘗試初始化軌跡地圖');
+            setTimeout(() => {
+                initializeTrajectoryMap(lastRecord);
+            }, 2000); // 等待 2 秒讓其他載入動畫完成
+        } else {
+            console.log('[displayLastRecordForCurrentUser] 沒有記錄，跳過軌跡地圖初始化');
+        }
     }
 
     async function findMatchingCity() {
