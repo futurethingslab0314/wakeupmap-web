@@ -656,6 +656,12 @@ window.addEventListener('firebaseReady', async (event) => {
                 setTimeout(() => {
                     if (typeof lastRecord.latitude === 'number' && isFinite(lastRecord.latitude) &&
                         typeof lastRecord.longitude === 'number' && isFinite(lastRecord.longitude)) {
+                        
+                        // 清除可能存在的舊地圖
+                        if (mapContainerDiv._leaflet_id) {
+                            mapContainerDiv._leaflet_id = null;
+                        }
+                        
                         clockLeafletMap = L.map(mapContainerDiv).setView([lastRecord.latitude, lastRecord.longitude], 7);
                         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -671,9 +677,6 @@ window.addEventListener('firebaseReady', async (event) => {
                                 clockLeafletMap.invalidateSize();
                             }
                         }, 100);
-                        
-                        // 初始化軌跡地圖
-                        initializeTrajectoryMap(lastRecord);
                     } else if (lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球") {
                         mapContainerDiv.classList.add('universe-message');
                         mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
@@ -1098,6 +1101,12 @@ window.addEventListener('firebaseReady', async (event) => {
                 const savedUniverseDocId = await saveHistoryRecord(universeRecord);
                 await saveToGlobalDailyRecord(universeRecord);
 
+                // 數據保存完成後，初始化軌跡地圖
+                console.log('[findMatchingCity] 宇宙數據保存完成，開始初始化軌跡地圖');
+                setTimeout(() => {
+                    initializeTrajectoryMap(universeRecord);
+                }, 500); // 等待 500ms 確保數據已同步
+
                 // 自動生成宇宙早餐圖片
                 console.log(`[findMatchingCity] 自動生成宇宙早餐圖片`);
                 try {
@@ -1402,6 +1411,12 @@ window.addEventListener('firebaseReady', async (event) => {
             // 先保存記錄
             const savedDocId = await saveHistoryRecord(historyRecord);
             await saveToGlobalDailyRecord(historyRecord);
+
+            // 數據保存完成後，初始化軌跡地圖
+            console.log('[findMatchingCity] 數據保存完成，開始初始化軌跡地圖');
+            setTimeout(() => {
+                initializeTrajectoryMap(historyRecord);
+            }, 500); // 等待 500ms 確保數據已同步
 
             // 自動生成早餐圖片（不再需要按鈕）
             console.log(`[findMatchingCity] 自動生成早餐圖片: ${chineseCityName}`);
@@ -3474,6 +3489,11 @@ async function initializeTrajectoryMap(currentRecord) {
         return;
     }
     
+    // 清除可能存在的舊地圖
+    if (trajectoryMapContainer._leaflet_id) {
+        trajectoryMapContainer._leaflet_id = null;
+    }
+    
     // 顯示載入動畫
     trajectoryMapContainer.innerHTML = `
         <div class="loading-container">
@@ -3483,8 +3503,22 @@ async function initializeTrajectoryMap(currentRecord) {
     `;
     
     try {
+        // 確保必要變數已設定
+        if (!currentDataIdentifier) {
+            console.error('[initializeTrajectoryMap] currentDataIdentifier 未設定');
+            trajectoryMapContainer.innerHTML = '<p>無法載入軌跡：用戶識別碼未設定</p>';
+            return;
+        }
+        
+        const safeAppId = window.appId || (typeof __app_id !== 'undefined' ? __app_id : 'default-app-id-worldclock-history');
+        if (!safeAppId) {
+            console.error('[initializeTrajectoryMap] appId 未設定');
+            trajectoryMapContainer.innerHTML = '<p>無法載入軌跡：應用程式識別碼未設定</p>';
+            return;
+        }
+        
         // 獲取歷史記錄
-        const historyCollectionRef = collection(db, `artifacts/${appId}/userProfiles/${currentDataIdentifier}/clockHistory`);
+        const historyCollectionRef = collection(db, `artifacts/${safeAppId}/userProfiles/${currentDataIdentifier}/clockHistory`);
         const q = query(historyCollectionRef, orderBy("recordedAt", "desc"), limit(2));
         const querySnapshot = await getDocs(q);
         
