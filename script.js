@@ -3490,15 +3490,15 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
     }
 };
 
-    // 初始化軌跡地圖函數
-    async function initializeTrajectoryMap(currentRecord) {
-        console.log('[initializeTrajectoryMap] 開始初始化軌跡地圖');
-    
-        const trajectoryMapContainer = document.getElementById('trajectoryMapContainer');
-        if (!trajectoryMapContainer) {
-            console.error('[initializeTrajectoryMap] 找不到軌跡地圖容器');
-            return;
-        }
+        // 初始化軌跡地圖函數
+        async function initializeTrajectoryMap(currentRecord) {
+            console.log('[initializeTrajectoryMap] 開始初始化軌跡地圖');
+        
+            const trajectoryMapContainer = document.getElementById('trajectoryMapContainer');
+            if (!trajectoryMapContainer) {
+                console.error('[initializeTrajectoryMap] 找不到軌跡地圖容器');
+                return;
+            }
         
         // 清除可能存在的舊地圖
         if (trajectoryMapContainer._leaflet_id) {
@@ -3604,8 +3604,8 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         } else {
             trajectoryMapContainer.innerHTML = '<p>需要至少兩筆記錄才能顯示軌跡</p>';
         }
-        } catch (error) {
-            console.error('[initializeTrajectoryMap] 初始化軌跡地圖失敗:', error);
-            trajectoryMapContainer.innerHTML = '<p>載入軌跡失敗</p>';
+            } catch (error) {
+                console.error('[initializeTrajectoryMap] 初始化軌跡地圖失敗:', error);
+                trajectoryMapContainer.innerHTML = '<p>載入軌跡失敗</p>';
+            }
         }
-    }
