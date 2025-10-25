@@ -2,7 +2,7 @@
 
 /* 基於 new interface 的設計變數與基礎樣式強化 */
 :root {
-    --font-size: 12px;
+    --font-size: 16px;
     --radius: 10px;
     --radius-sm: 8px;
     --radius-md: 10px;
@@ -968,7 +968,7 @@ input:focus, select:focus {
     cursor: pointer;
     transition: background-color 0.2s;
     width: 100%;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
 }
 
