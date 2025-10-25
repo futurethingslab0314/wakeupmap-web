@@ -133,7 +133,7 @@ body {
 
 /* 冒險日誌文字大小覆蓋 */
 #adventureCard p {
-    font-size: 12pt !important;
+    font-size: 12pt;
 }
 
 .text-\[32px\] {
