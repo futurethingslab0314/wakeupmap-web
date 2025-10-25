@@ -803,6 +803,12 @@ window.addEventListener('firebaseReady', async (event) => {
             console.error("[displayLastRecordForCurrentUser] 讀取最後一筆記錄失敗:", e);
             resultTextDiv.innerHTML = "<p>讀取最後記錄失敗。</p>";
         }
+        
+        // 重新整理時也嘗試初始化軌跡地圖
+        console.log('[displayLastRecordForCurrentUser] 嘗試初始化軌跡地圖');
+        setTimeout(() => {
+            initializeTrajectoryMap(lastRecord);
+        }, 2000); // 等待 2 秒讓其他載入動畫完成
     }
 
     async function findMatchingCity() {
