@@ -665,6 +665,13 @@ window.addEventListener('firebaseReady', async (event) => {
                             color: 'red', fillColor: '#f03', fillOpacity: 0.8, radius: 8
                         }).addTo(clockLeafletMap).bindPopup(`<b>${finalCityName}</b><br>${finalCountryName}`).openPopup();
                         
+                        // 確保地圖正確渲染
+                        setTimeout(() => {
+                            if (clockLeafletMap) {
+                                clockLeafletMap.invalidateSize();
+                            }
+                        }, 100);
+                        
                         // 初始化軌跡地圖
                         initializeTrajectoryMap(lastRecord);
                     } else if (lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球") {
@@ -3501,6 +3508,13 @@ async function initializeTrajectoryMap(currentRecord) {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
                     subdomains: 'abcd', maxZoom: 19
                 }).addTo(trajectoryMap);
+                
+                // 確保軌跡地圖正確渲染
+                setTimeout(() => {
+                    if (trajectoryMap) {
+                        trajectoryMap.invalidateSize();
+                    }
+                }, 100);
                 
                 // 添加起點（上一筆）
                 L.circleMarker([previousPoint.latitude, previousPoint.longitude], {
