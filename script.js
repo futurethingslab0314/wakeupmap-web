@@ -589,11 +589,11 @@ window.addEventListener('firebaseReady', async (event) => {
         const historyCollectionRef = collection(db, `artifacts/${appId}/userProfiles/${currentDataIdentifier}/clockHistory`);
         const q = query(historyCollectionRef, orderBy("recordedAt", "desc"), limit(1));
 
+        let lastRecord = null; // 在函數頂層定義
+        
         try {
             const querySnapshot = await getDocs(q);
             console.log("[displayLastRecordForCurrentUser] Firestore 查詢完成。Snapshot is empty:", querySnapshot.empty);
-
-            let lastRecord = null; // 在函數頂層定義
             if (!querySnapshot.empty) {
                 lastRecord = querySnapshot.docs[0].data();
                 console.log("[displayLastRecordForCurrentUser] 找到最後一筆記錄:", JSON.parse(JSON.stringify(lastRecord)));
