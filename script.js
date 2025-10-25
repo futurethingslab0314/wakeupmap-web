@@ -1325,6 +1325,11 @@ window.addEventListener('firebaseReady', async (event) => {
                 mapContainerDiv.innerHTML = '<p style="color: red;">無法顯示地圖：經緯度資料無效</p>';
             } else {
                 try {
+                    // 清除可能存在的舊地圖
+                    if (mapContainerDiv._leaflet_id) {
+                        mapContainerDiv._leaflet_id = null;
+                    }
+                    
                     clockLeafletMap = L.map(mapContainerDiv, {
                         scrollWheelZoom: false,
                         doubleClickZoom: false
@@ -3475,60 +3480,60 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
     }
 };
 
-// 初始化軌跡地圖函數
-async function initializeTrajectoryMap(currentRecord) {
-    console.log('[initializeTrajectoryMap] 開始初始化軌跡地圖');
+    // 初始化軌跡地圖函數
+    async function initializeTrajectoryMap(currentRecord) {
+        console.log('[initializeTrajectoryMap] 開始初始化軌跡地圖');
     
-    const trajectoryMapContainer = document.getElementById('trajectoryMapContainer');
-    if (!trajectoryMapContainer) {
-        console.error('[initializeTrajectoryMap] 找不到軌跡地圖容器');
-        return;
-    }
-    
-    // 清除可能存在的舊地圖
-    if (trajectoryMapContainer._leaflet_id) {
-        trajectoryMapContainer._leaflet_id = null;
-    }
-    
-    // 顯示載入動畫
-    trajectoryMapContainer.innerHTML = `
-        <div class="loading-container">
-            <div class="loading-spinner"></div>
-            <p class="loading-text">載入軌跡中...</p>
-        </div>
-    `;
-    
-    try {
-        // 確保必要變數已設定
-        const safeCurrentDataIdentifier = currentDataIdentifier || window.currentDataIdentifier || localStorage.getItem('worldClockUserName');
-        console.log('[initializeTrajectoryMap] 檢查變數狀態:', {
-            currentDataIdentifier,
-            windowCurrentDataIdentifier: window.currentDataIdentifier,
-            localStorageUserName: localStorage.getItem('worldClockUserName'),
-            safeCurrentDataIdentifier
-        });
-        
-        if (!safeCurrentDataIdentifier) {
-            console.error('[initializeTrajectoryMap] currentDataIdentifier 未設定');
-            trajectoryMapContainer.innerHTML = '<p>無法載入軌跡：用戶識別碼未設定</p>';
+        const trajectoryMapContainer = document.getElementById('trajectoryMapContainer');
+        if (!trajectoryMapContainer) {
+            console.error('[initializeTrajectoryMap] 找不到軌跡地圖容器');
             return;
         }
         
-        const safeAppId = window.appId || (typeof __app_id !== 'undefined' ? __app_id : 'default-app-id-worldclock-history');
-        if (!safeAppId) {
-            console.error('[initializeTrajectoryMap] appId 未設定');
-            trajectoryMapContainer.innerHTML = '<p>無法載入軌跡：應用程式識別碼未設定</p>';
-            return;
+        // 清除可能存在的舊地圖
+        if (trajectoryMapContainer._leaflet_id) {
+            trajectoryMapContainer._leaflet_id = null;
         }
         
-        // 獲取歷史記錄
-        const historyCollectionRef = collection(db, `artifacts/${safeAppId}/userProfiles/${safeCurrentDataIdentifier}/clockHistory`);
-        const q = query(historyCollectionRef, orderBy("recordedAt", "desc"), limit(2));
-        const querySnapshot = await getDocs(q);
+        // 顯示載入動畫
+        trajectoryMapContainer.innerHTML = `
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">載入軌跡中...</p>
+            </div>
+        `;
         
-        if (querySnapshot.docs.length >= 2) {
-            const currentPoint = querySnapshot.docs[0].data();
-            const previousPoint = querySnapshot.docs[1].data();
+        try {
+            // 確保必要變數已設定
+            const safeCurrentDataIdentifier = currentDataIdentifier || window.currentDataIdentifier || localStorage.getItem('worldClockUserName');
+            console.log('[initializeTrajectoryMap] 檢查變數狀態:', {
+                currentDataIdentifier,
+                windowCurrentDataIdentifier: window.currentDataIdentifier,
+                localStorageUserName: localStorage.getItem('worldClockUserName'),
+                safeCurrentDataIdentifier
+            });
+            
+            if (!safeCurrentDataIdentifier) {
+                console.error('[initializeTrajectoryMap] currentDataIdentifier 未設定');
+                trajectoryMapContainer.innerHTML = '<p>無法載入軌跡：用戶識別碼未設定</p>';
+                return;
+            }
+            
+            const safeAppId = window.appId || (typeof __app_id !== 'undefined' ? __app_id : 'default-app-id-worldclock-history');
+            if (!safeAppId) {
+                console.error('[initializeTrajectoryMap] appId 未設定');
+                trajectoryMapContainer.innerHTML = '<p>無法載入軌跡：應用程式識別碼未設定</p>';
+                return;
+            }
+            
+            // 獲取歷史記錄
+            const historyCollectionRef = collection(db, `artifacts/${safeAppId}/userProfiles/${safeCurrentDataIdentifier}/clockHistory`);
+            const q = query(historyCollectionRef, orderBy("recordedAt", "desc"), limit(2));
+            const querySnapshot = await getDocs(q);
+            
+            if (querySnapshot.docs.length >= 2) {
+                const currentPoint = querySnapshot.docs[0].data();
+                const previousPoint = querySnapshot.docs[1].data();
             
             // 檢查兩個點都有有效的座標
             if (typeof currentPoint.latitude === 'number' && isFinite(currentPoint.latitude) &&
@@ -3589,8 +3594,8 @@ async function initializeTrajectoryMap(currentRecord) {
         } else {
             trajectoryMapContainer.innerHTML = '<p>需要至少兩筆記錄才能顯示軌跡</p>';
         }
-    } catch (error) {
-        console.error('[initializeTrajectoryMap] 初始化軌跡地圖失敗:', error);
-        trajectoryMapContainer.innerHTML = '<p>載入軌跡失敗</p>';
+        } catch (error) {
+            console.error('[initializeTrajectoryMap] 初始化軌跡地圖失敗:', error);
+            trajectoryMapContainer.innerHTML = '<p>載入軌跡失敗</p>';
+        }
     }
-}
