@@ -3504,7 +3504,15 @@ async function initializeTrajectoryMap(currentRecord) {
     
     try {
         // 確保必要變數已設定
-        if (!currentDataIdentifier) {
+        const safeCurrentDataIdentifier = currentDataIdentifier || window.currentDataIdentifier || localStorage.getItem('worldClockUserName');
+        console.log('[initializeTrajectoryMap] 檢查變數狀態:', {
+            currentDataIdentifier,
+            windowCurrentDataIdentifier: window.currentDataIdentifier,
+            localStorageUserName: localStorage.getItem('worldClockUserName'),
+            safeCurrentDataIdentifier
+        });
+        
+        if (!safeCurrentDataIdentifier) {
             console.error('[initializeTrajectoryMap] currentDataIdentifier 未設定');
             trajectoryMapContainer.innerHTML = '<p>無法載入軌跡：用戶識別碼未設定</p>';
             return;
@@ -3518,7 +3526,7 @@ async function initializeTrajectoryMap(currentRecord) {
         }
         
         // 獲取歷史記錄
-        const historyCollectionRef = collection(db, `artifacts/${safeAppId}/userProfiles/${currentDataIdentifier}/clockHistory`);
+        const historyCollectionRef = collection(db, `artifacts/${safeAppId}/userProfiles/${safeCurrentDataIdentifier}/clockHistory`);
         const q = query(historyCollectionRef, orderBy("recordedAt", "desc"), limit(2));
         const querySnapshot = await getDocs(q);
         
