@@ -553,18 +553,18 @@ window.addEventListener('firebaseReady', async (event) => {
             cursor: pointer;
             min-height: 44px;
             padding: 8px 16px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            background-color: #a6a08f;
-            color: white;
+            border-radius: 0px;
+            border: none;
+            background-color: #FBBF24;
+            color: black;
             transition: background-color 0.2s;
         }
         #setUserNameButton:active {
-            background-color: #827d6f;
+            background-color: #FCD34D;
         }
         @media (hover: hover) {
             #setUserNameButton:hover {
-                background-color: #827d6f;
+                background-color: #FCD34D;
             }
         }
     `;
