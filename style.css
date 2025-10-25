@@ -133,7 +133,12 @@ body {
 
 /* 冒險日誌文字大小覆蓋 */
 #adventureCard p {
-    font-size: 12pt;
+    font-size: 12pt !important;
+}
+
+/* 更強力的覆蓋規則 */
+#adventureCard div p {
+    font-size: 12pt !important;
 }
 
 .text-\[32px\] {
