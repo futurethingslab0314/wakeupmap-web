@@ -205,11 +205,29 @@ body {
 }
 
 .map-container-400 {
-    height: 400px;
+    height: 400px !important;
+    min-height: 400px !important;
 }
 
 .map-container-500 {
-    height: 500px;
+    height: 500px !important;
+    min-height: 500px !important;
+}
+
+/* 強制地圖卡片高度 */
+#mapCard {
+    height: 400px !important;
+    min-height: 400px !important;
+}
+
+#trajectoryMapCard {
+    height: 400px !important;
+    min-height: 400px !important;
+}
+
+#historyMapContainer {
+    height: 500px !important;
+    min-height: 500px !important;
 }
 
 /* 國旗圖片樣式 */
