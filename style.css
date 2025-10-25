@@ -510,6 +510,13 @@ body {
     grid-auto-rows: 180px !important;
 }
 
+/* 小螢幕：1欄，中等螢幕以上：3欄 */
+@media (min-width: 768px) {
+    #ClockTab .grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
 /* 修復「開始這一天」按鈕在手機上的置中問題 */
 #findCityButton {
     display: flex !important;
@@ -529,18 +536,12 @@ body {
     height: 100% !important;
 }
 
-@media (min-width: 768px) {
-    #ClockTab .grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-    }
-}
-
 #ClockTab .col-span-1 {
     grid-column: span 1 !important;
 }
 
 #ClockTab .col-span-3 {
-    grid-column: span 1 !important;
+    grid-column: span 3 !important;
 }
 
 @media (min-width: 768px) {
