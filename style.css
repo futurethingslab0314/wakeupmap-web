@@ -242,6 +242,12 @@ body {
     min-height: 100% !important;
 }
 
+/* 早餐卡片高度設定 */
+#breakfastCard {
+    height: 400px !important;
+    min-height: 400px !important;
+}
+
 /* 國旗圖片樣式 */
 .country-flag {
     display: none;
