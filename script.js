@@ -708,52 +708,42 @@ window.addEventListener('firebaseReady', async (event) => {
                     `;
                 }
 
-                // 模擬載入時間 2 秒
-                setTimeout(() => {
-                    if (lastRecord.imageUrl) {
-                        // 如果已有早餐圖片，直接顯示圖片
-                        console.log(`[displayLastRecordForCurrentUser] 顯示早餐圖片: ${lastRecord.imageUrl}`);
+                // 檢查是否有早餐圖片，如果沒有則持續顯示載入動畫
+                if (lastRecord.imageUrl) {
+                    // 如果已有早餐圖片，直接顯示圖片
+                    console.log(`[displayLastRecordForCurrentUser] 顯示早餐圖片: ${lastRecord.imageUrl}`);
+                    
+                    if (breakfastCard) {
+                        // 清除早餐卡片的現有內容
+                        breakfastCard.innerHTML = '';
+                        breakfastCard.style.padding = '0';
+                        breakfastCard.style.overflow = 'hidden';
+                        breakfastCard.style.position = 'relative';
+                        breakfastCard.style.height = '100%';
                         
-                        if (breakfastCard) {
-                            // 清除早餐卡片的現有內容
-                            breakfastCard.innerHTML = '';
-                            breakfastCard.style.padding = '0';
-                            breakfastCard.style.overflow = 'hidden';
-                            breakfastCard.style.position = 'relative';
-                            breakfastCard.style.height = '100%';
-                            
-                            // 創建滿版圖片容器
-                            const imageContainer = document.createElement('div');
-                            imageContainer.className = 'breakfast-image-container';
-                            
-                            const recordId = querySnapshot.docs[0].id; // 獲取記錄ID
-                            const displayName = lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球" ? 
-                                "星際早餐" : `${finalCityName}的早餐`;
-                            
-                            const img = document.createElement('img');
-                            img.src = lastRecord.imageUrl;
-                            img.alt = displayName;
-                            img.className = 'breakfast-image';
-                            img.onerror = () => handleImageLoadError(img, recordId, currentDataIdentifier, finalCityName);
-                            
-                            imageContainer.appendChild(img);
-                            breakfastCard.appendChild(imageContainer);
-                            console.log(`[displayLastRecordForCurrentUser] 早餐圖片已放入早餐卡片`);
-                        }
-                    } else {
-                        // 如果沒有早餐圖片，顯示提示訊息而不是重新生成
-                        console.log(`[displayLastRecordForCurrentUser] 記錄中沒有早餐圖片，顯示提示訊息`);
-                        if (breakfastCard) {
-                            breakfastCard.innerHTML = `
-                                <div class="bg-white h-full flex flex-col items-center justify-center text-center p-8">
-                                    <p class="text-black text-sm uppercase tracking-wide">
-                                        早餐圖片生成中，請稍候...
-                                    </p>
-                                </div>
-                            `;
-                        }
+                        // 創建滿版圖片容器
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = 'breakfast-image-container';
+                        
+                        const recordId = querySnapshot.docs[0].id; // 獲取記錄ID
+                        const displayName = lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球" ? 
+                            "星際早餐" : `${finalCityName}的早餐`;
+                        
+                        const img = document.createElement('img');
+                        img.src = lastRecord.imageUrl;
+                        img.alt = displayName;
+                        img.className = 'breakfast-image';
+                        img.onerror = () => handleImageLoadError(img, recordId, currentDataIdentifier, finalCityName);
+                        
+                        imageContainer.appendChild(img);
+                        breakfastCard.appendChild(imageContainer);
+                        console.log(`[displayLastRecordForCurrentUser] 早餐圖片已放入早餐卡片`);
                     }
-                }, 2000);
+                } else {
+                    // 如果沒有早餐圖片，持續顯示載入動畫，等待早餐生成
+                    console.log(`[displayLastRecordForCurrentUser] 記錄中沒有早餐圖片，持續顯示載入動畫`);
+                    // 載入動畫會一直持續，直到早餐圖片生成完成
+                }
                 
                 // 顯示故事在冒險卡片中
                 if (lastRecord.story) {
