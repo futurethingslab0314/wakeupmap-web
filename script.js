@@ -711,14 +711,7 @@ window.addEventListener('firebaseReady', async (event) => {
                             
                             // 創建滿版圖片容器
                             const imageContainer = document.createElement('div');
-                            imageContainer.style.cssText = `
-                                width: 100%;
-                                height: 100%;
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                overflow: hidden;
-                            `;
+                            imageContainer.className = 'breakfast-image-container';
                             
                             const recordId = querySnapshot.docs[0].id; // 獲取記錄ID
                             const displayName = lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球" ? 
@@ -727,15 +720,7 @@ window.addEventListener('firebaseReady', async (event) => {
                             const img = document.createElement('img');
                             img.src = lastRecord.imageUrl;
                             img.alt = displayName;
-                            img.style.cssText = `
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                                border-radius: 0;
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                            `;
+                            img.className = 'breakfast-image';
                             img.onerror = () => handleImageLoadError(img, recordId, currentDataIdentifier, finalCityName);
                             
                             imageContainer.appendChild(img);
@@ -781,7 +766,7 @@ window.addEventListener('firebaseReady', async (event) => {
                                         <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
                                     </div>
                                     
-                                    <div class="text-black leading-relaxed p-4" style="font-size: 12pt;">
+                                    <div class="text-black leading-relaxed p-4 adventure-story">
                                         <p>${lastRecord.story}</p>
                                     </div>
                                 </div>
@@ -1047,7 +1032,7 @@ window.addEventListener('firebaseReady', async (event) => {
                                 <p class="text-xs text-black mt-1">UNIVERSE ADVENTURE LOG</p>
                             </div>
                             
-                            <div class="text-black leading-relaxed p-4" style="font-size: 12pt;">
+                            <div class="text-black leading-relaxed p-4 adventure-story">
                                 <p>${storyFromAPI}</p>
                             </div>
                         </div>
@@ -1291,7 +1276,7 @@ window.addEventListener('firebaseReady', async (event) => {
                             <p class="text-xs text-black mt-1">TODAY'S ADVENTURE LOG</p>
                         </div>
                         
-                        <div class="text-black leading-relaxed p-4" style="font-size: 12pt;">
+                        <div class="text-black leading-relaxed p-4 adventure-story">
                             <p>${storyFromAPI}</p>
                         </div>
                     </div>
@@ -3213,15 +3198,7 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         breakfastCard.style.height = '100%';
         
         // 調整載入容器樣式以適應卡片
-        loadingContainer.style.cssText = `
-            text-align: center; 
-            padding: 20px; 
-            background: rgb(255, 255, 255);
-            border-radius: 0px;
-            border: 0px solidrgb(255, 255, 255);
-            width: 100%;
-            max-width: 100%;
-        `;
+        loadingContainer.className = 'loading-container-breakfast';
         
         breakfastCard.appendChild(loadingContainer);
     } else {
@@ -3304,27 +3281,12 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             
             // 創建滿版圖片容器
             const imageContainer = document.createElement('div');
-            imageContainer.style.cssText = `
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                left: 0;
-                overflow: hidden;
-            `;
+            imageContainer.className = 'breakfast-image-container';
             
             // 修改圖片樣式為滿版
             const img = breakfastContainer.querySelector('img');
             if (img) {
-                img.style.cssText = `
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 0;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                `;
+                img.className = 'breakfast-image';
                 imageContainer.appendChild(img);
             }
             
@@ -3458,14 +3420,7 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         // 顯示錯誤訊息
         const errorContainer = document.createElement('div');
         errorContainer.id = 'breakfastErrorContainer';
-        errorContainer.style.cssText = `
-            text-align: center; 
-            margin-top: 20px; 
-            padding: 20px; 
-            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
-            border-radius: 12px;
-            border: 1px solid #f1aeb5;
-        `;
+        errorContainer.className = 'error-container';
         errorContainer.innerHTML = `
             <div style="font-size: 1.2em; margin-bottom: 10px; color: #721c24;">❌ 早餐圖片生成失敗</div>
             <div style="color: #721c24; font-size: 0.9em;"><em>${error.message}</em></div>
@@ -3483,15 +3438,7 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
             breakfastCard.style.height = '100%';
             
             // 調整錯誤容器樣式以適應卡片
-            errorContainer.style.cssText = `
-                text-align: center; 
-                padding: 20px; 
-                background: linear-gradient(135deg, #f8d7da, #f5c6cb);
-                border-radius: 8px;
-                border: 1px solid #f1aeb5;
-                width: 100%;
-                max-width: 100%;
-            `;
+            errorContainer.className = 'error-container-compact';
             
             breakfastCard.appendChild(errorContainer);
         } else {

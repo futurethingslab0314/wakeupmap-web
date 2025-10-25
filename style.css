@@ -131,14 +131,60 @@ body {
     font-size: 16px;
 }
 
-/* 冒險日誌文字大小覆蓋 */
-#adventureCard p {
-    font-size: 12pt !important;
+/* 冒險日誌文字大小 */
+#adventureCard p,
+#adventureCard div p,
+.adventure-story {
+    font-size: 12pt;
 }
 
-/* 更強力的覆蓋規則 */
-#adventureCard div p {
-    font-size: 12pt !important;
+/* 早餐圖片容器樣式 */
+.breakfast-image-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.breakfast-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* 載入容器樣式 */
+.loading-container-breakfast {
+    text-align: center;
+    padding: 20px;
+    background: rgb(255, 255, 255);
+    border-radius: 0px;
+    border: 0px solid rgb(255, 255, 255);
+}
+
+/* 錯誤容器樣式 */
+.error-container {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    border-radius: 12px;
+    border: 1px solid #f1aeb5;
+    color: #721c24;
+}
+
+.error-container-compact {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    border-radius: 8px;
+    border: 1px solid #f1aeb5;
+    color: #721c24;
 }
 
 .text-\[32px\] {
@@ -503,225 +549,219 @@ body {
     display: block;
 }
 
-/* 三欄佈局 - 響應式設計 */
+/* 今日甦醒分頁 - 簡潔響應式佈局 */
 #ClockTab .grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    grid-auto-rows: 180px !important;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 180px;
+    gap: 0;
 }
 
-/* 小螢幕：1欄，中等螢幕以上：3欄 */
+/* 中等螢幕以上：3欄佈局 */
 @media (min-width: 768px) {
     #ClockTab .grid {
-        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* 修復「開始這一天」按鈕在手機上的置中問題 */
-#findCityButton {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    height: 100% !important;
-    min-height: 180px !important;
-}
-
-#findCityButton .text-center {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    height: 100% !important;
-}
-
+/* 卡片跨欄設定 */
 #ClockTab .col-span-1 {
-    grid-column: span 1 !important;
+    grid-column: span 1;
 }
 
 #ClockTab .col-span-3 {
-    grid-column: span 3 !important;
+    grid-column: span 1;
 }
 
 @media (min-width: 768px) {
     #ClockTab .col-span-3 {
-        grid-column: span 3 !important;
+        grid-column: span 3;
     }
 }
 
-/* 增加卡片高度讓早餐圖片能正方形呈現 */
+/* 開始這一天按鈕置中 */
+#findCityButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    min-height: 180px;
+}
+
+/* 卡片高度設定 */
 #ClockTab .grid {
-    grid-auto-rows: 300px !important; /* 增加高度讓內容能正中間顯示 */
+    grid-auto-rows: 300px;
 }
 
 /* 早餐卡片圖片滿版設計 */
 #breakfastCard {
-    position: relative !important;
-    overflow: hidden !important;
+    position: relative;
+    overflow: hidden;
 }
 
 #breakfastCard img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    border-radius: 0 !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0;
 }
 
-/* 確保 result 內容在欄位高度正中間 */
+/* 位置卡片置中 */
 #locationCard {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 #result {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    height: 100% !important;
-    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
 }
 
-/* 強制 ClockTab 子元素正確顯示 */
+/* ClockTab 子元素設定 */
 #ClockTab .grid > * {
-    display: block !important;
-    box-sizing: border-box !important;
+    display: block;
+    box-sizing: border-box;
 }
 
 /* 歷史記錄分頁卡片式佈局 */
 #HistoryTab {
-    width: 100% !important;
+    width: 100%;
 }
 
 #HistoryTab #historyList {
-    display: grid !important;
-    gap: 1rem !important;
+    display: grid;
+    gap: 1rem;
 }
 
 /* 日誌卡片樣式 */
 .history-card {
-    border: 2px solid black !important;
-    background: white !important;
-    padding: 1rem !important;
-    position: relative !important;
+    border: 2px solid black;
+    background: white;
+    padding: 1rem;
+    position: relative;
 }
 
 .history-card-header {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    margin-bottom: 0.75rem !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
 }
 
 .history-card-title {
-    font-size: 1.125rem !important;
-    font-weight: bold !important;
-    color: black !important;
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: black;
 }
 
 .history-card-group {
-    background: black !important;
-    color: white !important;
-    padding: 0.25rem 0.5rem !important;
-    font-size: 0.75rem !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
+    background: black;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .history-card-location {
-    font-size: 0.875rem !important;
-    color: black !important;
-    margin-bottom: 0.5rem !important;
+    font-size: 0.875rem;
+    color: black;
+    margin-bottom: 0.5rem;
 }
 
 .history-card-date {
-    font-size: 0.75rem !important;
-    color: #666 !important;
+    font-size: 0.75rem;
+    color: #666;
 }
 
 /* 響應式網格 */
 @media (max-width: 767px) {
     #HistoryTab #historyList {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
     }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
     #HistoryTab #historyList {
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (min-width: 1024px) {
     #HistoryTab #historyList {
-        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 /* 眾人地圖使用者卡片樣式 */
 .user-card {
-    border: 2px solid black !important;
-    background: white !important;
-    padding: 1rem !important;
-    position: relative !important;
+    border: 2px solid black;
+    background: white;
+    padding: 1rem;
+    position: relative;
 }
 
 .user-card-header {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    margin-bottom: 0.75rem !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
 }
 
 .user-card-title {
-    font-size: 1.125rem !important;
-    font-weight: bold !important;
-    color: black !important;
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: black;
 }
 
 .user-card-group {
-    background: black !important;
-    color: white !important;
-    padding: 0.25rem 0.5rem !important;
-    font-size: 0.75rem !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
+    background: black;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .user-card-location {
-    font-size: 0.875rem !important;
-    color: black !important;
-    margin-bottom: 0.5rem !important;
+    font-size: 0.875rem;
+    color: black;
+    margin-bottom: 0.5rem;
 }
 
 .user-card-time {
-    font-size: 0.75rem !important;
-    color: #666 !important;
+    font-size: 0.75rem;
+    color: #666;
 }
 
 /* 眾人地圖使用者列表響應式網格 */
 @media (max-width: 767px) {
     #globalUsersList {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
     }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
     #globalUsersList {
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (min-width: 1024px) {
     #globalUsersList {
-        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -1073,23 +1113,23 @@ input:focus, select:focus {
     
     /* 手機版「開始這一天」按鈕置中修復 */
     #findCityButton {
-        min-height: 200px !important;
-        padding: 1rem !important;
+        min-height: 200px;
+        padding: 1rem;
     }
     
     #findCityButton h2 {
-        font-size: 16px !important;
-        margin-bottom: 8px !important;
+        font-size: 16px;
+        margin-bottom: 8px;
     }
     
     #findCityButton p {
-        font-size: 12px !important;
+        font-size: 12px;
     }
     
     /* 手機版分頁按鈕樣式 */
     [id^="tabButton-"] {
-        padding: 12px 8px !important;
-        font-size: 14px !important;
-        min-height: 48px !important;
+        padding: 12px 8px;
+        font-size: 14px;
+        min-height: 48px;
     }
 }
