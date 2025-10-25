@@ -664,6 +664,9 @@ window.addEventListener('firebaseReady', async (event) => {
                         L.circleMarker([lastRecord.latitude, lastRecord.longitude], {
                             color: 'red', fillColor: '#f03', fillOpacity: 0.8, radius: 8
                         }).addTo(clockLeafletMap).bindPopup(`<b>${finalCityName}</b><br>${finalCountryName}`).openPopup();
+                        
+                        // 初始化軌跡地圖
+                        initializeTrajectoryMap(lastRecord);
                     } else if (lastRecord.city === "Unknown Planet" || lastRecord.city_zh === "未知星球") {
                         mapContainerDiv.classList.add('universe-message');
                         mapContainerDiv.innerHTML = "<p>浩瀚宇宙，無從定位...</p>";
@@ -3453,3 +3456,89 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         console.log(`[generateBreakfastImage] ${cityDisplayName}早餐生成失敗，將在下次重新嘗試`);
     }
 };
+
+// 初始化軌跡地圖函數
+async function initializeTrajectoryMap(currentRecord) {
+    console.log('[initializeTrajectoryMap] 開始初始化軌跡地圖');
+    
+    const trajectoryMapContainer = document.getElementById('trajectoryMapContainer');
+    if (!trajectoryMapContainer) {
+        console.error('[initializeTrajectoryMap] 找不到軌跡地圖容器');
+        return;
+    }
+    
+    // 顯示載入動畫
+    trajectoryMapContainer.innerHTML = `
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">載入軌跡中...</p>
+        </div>
+    `;
+    
+    try {
+        // 獲取歷史記錄
+        const historyCollectionRef = collection(db, `artifacts/${appId}/userProfiles/${currentDataIdentifier}/clockHistory`);
+        const q = query(historyCollectionRef, orderBy("recordedAt", "desc"), limit(2));
+        const querySnapshot = await getDocs(q);
+        
+        if (querySnapshot.docs.length >= 2) {
+            const currentPoint = querySnapshot.docs[0].data();
+            const previousPoint = querySnapshot.docs[1].data();
+            
+            // 檢查兩個點都有有效的座標
+            if (typeof currentPoint.latitude === 'number' && isFinite(currentPoint.latitude) &&
+                typeof currentPoint.longitude === 'number' && isFinite(currentPoint.longitude) &&
+                typeof previousPoint.latitude === 'number' && isFinite(previousPoint.latitude) &&
+                typeof previousPoint.longitude === 'number' && isFinite(previousPoint.longitude)) {
+                
+                // 計算地圖中心點
+                const centerLat = (currentPoint.latitude + previousPoint.latitude) / 2;
+                const centerLng = (currentPoint.longitude + previousPoint.longitude) / 2;
+                
+                // 初始化地圖
+                const trajectoryMap = L.map(trajectoryMapContainer).setView([centerLat, centerLng], 6);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                    subdomains: 'abcd', maxZoom: 19
+                }).addTo(trajectoryMap);
+                
+                // 添加起點（上一筆）
+                L.circleMarker([previousPoint.latitude, previousPoint.longitude], {
+                    color: 'blue', fillColor: '#0066cc', fillOpacity: 0.8, radius: 6
+                }).addTo(trajectoryMap).bindPopup(`
+                    <b>起點</b><br>
+                    ${previousPoint.city_zh || previousPoint.city}<br>
+                    ${previousPoint.country_zh || previousPoint.country}
+                `);
+                
+                // 添加終點（這一筆）
+                L.circleMarker([currentPoint.latitude, currentPoint.longitude], {
+                    color: 'red', fillColor: '#f03', fillOpacity: 0.8, radius: 8
+                }).addTo(trajectoryMap).bindPopup(`
+                    <b>終點</b><br>
+                    ${currentPoint.city_zh || currentPoint.city}<br>
+                    ${currentPoint.country_zh || currentPoint.country}
+                `);
+                
+                // 添加軌跡線
+                const trajectoryLine = L.polyline([
+                    [previousPoint.latitude, previousPoint.longitude],
+                    [currentPoint.latitude, currentPoint.longitude]
+                ], {
+                    color: '#ff6b35',
+                    weight: 3,
+                    opacity: 0.8
+                }).addTo(trajectoryMap);
+                
+                console.log('[initializeTrajectoryMap] 軌跡地圖初始化完成');
+            } else {
+                trajectoryMapContainer.innerHTML = '<p>無法顯示軌跡：座標資訊不完整</p>';
+            }
+        } else {
+            trajectoryMapContainer.innerHTML = '<p>需要至少兩筆記錄才能顯示軌跡</p>';
+        }
+    } catch (error) {
+        console.error('[initializeTrajectoryMap] 初始化軌跡地圖失敗:', error);
+        trajectoryMapContainer.innerHTML = '<p>載入軌跡失敗</p>';
+    }
+}
