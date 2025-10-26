@@ -3488,8 +3488,9 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         // 早餐生成失敗，將在下次重新嘗試
         console.log(`[generateBreakfastImage] ${cityDisplayName}早餐生成失敗，將在下次重新嘗試`);
     }
+};
 
-    // 初始化軌跡地圖函數
+    // 初始化軌跡地圖函數 - 基於甦醒軌跡分頁的邏輯
     async function initializeTrajectoryMap(currentRecord) {
         console.log('[initializeTrajectoryMap] 開始初始化軌跡地圖');
     
@@ -3535,7 +3536,7 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
                 return;
             }
             
-            // 獲取歷史記錄
+            // 獲取歷史記錄 - 只取最後兩筆
             const historyCollectionRef = collection(db, `artifacts/${safeAppId}/userProfiles/${safeCurrentDataIdentifier}/clockHistory`);
             const q = query(historyCollectionRef, orderBy("recordedAt", "desc"), limit(2));
             const querySnapshot = await getDocs(q);
@@ -3550,53 +3551,25 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
                     typeof previousPoint.latitude === 'number' && isFinite(previousPoint.latitude) &&
                     typeof previousPoint.longitude === 'number' && isFinite(previousPoint.longitude)) {
                     
-                    // 計算地圖中心點
-                    const centerLat = (currentPoint.latitude + previousPoint.latitude) / 2;
-                    const centerLng = (currentPoint.longitude + previousPoint.longitude) / 2;
-                    
-                    // 初始化地圖
-                    const trajectoryMap = L.map(trajectoryMapContainer).setView([centerLat, centerLng], 6);
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                        subdomains: 'abcd', maxZoom: 19
-                    }).addTo(trajectoryMap);
-                    
-                    // 確保軌跡地圖正確渲染
-                    setTimeout(() => {
-                        if (trajectoryMap) {
-                            trajectoryMap.invalidateSize();
+                    // 準備軌跡點數據 - 基於renderHistoryMap的邏輯
+                    const trajectoryPoints = [
+                        {
+                            lat: previousPoint.latitude,
+                            lon: previousPoint.longitude,
+                            title: `起點: ${previousPoint.city_zh || previousPoint.city}, ${previousPoint.country_zh || previousPoint.country}`,
+                            isStart: true
+                        },
+                        {
+                            lat: currentPoint.latitude,
+                            lon: currentPoint.longitude,
+                            title: `終點: ${currentPoint.city_zh || currentPoint.city}, ${currentPoint.country_zh || currentPoint.country}`,
+                            isEnd: true
                         }
-                    }, 100);
+                    ];
                     
-                    // 添加起點（上一筆）
-                    L.circleMarker([previousPoint.latitude, previousPoint.longitude], {
-                        color: 'blue', fillColor: '#0066cc', fillOpacity: 0.8, radius: 6
-                    }).addTo(trajectoryMap).bindPopup(`
-                        <b>起點</b><br>
-                        ${previousPoint.city_zh || previousPoint.city}<br>
-                        ${previousPoint.country_zh || previousPoint.country}
-                    `);
+                    // 使用類似renderHistoryMap的邏輯來渲染軌跡地圖
+                    renderTrajectoryMap(trajectoryPoints, trajectoryMapContainer, null, "甦醒軌跡");
                     
-                    // 添加終點（這一筆）
-                    L.circleMarker([currentPoint.latitude, currentPoint.longitude], {
-                        color: 'red', fillColor: '#f03', fillOpacity: 0.8, radius: 8
-                    }).addTo(trajectoryMap).bindPopup(`
-                        <b>終點</b><br>
-                        ${currentPoint.city_zh || currentPoint.city}<br>
-                        ${currentPoint.country_zh || currentPoint.country}
-                    `);
-                    
-                    // 添加軌跡線
-                    const trajectoryLine = L.polyline([
-                        [previousPoint.latitude, previousPoint.longitude],
-                        [currentPoint.latitude, currentPoint.longitude]
-                    ], {
-                        color: '#ff6b35',
-                        weight: 3,
-                        opacity: 0.8
-                    }).addTo(trajectoryMap);
-                    
-                    console.log('[initializeTrajectoryMap] 軌跡地圖初始化完成');
                 } else {
                     trajectoryMapContainer.innerHTML = '<p>無法顯示軌跡：座標資訊不完整</p>';
                 }
@@ -3609,4 +3582,138 @@ window.generateBreakfastImage = async function(recordData, cityDisplayName, coun
         }
     }
 
-}); // 結束 firebaseReady 事件監聽器
+    // 軌跡地圖渲染函數 - 基於renderHistoryMap的邏輯
+    function renderTrajectoryMap(points, mapDivElement, debugDivElement, mapTitle = "軌跡地圖") {
+        console.log(`[renderTrajectoryMap] 準備渲染軌跡地圖: "${mapTitle}", 點數量: ${points ? points.length : 0}`);
+
+        let currentMapInstance = null;
+        let currentMarkerLayerGroup = null;
+
+        // 初始化地圖
+        if (!currentMapInstance) {
+            console.log(`[renderTrajectoryMap] 初始化新的 Leaflet 地圖實例到容器:`, mapDivElement.id);
+            mapDivElement.innerHTML = '';
+            
+            // 確保容器有正確的尺寸
+            mapDivElement.style.width = '100%';
+            mapDivElement.style.height = '400px';
+            
+            currentMapInstance = L.map(mapDivElement).setView([20, 0], 2);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd', maxZoom: 18, minZoom: 2
+            }).addTo(currentMapInstance);
+            currentMarkerLayerGroup = L.layerGroup().addTo(currentMapInstance);
+            
+            // 延遲調整地圖大小
+            setTimeout(() => {
+                if (currentMapInstance) {
+                    currentMapInstance.invalidateSize();
+                    console.log(`[renderTrajectoryMap] 地圖大小已調整`);
+                }
+            }, 100);
+        }
+
+        console.log(`[renderTrajectoryMap] 清除舊標記`);
+        if (currentMarkerLayerGroup) {
+            currentMarkerLayerGroup.clearLayers();
+        } else {
+            currentMarkerLayerGroup = L.layerGroup().addTo(currentMapInstance);
+        }
+
+        currentMapInstance.invalidateSize();
+
+        if (!points || points.length === 0) {
+            if (currentMarkerLayerGroup) currentMarkerLayerGroup.clearLayers();
+            console.log("[renderTrajectoryMap] 沒有點可以渲染");
+            if(debugDivElement) debugDivElement.textContent = `${mapTitle}：尚無有效座標點可顯示。`;
+            if (currentMapInstance) {
+                currentMapInstance.setView([20, 0], 2);
+            }
+            return;
+        }
+
+        // 計算邊界框
+        let minLat = 90, maxLat = -90, minLon = 180, maxLon = -180;
+        let validPointsCount = 0;
+
+        points.forEach(point => {
+            if (typeof point.lat === 'number' && isFinite(point.lat) && 
+                typeof point.lon === 'number' && isFinite(point.lon)) {
+                minLat = Math.min(minLat, point.lat);
+                maxLat = Math.max(maxLat, point.lat);
+                minLon = Math.min(minLon, point.lon);
+                maxLon = Math.max(maxLon, point.lon);
+                validPointsCount++;
+            }
+        });
+
+        if (validPointsCount === 0) {
+            console.log("[renderTrajectoryMap] 沒有有效的座標點");
+            if(debugDivElement) debugDivElement.textContent = `${mapTitle}：尚無有效座標點可顯示。`;
+            return;
+        }
+
+        // 調整地圖視圖到包含所有點的邊界框
+        if (validPointsCount > 1) {
+            const bounds = [[minLat, minLon], [maxLat, maxLon]];
+            currentMapInstance.fitBounds(bounds, { padding: [20, 20] });
+        } else {
+            currentMapInstance.setView([points[0].lat, points[0].lon], 6);
+        }
+
+        // 添加軌跡點和連線
+        points.forEach((point, index) => {
+            if (typeof point.lat === 'number' && isFinite(point.lat) && 
+                typeof point.lon === 'number' && isFinite(point.lon)) {
+                
+                // 根據點的位置決定標記樣式
+                let markerOptions;
+                if (point.isStart) {
+                    markerOptions = {
+                        color: 'blue',
+                        fillColor: '#0066cc',
+                        fillOpacity: 0.8,
+                        radius: 6
+                    };
+                } else if (point.isEnd) {
+                    markerOptions = {
+                        color: 'red',
+                        fillColor: '#f03',
+                        fillOpacity: 0.8,
+                        radius: 8
+                    };
+                } else {
+                    markerOptions = {
+                        color: '#ff6b35',
+                        fillColor: '#ff6b35',
+                        fillOpacity: 0.8,
+                        radius: 5
+                    };
+                }
+
+                const marker = L.circleMarker([point.lat, point.lon], markerOptions)
+                    .addTo(currentMarkerLayerGroup)
+                    .bindPopup(point.title || `點 ${index + 1}`);
+
+                // 如果不是最後一個點，連接到下一個點
+                if (index < points.length - 1) {
+                    const nextPoint = points[index + 1];
+                    if (typeof nextPoint.lat === 'number' && isFinite(nextPoint.lat) && 
+                        typeof nextPoint.lon === 'number' && isFinite(nextPoint.lon)) {
+                        
+                        const polyline = L.polyline([
+                            [point.lat, point.lon],
+                            [nextPoint.lat, nextPoint.lon]
+                        ], {
+                            color: '#ff6b35',
+                            weight: 3,
+                            opacity: 0.8
+                        }).addTo(currentMarkerLayerGroup);
+                    }
+                }
+            }
+        });
+
+        console.log(`[renderTrajectoryMap] 軌跡地圖渲染完成，共 ${validPointsCount} 個有效點`);
+    }
