@@ -3115,33 +3115,35 @@ window.addEventListener('firebaseReady', async (event) => {
     function renderTrajectoryMap(points, mapDivElement, debugDivElement, mapTitle = "軌跡地圖") {
         console.log(`[renderTrajectoryMap] 準備渲染軌跡地圖: "${mapTitle}", 點數量: ${points ? points.length : 0}`);
 
-        let currentMapInstance = null;
-        let currentMarkerLayerGroup = null;
-
-        // 初始化地圖
-        if (!currentMapInstance) {
-            console.log(`[renderTrajectoryMap] 初始化新的 Leaflet 地圖實例到容器:`, mapDivElement.id);
-            mapDivElement.innerHTML = '';
-            
-            // 確保容器有正確的尺寸
-            mapDivElement.style.width = '100%';
-            mapDivElement.style.height = '400px';
-            
-            currentMapInstance = L.map(mapDivElement).setView([20, 0], 2);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd', maxZoom: 18, minZoom: 2
-            }).addTo(currentMapInstance);
-            currentMarkerLayerGroup = L.layerGroup().addTo(currentMapInstance);
-            
-            // 延遲調整地圖大小
-            setTimeout(() => {
-                if (currentMapInstance) {
-                    currentMapInstance.invalidateSize();
-                    console.log(`[renderTrajectoryMap] 地圖大小已調整`);
-                }
-            }, 100);
+        // 清除可能存在的舊地圖
+        if (mapDivElement._leaflet_id) {
+            console.log(`[renderTrajectoryMap] 清除舊地圖實例:`, mapDivElement._leaflet_id);
+            mapDivElement._leaflet_id = null;
         }
+        
+        // 清空容器內容
+        mapDivElement.innerHTML = '';
+        
+        // 確保容器有正確的尺寸
+        mapDivElement.style.width = '100%';
+        mapDivElement.style.height = '400px';
+        
+        // 初始化新地圖
+        console.log(`[renderTrajectoryMap] 初始化新的 Leaflet 地圖實例到容器:`, mapDivElement.id);
+        const currentMapInstance = L.map(mapDivElement).setView([20, 0], 2);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd', maxZoom: 18, minZoom: 2
+        }).addTo(currentMapInstance);
+        const currentMarkerLayerGroup = L.layerGroup().addTo(currentMapInstance);
+        
+        // 延遲調整地圖大小
+        setTimeout(() => {
+            if (currentMapInstance) {
+                currentMapInstance.invalidateSize();
+                console.log(`[renderTrajectoryMap] 地圖大小已調整`);
+            }
+        }, 100);
 
         console.log(`[renderTrajectoryMap] 清除舊標記`);
         if (currentMarkerLayerGroup) {
@@ -3530,33 +3532,35 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
     function renderTrajectoryMap(points, mapDivElement, debugDivElement, mapTitle = "軌跡地圖") {
         console.log(`[renderTrajectoryMap] 準備渲染軌跡地圖: "${mapTitle}", 點數量: ${points ? points.length : 0}`);
 
-        let currentMapInstance = null;
-        let currentMarkerLayerGroup = null;
-
-        // 初始化地圖
-        if (!currentMapInstance) {
-            console.log(`[renderTrajectoryMap] 初始化新的 Leaflet 地圖實例到容器:`, mapDivElement.id);
-            mapDivElement.innerHTML = '';
-            
-            // 確保容器有正確的尺寸
-            mapDivElement.style.width = '100%';
-            mapDivElement.style.height = '400px';
-            
-            currentMapInstance = L.map(mapDivElement).setView([20, 0], 2);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd', maxZoom: 18, minZoom: 2
-            }).addTo(currentMapInstance);
-            currentMarkerLayerGroup = L.layerGroup().addTo(currentMapInstance);
-            
-            // 延遲調整地圖大小
-            setTimeout(() => {
-                if (currentMapInstance) {
-                    currentMapInstance.invalidateSize();
-                    console.log(`[renderTrajectoryMap] 地圖大小已調整`);
-                }
-            }, 100);
+        // 清除可能存在的舊地圖
+        if (mapDivElement._leaflet_id) {
+            console.log(`[renderTrajectoryMap] 清除舊地圖實例:`, mapDivElement._leaflet_id);
+            mapDivElement._leaflet_id = null;
         }
+        
+        // 清空容器內容
+        mapDivElement.innerHTML = '';
+        
+        // 確保容器有正確的尺寸
+        mapDivElement.style.width = '100%';
+        mapDivElement.style.height = '400px';
+        
+        // 初始化新地圖
+        console.log(`[renderTrajectoryMap] 初始化新的 Leaflet 地圖實例到容器:`, mapDivElement.id);
+        const currentMapInstance = L.map(mapDivElement).setView([20, 0], 2);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd', maxZoom: 18, minZoom: 2
+        }).addTo(currentMapInstance);
+        const currentMarkerLayerGroup = L.layerGroup().addTo(currentMapInstance);
+        
+        // 延遲調整地圖大小
+        setTimeout(() => {
+            if (currentMapInstance) {
+                currentMapInstance.invalidateSize();
+                console.log(`[renderTrajectoryMap] 地圖大小已調整`);
+            }
+        }, 100);
 
         console.log(`[renderTrajectoryMap] 清除舊標記`);
         if (currentMarkerLayerGroup) {
