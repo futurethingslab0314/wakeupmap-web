@@ -3115,6 +3115,12 @@ window.addEventListener('firebaseReady', async (event) => {
     function renderTrajectoryMap(points, mapDivElement, debugDivElement, mapTitle = "軌跡地圖") {
         console.log(`[renderTrajectoryMap] 準備渲染軌跡地圖: "${mapTitle}", 點數量: ${points ? points.length : 0}`);
 
+        // 檢查容器是否存在
+        if (!mapDivElement || !mapDivElement.parentNode) {
+            console.error(`[renderTrajectoryMap] 地圖容器無效或已被移除`);
+            return;
+        }
+
         // 清除可能存在的舊地圖
         if (mapDivElement._leaflet_id) {
             console.log(`[renderTrajectoryMap] 清除舊地圖實例:`, mapDivElement._leaflet_id);
@@ -3225,7 +3231,7 @@ window.addEventListener('firebaseReady', async (event) => {
 
                 const marker = L.circleMarker([point.lat, point.lon], markerOptions)
                     .addTo(currentMarkerLayerGroup)
-                    .bindPopup(point.isEnd ? '[today]' : (point.title || `點 ${index + 1}`));
+                    .bindPopup(point.isEnd ? '今日甦醒點' : (point.title || `點 ${index + 1}`));
 
                 // 如果不是最後一個點，連接到下一個點
                 if (index < points.length - 1) {
@@ -3532,6 +3538,12 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
     // 軌跡地圖渲染函數 - 基於renderHistoryMap的邏輯
     function renderTrajectoryMap(points, mapDivElement, debugDivElement, mapTitle = "軌跡地圖") {
         console.log(`[renderTrajectoryMap] 準備渲染軌跡地圖: "${mapTitle}", 點數量: ${points ? points.length : 0}`);
+
+        // 檢查容器是否存在
+        if (!mapDivElement || !mapDivElement.parentNode) {
+            console.error(`[renderTrajectoryMap] 地圖容器無效或已被移除`);
+            return;
+        }
 
         // 清除可能存在的舊地圖
         if (mapDivElement._leaflet_id) {
