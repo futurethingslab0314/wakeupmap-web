@@ -3202,8 +3202,8 @@ window.addEventListener('firebaseReady', async (event) => {
                 let markerOptions;
                 if (point.isStart) {
                     markerOptions = {
-                        color: 'blue',
-                        fillColor: '#0066cc',
+                        color: '#FBBF24',
+                        fillColor: '#FBBF24',
                         fillOpacity: 0.8,
                         radius: 6
                     };
@@ -3216,8 +3216,8 @@ window.addEventListener('firebaseReady', async (event) => {
                     };
                 } else {
                     markerOptions = {
-                        color: '#ff6b35',
-                        fillColor: '#ff6b35',
+                        color: '#FBBF24',
+                        fillColor: '#FBBF24',
                         fillOpacity: 0.8,
                         radius: 5
                     };
@@ -3225,7 +3225,7 @@ window.addEventListener('firebaseReady', async (event) => {
 
                 const marker = L.circleMarker([point.lat, point.lon], markerOptions)
                     .addTo(currentMarkerLayerGroup)
-                    .bindPopup(point.title || `點 ${index + 1}`);
+                    .bindPopup(point.isEnd ? '[today]' : (point.title || `點 ${index + 1}`));
 
                 // 如果不是最後一個點，連接到下一個點
                 if (index < points.length - 1) {
@@ -3237,9 +3237,10 @@ window.addEventListener('firebaseReady', async (event) => {
                             [point.lat, point.lon],
                             [nextPoint.lat, nextPoint.lon]
                         ], {
-                            color: '#ff6b35',
+                            color: '#FBBF24',
                             weight: 3,
-                            opacity: 0.8
+                            opacity: 0.8,
+                            dashArray: '10, 10'
                         }).addTo(currentMarkerLayerGroup);
                     }
                 }
@@ -3619,8 +3620,8 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
                 let markerOptions;
                 if (point.isStart) {
                     markerOptions = {
-                        color: 'blue',
-                        fillColor: '#0066cc',
+                        color: '#FBBF24',
+                        fillColor: '#FBBF24',
                         fillOpacity: 0.8,
                         radius: 6
                     };
@@ -3633,8 +3634,8 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
                     };
                 } else {
                     markerOptions = {
-                        color: '#ff6b35',
-                        fillColor: '#ff6b35',
+                        color: '#FBBF24',
+                        fillColor: '#FBBF24',
                         fillOpacity: 0.8,
                         radius: 5
                     };
@@ -3642,7 +3643,7 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
 
                 const marker = L.circleMarker([point.lat, point.lon], markerOptions)
                     .addTo(currentMarkerLayerGroup)
-                    .bindPopup(point.title || `點 ${index + 1}`);
+                    .bindPopup(point.isEnd ? '[today]' : (point.title || `點 ${index + 1}`));
 
                 // 如果不是最後一個點，連接到下一個點
                 if (index < points.length - 1) {
@@ -3654,9 +3655,10 @@ window.handleHistoryImageError = async function(imgElement, recordId, userIdenti
                             [point.lat, point.lon],
                             [nextPoint.lat, nextPoint.lon]
                         ], {
-                            color: '#ff6b35',
+                            color: '#FBBF24',
                             weight: 3,
-                            opacity: 0.8
+                            opacity: 0.8,
+                            dashArray: '10, 10'
                         }).addTo(currentMarkerLayerGroup);
                     }
                 }
