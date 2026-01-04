@@ -2,7 +2,7 @@
 {
   "version": 2,
   "outputDirectory": ".",
-  "buildCommand": "cd sleepflight && npm install && npm run build && cd ..",
+  "buildCommand": "cd sleepflight && npm install --legacy-peer-deps && npm run build && cd ..",
   "headers": [
     {
       "source": "/manifest.json",
