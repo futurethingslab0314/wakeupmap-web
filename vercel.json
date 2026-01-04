@@ -53,6 +53,10 @@
     {
       "source": "/api/save-record",
       "destination": "/api/save-record"
+    },
+    {
+      "source": "/api/get-flight-data",
+      "destination": "/api/get-flight-data"
     }
   ]
 } 
