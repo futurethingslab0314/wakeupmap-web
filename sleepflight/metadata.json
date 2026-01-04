@@ -1,0 +1,5 @@
+{
+  "name": "Sleep Airline Flight Board",
+  "description": "A sophisticated airport-style dashboard for tracking sleep flight history, featuring a split-flap style status board and a world map trajectory visualization.",
+  "requestFramePermissions": []
+}
