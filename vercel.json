@@ -2,6 +2,7 @@
 {
   "version": 2,
   "outputDirectory": ".",
+  "buildCommand": "cd sleepflight && npm install && npm run build && cd ..",
   "headers": [
     {
       "source": "/manifest.json",
@@ -76,6 +77,18 @@
     {
       "source": "/api/get-flight-data",
       "destination": "/api/get-flight-data"
+    },
+    {
+      "source": "/sleepflight",
+      "destination": "/sleepflight/dist/index.html"
+    },
+    {
+      "source": "/sleepflight/assets/(.*)",
+      "destination": "/sleepflight/dist/assets/$1"
+    },
+    {
+      "source": "/sleepflight/(.*)",
+      "destination": "/sleepflight/dist/$1"
     }
   ]
 } 
